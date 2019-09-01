@@ -14,60 +14,8 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fullpage.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/JQuery3.4.1.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.pagepiling.js"></script>
-
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/surveyCommon.js"></script>
     <script>
-
-        var surveyCommonUtils = {
-            "setLayoutToSurvey" : function(){
-				var myFullpage = new fullpage('#fullpage', {
-					licenseKey: '2BD03B7C-BEE54D5A-AA0125A7-58B34D98',
-					scrollOverflow: true,
-					afterLoad: function(origin, destination, direction){
-						$(".btn_prev").bind("click", function(){
-							fullpage_api.moveSlideLeft();
-                        });
-                        $(".btn_next").bind("click", function(){
-							fullpage_api.moveSlideRight();
-                        });
-					},
-					scrollOverflowOptions: {
-						click:false,    
-						preventDefaultException: {tagName: /.*/}
-					} 
-				});
-
-            },
-            "setLayoutToView" : function(){
-                $("html, body").css("overflow", "visible");
-                $("body").css("width", "950px");
-                $(".qest_title").css("margin-top", "0px");
-                $(".qest_title, .label_txt, label, td, th").css("font-size", "15px");
-                $("input, textarea").attr("disabled", "disabled");
-                $("input[type='text']").each(function(){//input text -> span 태그로 변경
-                    $(this).replaceWith( '<span>' + $(this).val() + '</span>' );
-                });
-                $("textarea").each(function(){//input textarea -> span 태그로 변경
-                    $(this).replaceWith( '<span>' + $(this).val() + '</span>' );
-                });
-                $(".qest_title").each(function(index){
-                    $(this).text($(".section").eq(index).attr("id").replace("q", "") + "." + $(this).text());
-                });
-                $(".qest_btn_group").hide();
-                $(".qest_no").hide();
-                $(".qest").hide();
-                $(".qest_anwer_wrap").css("margin-top", "0px");
-            },
-            "printSurvey" : function(printThis){
-                this.setLayoutToView();
-                window.onbeforeprint = function (ev) {
-                    document.body.innerHTML = $("#pagepiling").html();
-                };
- 
-                window.print();
-                //location.reload();
-
-            }
-        };
 
         function getQuerystring(paramName){
             var _tempUrl = window.location.search.substring(1); //url에서 처음부터 '?'까지 삭제 
@@ -109,10 +57,10 @@
 	
 	<div class="section" id="section1">
 		<div class="surveyTop">
-			<div class="surveyLogo"><img src="../../resource/img/hospital_logo/gbss.png" alt="" class="hospital_logo"></div>
-		
+			<div class="surveyLogo"><img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo">
+			<img src="${pageContext.request.contextPath}/resources/img/logo_kor.gif" alt="" class="kor_logo"></div>
 			<div class="surveyTitle">[건강영향 설문조사] 성인용</div>
-			<!--<img src="../resource/img/logo_kor.gif" alt="" class="kor_logo">-->
+			
 			<div class="surveyInfo">
 				<ul>
 					<li>설문대상자 : 이승남(남) / 생년월일 : 1978-05-26</li>
@@ -159,9 +107,9 @@
 							<th>사용 중단 후 ~ <br/>최근</th>
 						</tr>
 						<tr>
-							<td><label><input type="radio" name="q02-1">예</label></td>
-							<td><label><input type="radio" name="q02-2">예</label></td>
-							<td><label><input type="radio" name="q02-3">예</label></td>
+							<td><label><input type="radio"  name="q02-1">예</label></td>
+							<td><label><input type="radio"  name="q02-2">예</label></td>
+							<td><label><input type="radio"  name="q02-3">예</label></td>
 						</tr>
 						<tr>
 							<td><label><input type="radio" name="q02-1">아니오</label></td>
@@ -170,8 +118,8 @@
 						</tr>
 					</table>
 					<div class="subQuestLine"></div>
-					<div class="subQuest" style="display:block;" name="q11-1">02-1. 해당 기간 중 나타났던 호흡기 증상은 어떤 것입니까?<br/>(중복 표시 가능)</div>
-				    <div class="subAnwer" style="display:block;" name="q11-1">
+					<div class="subQuest" style="display:block;" >02-1. 해당 기간 중 나타났던 호흡기 증상은 어떤 것입니까?<br/>(중복 표시 가능)</div>
+				    <div class="subAnwer" style="display:block;">
 						<table class="ques_table">
 							<colgroup>
 								<col width="25%" />
@@ -389,92 +337,92 @@
 					</tr>
 					<tr>
 					    <td class="align_left font_14">인두염 / 편도염</td>
-					    <td><label><input type="radio" name="q06-1">예</label><label><input type="radio" name="q06-1">아니오</label></td>
+					    <td><label><input type="radio" name="q06-1">예</label><br/><label><input type="radio" name="q06-1">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">부비동염 / 축농증</td>
-					    <td><label><input type="radio" name="q06-1">예</label><label><input type="radio" name="q06-1">아니오</label></td>
+					    <td><label><input type="radio" name="q06-1">예</label><br/><label><input type="radio" name="q06-1">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">천 식</td>
-					    <td><label><input type="radio" name="q06-2">예</label><label><input type="radio" name="q06-2">아니오</label></td>
+					    <td><label><input type="radio" name="q06-2">예</label><br/><label><input type="radio" name="q06-2">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">결 핵</td>
-					    <td><label><input type="radio" name="q06-3">예</label><label><input type="radio" name="q06-3">아니오</label></td>
+					    <td><label><input type="radio" name="q06-3">예</label><br/><label><input type="radio" name="q06-3">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">기관지염</td>
-					    <td><label><input type="radio" name="q06-4">예</label><label><input type="radio" name="q06-4">아니오</label></td>
+					    <td><label><input type="radio" name="q06-4">예</label><br/><label><input type="radio" name="q06-4">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">폐 렴</td>
-					    <td><label><input type="radio" name="q06-5">예</label><label><input type="radio" name="q06-5">아니오</label></td>
+					    <td><label><input type="radio" name="q06-5">예</label><br/><label><input type="radio" name="q06-5">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">기관지확장증</td>
-					    <td><label><input type="radio" name="q06-6">예</label><label><input type="radio" name="q06-6">아니오</label></td>
+					    <td><label><input type="radio" name="q06-6">예</label><br/><label><input type="radio" name="q06-6">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">비 염</td>
-					    <td><label><input type="radio" name="q06-7">예</label><label><input type="radio" name="q06-7">아니오</label></td>
+					    <td><label><input type="radio" name="q06-7">예</label><br/><label><input type="radio" name="q06-7">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">중이염</td>
-					    <td><label><input type="radio" name="q06-8">예</label><label><input type="radio" name="q06-8">아니오</label></td>
+					    <td><label><input type="radio" name="q06-8">예</label><br/><label><input type="radio" name="q06-8">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">아토피 피부염</td>
-					    <td><label><input type="radio" name="q06-9">예</label><label><input type="radio" name="q06-9">아니오</label></td>
+					    <td><label><input type="radio" name="q06-9">예</label><br/><label><input type="radio" name="q06-9">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">결막염</td>
-					    <td><label><input type="radio" name="q06-10">예</label><label><input type="radio" name="q06-10">아니오</label></td>
+					    <td><label><input type="radio" name="q06-10">예</label><br/><label><input type="radio" name="q06-10">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">독성 간염</td>
-					    <td><label><input type="radio" name="q06-11">예</label><label><input type="radio" name="q06-11">아니오</label></td>
+					    <td><label><input type="radio" name="q06-11">예</label><br/><label><input type="radio" name="q06-11">아니오</label></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					    <td><input type="checkbox" class="input_check"></td>
 					</tr>
 					<tr>
 					    <td class="align_left font_14">간질성폐렴(폐섬유화)</td>
-					    <td><label><input type="radio" name="q06-12">예</label><label><input type="radio" name="q06-12">아니오</label></td>
-					    <td colspan="3" class="align_left">진단명 상세 : <input type="text" class="input_txt"></td>
+					    <td><label><input type="radio" name="q06-12">예</label><br/><label><input type="radio" name="q06-12">아니오</label></td>
+					    <td colspan="3" class="align_left">진단명 상세 : <textarea style="width:90%"></textarea></td>
 					</tr>
 				    </table>
 				</div>
@@ -541,9 +489,9 @@
 				    <div class="subAnwer" name="q08-1"><input type="text" class="input_txt"></div>
 				    <div class="subQuest" name="q08-1">08-2. 병원 방문을 하고 있다면, 얼마나 자주 병원에 가나요?</div>
 				    <div class="subAnwer" name="q08-1">
-					<label><input type="radio" name="q08-2-1">한 달에 한번 이상</label>
-					<label><input type="radio" name="q08-2-1">2, 3개월에 한번</label>
-					<label><input type="radio" name="q08-2-1">6~12개월에 한번</label>
+					<label><input type="radio" name="q08-2-1">한 달에 한번 이상</label><br/>
+					<label><input type="radio" name="q08-2-1">2, 3개월에 한번</label><br/>
+					<label><input type="radio" name="q08-2-1">6~12개월에 한번</label><br/>
 					<label><input type="radio" name="q08-2-1">증상이 있을 때만</label>
 				    </div>
 				</div>
