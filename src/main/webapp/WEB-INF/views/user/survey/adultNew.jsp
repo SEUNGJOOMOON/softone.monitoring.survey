@@ -457,10 +457,10 @@
 					</tr>
 					<tr>
 					    <td>
-						<textarea class="txt_area"></textarea>
+						<textarea class="txt_area" style="height:100px"></textarea>
 					    </td>
 					    <td>
-						<textarea class="txt_area"></textarea>
+						<textarea class="txt_area" style="height:100px"></textarea>
 					    </td>
 					</tr>
 				    </table>
