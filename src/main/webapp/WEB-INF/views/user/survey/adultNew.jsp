@@ -642,10 +642,29 @@
 				</div>
 				<div class="qest_btn_group">
 				    <input type="button" class="btn_prev" value="이전">
-				    <!-- <input type="button" class="btn_next" value="다음"> -->
+				    <input type="button" class="btn_next" value="다음">
 				</div>
 			    </div>
 			</div>
+			<div class="slide" id="slide13">
+			<div class="fp-responsive" id="q12">
+			    <div class="qest_wrap">
+				<!-- 
+				<span class="qest_no">오랜 시간 설문 조사에 응답해 주셔서 진심으로 감사드립니다.</span> -->
+				<div class="quest_end">오랜 시간 설문 조사에 응답해 주셔서 <br/> 진심으로 감사드립니다.</div>
+				<div class="qest_title">
+				    절문지 작성 시 어려웠던 점, 개선이 필요한 점이 있으시면 의견 부탁드립니다.
+				</div>
+				<div class="qest_anwer_wrap">
+				    (<input type="text" class="input_txt" />)
+				</div>
+				<div class="qest_btn_group">
+				    <input type="button" class="btn_prev" value="이전">
+				    <input type="button" class="btn_next" value="설문완료">
+				</div>
+			    </div>
+			</div>
+		</div>
 		</div>
 		
 

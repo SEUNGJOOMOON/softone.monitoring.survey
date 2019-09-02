@@ -6,7 +6,12 @@
 body {
 	font-family: 'Noto Sans KR', sans-serif;
 }
-
+#slide7{
+	margin-top:90px;	
+}
+#slide12{
+	margin-top:90px;	
+}
 ul, ol, li {
 	list-style: none;
 	padding: 0;
@@ -58,7 +63,7 @@ ul, ol, li {
 	z-index: 1;
 	padding: 5px;
 	font-size: 0.9em;
-	margin-top: 35%;
+	margin-top: 40%;
 }
 
 .qest {
@@ -116,10 +121,7 @@ td {
 	font-size: 0.9em;
 }
 
-.ques_table
- 
-tr
-:nth-child(2n) {
+.ques_table tr:nth-child(2n) {
 	background-color: #f0f9fe;
 }
 
@@ -195,6 +197,16 @@ textarea {
 	border-radius: 5px;
 	padding: 5px 0;
 	font-size: 0.8em;
+	margin-top: 5px;
+	text-align: center;
+}
+
+.quest_end {
+	color: #fff;
+	background: #F361A6;
+	border-radius: 5px;
+	padding: 10px 0;
+	font-size: 0.9em;
 	margin-top: 5px;
 	text-align: center;
 }
@@ -279,7 +291,7 @@ textarea {
 }
 
 .input_txt {
-	height: 16px;
+	height: 20px;
 	width: 90%;
 }
 
@@ -408,7 +420,7 @@ textarea {
 	.surveyInfo ul li {
 		float: left;
 		overflow: hidden;
-		width: 48%;
+		width: 99%;
 	}
 	.surveyInfo ul {
 		overflow: hidden
@@ -416,10 +428,14 @@ textarea {
 	.kor_logo {
 		width: 130px;
 		float: right;
+		margin-top: 8px;
+		margin-right: 16px;
 	}
 	.hospital_logo {
 		width: 130px;
 		float: left;
+		margin-top: 6px;
+    	margin-left: 7px;
 	}
 	.surveyLogo {
 		height: 50px;
@@ -432,6 +448,12 @@ textarea {
 		z-index: 1;
 		padding: 5px;
 		font-size: 0.9em;
-		margin-top: 60%;
+		margin-top: 50%;
+	}
+	#slide7{
+		margin-top:0px;	
+	}
+	#slide12{
+		margin-top:0px;	
 	}
 }
