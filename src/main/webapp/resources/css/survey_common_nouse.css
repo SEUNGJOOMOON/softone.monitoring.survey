@@ -1,10 +1,10 @@
 /* 공통 CSS */
 .section {
-	background-color:#fff;
+	background-color: white;
 }
 
 body {
-	font-family: 'Noto Sans KR', sans-serif;-webkit-text-size-adjust:none;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 ul, ol, li {
@@ -19,39 +19,6 @@ ul, ol, li {
 	width: 100%;
 	padding: 0;
 	z-index: 300;
-}
-.btn_close{
-	z-index: 1000;
-    position: absolute;
-    top: 127px;
-    border: 1px solid #5499bb;
-    width: 100px;
-    height: 27px;
-    border-radius: 6px;
-    text-align: center;
-    cursor: pointer;
-    background-color: #5499bb;
-    color: #fff;
-    right: 0px;
-}
-
-.btn_close2{
-	z-index: 1000;
-    width: 80px;
-    border-radius: 20px;
-    cursor: pointer;
-    background: #fff url(../img/arr_up.png) 100px 9px no-repeat;border: 1px solid #cac8d4;
-    color: #666;
-	font-size:0.8em;padding:3px 30px;margin:0 auto;margin-top:5px;
-}
-.btn_close3{
-	z-index: 1000;
-    width: 80px;
-    border-radius: 20px;
-    cursor: pointer;
-    background: #fff url(../img/arr_down.png) 100px 9px no-repeat;border: 1px solid #cac8d4;
-    color: #666;
-	font-size:0.8em;padding:3px 30px;margin:0 auto;margin-top:5px;
 }
 
 .surveyTitle {
@@ -77,8 +44,12 @@ ul, ol, li {
 	padding: 5px;
 	border: 3px solid #e8e5f2;
 }
-.surveyLogo {width:90%;margin:0 auto}
 
+.kor_logo {
+	width: 160px;
+	float: right;
+	margin-top: 10px;
+}
 
 .align_center {
 	text-align: center;
@@ -93,13 +64,9 @@ ul, ol, li {
 	width: 200px;
 	float: left;
 }
-.kor_logo {
-	width: 160px;
-	float: right;
-	margin-top: 10px;
-}
+
 .surveyInfo ul li {
-	background: url(../img/dot.png) 0 7px no-repeat;
+	background: url(../../resource/img/dot.png) 0 7px no-repeat;
 	padding-left: 10px
 }
 
@@ -108,11 +75,11 @@ ul, ol, li {
 	border: 3px solid #5499bb;
 	border-radius: 10px;
 	margin: 0 auto;
-	margin-top: 0px;
+	margin-top: 180px;
 	z-index: 1;
 	min-height: 550px;
 	padding: 5px;
-	font-size: 0.8em;
+	font-size: 1.0em;
 }
 
 .qest {
@@ -135,14 +102,14 @@ ul, ol, li {
 }
 
 .qest_title {
-	background: url(../img/icon_q.png) 0 7px no-repeat;padding:10px 0 3px 35px;border-bottom:2px solid #5499bb;
 	font-size: 1.2em; text-align : left;
 	margin: 0 auto;
-	margin-top: 0px;
+	margin-top: 45px;
 	text-align: left;
 }
 
-.qest_anwer_wrap {background: url(../img/icon_a.png) 0 7px no-repeat;padding:10px 0 5px 35px;
+.qest_anwer_wrap {
+	padding: 20px;
 	text-align: left;
 	margin: 0 auto;
 }
@@ -190,7 +157,7 @@ textarea {
 }
 
 .input_txt_s {
-	height: 15px;
+	height: 20px;
 	width: 50px;
 }
 
@@ -233,9 +200,7 @@ textarea {
 	border-radius: 5px;
 	background-color: #1c99d7;
 }
-.view_quest_no{
-	display:none;
-}
+
 .subQuest {
 	/* margin-left:10px;
         margin-top:30px; */
@@ -263,23 +228,39 @@ textarea {
 }
 
 @media ( min-width : 820px) {
-	
+	.surveyTop {
+		width: 100%;
+		padding: 0;
+		z-index: 300;
+	}
 	.surveyTitle {
 		width: 800px;
+		margin: 0 auto;
+		margin: 0 auto;
+		padding: 5px;
 	}
 	.surveyInfo {
 		width: 800px;
+		margin: 0 auto;
+		margin: 0 auto;
+		margin-top: 10px;
+		padding: 5px;
 	}
 	.surveyLogo {
 		width: 800px;
+		margin: 0 auto;
+		margin: 0 auto;
 		margin-top: 10px;
 		padding: 5px;
 	}
 	.qest_wrap {
 		width: 800px;
+		border: 3px solid #5499bb;
+		border-radius: 10px;
+		margin: 0 auto;
+		margin-top: 180px;
+		padding: 5px;
 	}
-
-	
 }
 
 .surveyLogo {
@@ -296,12 +277,11 @@ textarea {
 		overflow: hidden
 	}
 	.qest_wrap {
-		margin-top: 210px;
+		margin-top: 200px;
 	}
-
 }
 
-@media ( max-width : 820px) {
+@media ( max-width : 414px) {
 	.kor_logo {
 		width: 130px;
 		float: right;
@@ -316,6 +296,20 @@ textarea {
 		margin-left: 7px;
 	}
 	.qest_wrap {
-		margin-top: 210px;
-	} 
+		font-size: 0.9em;
+	}
+	.surveyTitle {
+		font-size: 1.1em;
+	}
+	.qest {
+		font-size: 20px;
+	}
+	
+	.qest_no {
+		font-size: 1.1em;
+	}
+	
+	.qest_title {
+		font-size: 1.1em;
+	}
 }

@@ -36,16 +36,10 @@ public class SurveyController {
 		
 		ModelAndView mv = new ModelAndView("/user/survey/adultNew");
 		surveyParams.put("surveyAnsMstSn","test");
-		List<Map<String, Object>> list = surveyService.selectSurveyResult(surveyParams);
+		Map<String, Object> result = surveyService.selectSurveyResult(surveyParams);
 		
-		JSONArray resultJson = JsonUtil.getJsonArrayFromList(list);
-		
-//		List<JSONObject> resultJson = new ArrayList();
-//		for (int i = 0; i < list.size(); i++) {
-//			resultJson.add(JsonUtil.getJsonStringFromMap(list.get(i)));
-//		}
-		System.out.print(resultJson);
-		mv.addObject("list", list);
+		System.out.print(result);
+		mv.addObject("result", result);
 		return mv;
 	}
 	

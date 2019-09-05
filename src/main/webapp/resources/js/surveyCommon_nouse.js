@@ -3,7 +3,7 @@
             "setLayoutToSurvey" : function(){
 				var myFullpage = new fullpage('#fullpage', {
 					licenseKey: '2BD03B7C-BEE54D5A-AA0125A7-58B34D98',
-					scrollOverflow: true,
+//					scrollOverflow: true,
 					autoScrolling:false,
 					afterLoad: function(origin, destination, direction){
 						$(".btn_prev").bind("click", function(){
@@ -13,6 +13,7 @@
 							fullpage_api.moveSlideRight();
                         });
                         fullpage_api.setAllowScrolling(false, 'left, right');
+                      
 					},
 					scrollOverflowOptions: {
 						click:false,    

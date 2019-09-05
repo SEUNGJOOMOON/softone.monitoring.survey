@@ -17,7 +17,7 @@ public class SurveyServiceImpl implements SurveyService {
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectBoardList(map);
 	}
-	public List<Map<String, Object>> selectSurveyResult(Map<String, Object> map) throws Exception {
+	public Map<String, Object> selectSurveyResult(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyResult(map);
 	}
 	public Map<String, Object> selectSurveyMaster(Map<String, Object> map) throws Exception {
