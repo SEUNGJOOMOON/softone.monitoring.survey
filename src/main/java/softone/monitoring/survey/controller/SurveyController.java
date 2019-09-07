@@ -1,7 +1,5 @@
 package softone.monitoring.survey.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import java.util.Map;
 import javax.annotation.Resource;
@@ -9,30 +7,22 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
 import softone.monitoring.survey.service.SurveyService;
-import softone.monitoring.survey.common.JsonUtil;
+
+
 @Controller
 public class SurveyController {
 	Logger log = Logger.getLogger(this.getClass());
 	@Resource(name = "surveyService")
 	private SurveyService surveyService;
 
-	@RequestMapping(value = "/")
-	public String rootIndex() throws Exception {
-		return "/user/survey_index";
-	}
-	
 	@RequestMapping(value = "/user/index.do")
 	public String index() throws Exception {
 		return "/user/survey_index";
 	}
 	
 	@RequestMapping(value = "/user/survey/adultNew.do")
-	public ModelAndView surveyAdultNew(Map<String, Object> surveyParams) throws Exception {
-		
+	public ModelAndView surveyAdultNew(Map<String, Object> surveyParams, String viewMode) throws Exception {
 		
 		ModelAndView mv = new ModelAndView("/user/survey/adultNew");
 		surveyParams.put("surveyAnsMstSn","test");

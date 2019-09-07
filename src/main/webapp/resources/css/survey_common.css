@@ -138,13 +138,17 @@ ul, ol, li {
 	background: url(../img/icon_q.png) 0 7px no-repeat;padding:10px 0 3px 35px;border-bottom:2px solid #5499bb;
 	font-size: 1.2em; text-align : left;
 	margin: 0 auto;
-	margin-top: 0px;
+	margin-top: 20px;
+	margin-left: 10px;
 	text-align: left;
 }
 
 .qest_anwer_wrap {background: url(../img/icon_a.png) 0 7px no-repeat;padding:10px 0 5px 35px;
 	text-align: left;
+
 	margin: 0 auto;
+	margin-top: 10px;
+	margin-left: 10px;
 }
 
 .ques_table {

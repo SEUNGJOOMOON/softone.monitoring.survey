@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,11 +12,9 @@
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/fullpage.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/js/jquery.pagepiling.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scrolloverflow.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fullpage.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/JQuery3.4.1.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery.pagepiling.js"></script>
 
 	<script>
 		var surveyCommonUtils = {
@@ -55,9 +54,16 @@
 				$("html, body").css("font-size", "12px");
 				$(".subQuest").css("font-size", "14px");
 				$(".qest_btn_group").hide();
-				$(".surveyTop").hide();
+				$(".surveyTop").css("top", "0px");
+				
+				$("#btn_close").hide();
 				$(".qest_wrap").css("border", "0px").css("min-height", "100px");
 				$(".slide").css("margin-top", "-150px");
+				if(this.isMobile()){
+					$("#slide1").css("margin-top", "40px");	
+				}else{
+					$("#slide1").css("margin-top", "0px");
+				}
 				$(".quest_end").hide();
 				$(".quest_red").hide();
 				$(".btn_close").hide();
@@ -76,6 +82,16 @@
 
 				window.print();
 
+			},
+			"isMobile" : function(){
+				var filter = "win16|win32|win64|mac";
+				if(navigator.platform){
+					if(0 > filter.indexOf(navigator.platform.toLowerCase())){
+						return true;
+					}else{
+						return false;
+					}
+				}
 			}
 		};
 
@@ -220,11 +236,12 @@
 
 						<div class="qest_title"><span class="view_quest_no">01.&nbsp;&nbsp;</span>가습기살균제를 처음 사용하게 된 계기는 무엇입니까?</div>
 						<div class="qest_anwer_wrap">
-							<label class="label_txt"><input type="checkbox" class="input_check">출산/육아<br /></label>
-							<label class="label_txt"><input type="checkbox" class="input_check">가습기 사용 중 청결을 위해서<br /></label>
-							<label class="label_txt"><input type="checkbox" class="input_check">호흡기 증상이 있어서 사용(진단명 : <input type="text" class="input_txt_s">)<br /></label>
-							<label class="label_txt"><input type="checkbox" class="input_check">피부 증상이 있어서 사용(진단명 : <input type="text" class="input_txt_s">)<br /></label>
-							<label class="label_txt"><input type="checkbox" class="input_check">기타(<input type="text" class="input_txt_s">)</label>
+							
+							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '1')}">checked='checked'</c:if>>출산/육아<br /></label>
+							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '2')}">checked='checked'</c:if>>가습기 사용 중 청결을 위해서<br /></label>
+							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '3')}">checked='checked'</c:if>>호흡기 증상이 있어서 사용(진단명 : <input type="text" class="input_txt_s" value='<c:out value="${result.Q1_2}"/>'>)<br /></label>
+							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '4')}">checked='checked'</c:if>>피부 증상이 있어서 사용(진단명 : <input type="text" class="input_txt_s" value='<c:out value="${result.Q1_3}"/>'>)<br /></label>
+							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '5')}">checked='checked'</c:if>>기타(<input type="text" class="input_txt_s" value='<c:out value="${result.Q1_4T}"/>'>)</label>
 						</div><%-- <c:out value="${result.Q8_1_0}"/> --%>
 						<div class="qest_btn_group">
 							<input type="button" class="btn_next" value="다음">
@@ -251,14 +268,14 @@
 									</th>
 								</tr>
 								<tr>
-									<td><label><input type="radio" name="q02-1">예</label></td>
-									<td><label><input type="radio" name="q02-2">예</label></td>
-									<td><label><input type="radio" name="q02-3">예</label></td>
+									<td><label><input type="radio" name="q02-1" <c:if test="${result.Q2_0_1 eq '1'}">checked='checked'</c:if>>예</label></td>
+									<td><label><input type="radio" name="q02-2" <c:if test="${result.Q2_0_2 eq '1'}">checked='checked'</c:if>>예</label></td>
+									<td><label><input type="radio" name="q02-3" <c:if test="${result.Q2_0_3 eq '1'}">checked='checked'</c:if>>예</label></td>
 								</tr>
 								<tr>
-									<td><label><input type="radio" name="q02-1">아니오</label></td>
-									<td><label><input type="radio" name="q02-2">아니오</label></td>
-									<td><label><input type="radio" name="q02-3">아니오</label></td>
+									<td><label><input type="radio" name="q02-1" <c:if test="${result.Q2_0_1 eq '2'}">checked='checked'</c:if>>아니오</label></td>
+									<td><label><input type="radio" name="q02-2" <c:if test="${result.Q2_0_2 eq '2'}">checked='checked'</c:if>>아니오</label></td>
+									<td><label><input type="radio" name="q02-3" <c:if test="${result.Q2_0_3 eq '2'}">checked='checked'</c:if>>아니오</label></td>
 								</tr>
 							</table>
 							<div class="subQuestLine"></div>
@@ -283,40 +300,40 @@
 										</th>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="radio" name="q02-1-1">기침</label></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
+										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_1_1 eq '1') || (result.Q2_1_2 eq '1') || (result.Q2_1_3 eq '1')}">checked='checked'</c:if> >기침</label></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_1_1 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_1_2 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_1_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="radio" name="q02-1-1">객담(가래)</label></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
+										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_2_1 eq '1') || (result.Q2_2_2 eq '1') || (result.Q2_2_3 eq '1')}">checked='checked'</c:if>>객담(가래)</label></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_2_1 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_2_2 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_2_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="radio" name="q02-1-1">가슴답답함</label></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
+										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_3_1 eq '1') || (result.Q2_3_2 eq '1') || (result.Q2_3_3 eq '1')}">checked='checked'</c:if>>가슴답답함</label></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_3_1 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_3_2 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_3_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="radio" name="q02-1-1">호흡곤란</label></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
+										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_4_1 eq '1') || (result.Q2_4_2 eq '1') || (result.Q2_4_3 eq '1')}">checked='checked'</c:if>>호흡곤란</label></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_4_1 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_4_2 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_4_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="radio" name="q02-1-1">콧물</label></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
-										<td class="align_center"><input type="checkbox" class="input_check"></td>
+										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_5_1 eq '1') || (result.Q2_5_2 eq '1') || (result.Q2_5_3 eq '1')}">checked='checked'</c:if>>콧물</label></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_5_1 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_5_2 eq '1'}">checked='checked'</c:if>></td>
+										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_5_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="radio" name="q02-1-1">기타(작성)</label></td>
-										<td class="align_center"><input type="text" class="input_txt"></td>
-										<td class="align_center"><input type="text" class="input_txt"></td>
-										<td class="align_center"><input type="text" class="input_txt" value=""></td>
+										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(fn:contains(result.Q2_6_1, '1')) || (fn:contains(result.Q2_6_2, '1')) || (fn:contains(result.Q2_6_3, '1'))}">checked='checked'</c:if>>기타(작성)</label></td>
+										<td class="align_center"><input type="text" class="input_txt" <c:if test="${fn:contains(result.Q2_6_1, '1')}">value='<c:out value="${result.Q2_6_1}"/>'</c:if>></td>
+										<td class="align_center"><input type="text" class="input_txt" <c:if test="${fn:contains(result.Q2_6_2, '1')}">value='<c:out value="${result.Q2_6_2}"/>'</c:if>></td>
+										<td class="align_center"><input type="text" class="input_txt" <c:if test="${fn:contains(result.Q2_6_3, '1')}">value='<c:out value="${result.Q2_6_3}"/>'</c:if>></td>
 									</tr>
 								</table>
 							</div>
@@ -336,12 +353,12 @@
 							<span class="view_quest_no">03.&nbsp;&nbsp;</span>호흡곤란이 있다면, 어느 정도인지를 체크해 주십시오.<br />(가장 유사한 항목 <b>한가지만</b>)
 						</div>
 						<div class="qest_anwer_wrap">
-							<label class="label_txt"><input type="radio" class="input_radio" name="q03-1">극심한 운동 다음에 숨이 차다.<br /></label>
-							<label class="label_txt"><input type="radio" class="input_radio" name="q03-1">급하게 움직이거나 얕은 언덕을 걸어 올라갈 때 숨이 차다.<br /></label>
-							<label class="label_txt"><input type="radio" class="input_radio" name="q03-1">동 연령대의 사람들과 함께 걸을 때 숨이 차서 빨리 걸을 수 없다.<br /></label>
-							<label class="label_txt"><input type="radio" class="input_radio" name="q03-1">100m를 걷거나 언덕을 몇 분 올라갈 때 쉬어야 한다.<br /></label>
-							<label class="label_txt"><input type="radio" class="input_radio" name="q03-1">집을 나오거나 옷을 갈아입을 때 숨이 차다.<br /></label>
-							<label class="label_txt"><input type="radio" class="input_radio" name="q03-1">해당 없음.<br /></label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '1'}">checked='checked'</c:if> name="q03-1">극심한 운동 다음에 숨이 차다.<br /></label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '2'}">checked='checked'</c:if> name="q03-1">급하게 움직이거나 얕은 언덕을 걸어 올라갈 때 숨이 차다.<br /></label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '3'}">checked='checked'</c:if> name="q03-1">동 연령대의 사람들과 함께 걸을 때 숨이 차서 빨리 걸을 수 없다.<br /></label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '4'}">checked='checked'</c:if> name="q03-1">100m를 걷거나 언덕을 몇 분 올라갈 때 쉬어야 한다.<br /></label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '5'}">checked='checked'</c:if> name="q03-1">집을 나오거나 옷을 갈아입을 때 숨이 차다.<br /></label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '6'}">checked='checked'</c:if> name="q03-1">해당 없음.<br /></label>
 						</div>
 						<div class="qest_btn_group">
 							<input type="button" class="btn_prev" value="이전">
@@ -360,8 +377,8 @@
 									쉬게 되는 경우가</b></u> 있습니가?
 						</div>
 						<div class="qest_anwer_wrap">
-							<label class="label_txt"><input type="radio" class="input_radio" name="q04-1">예<br /></label>
-							<label class="label_txt"><input type="radio" class="input_radio" name="q04-1">아니오<br /></label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q4 eq '1'}">checked='checked'</c:if> name="q04-1">예<br /></label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q4 eq '2'}">checked='checked'</c:if> name="q04-1">아니오<br /></label>
 						</div>
 						<div class="qest_btn_group">
 							<input type="button" class="btn_prev" value="이전">
@@ -377,13 +394,14 @@
 						<div class="qest_title"><span class="view_quest_no">05.&nbsp;&nbsp;</span>지금까지 평생 총 5갑(100개피) 이상의 담배를 피운 적이
 							있습니까?</div>
 						<div class="qest_anwer_wrap">
-							<label class="label_txt"><input type="checkbox" class="input_check">아니오<br /></label>
-							<label class="label_txt"><input type="checkbox" class="input_check">과거에 흡연하였으나 현재는 끊음<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" class="input_check">금연하신지는 몇 년 되셨습니까?<input type="text" class="input_txt_s" />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" class="input_check">금연 전까지 흡연기간은?<input type="text" class="input_txt_s" />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" class="input_check">금연 전 하루 평균 흡연량은?<input type="text" class="input_txt_s" />(개비)<br /></label> <label class="label_txt"><input type="checkbox" class="input_check">현재도 흡연중<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" class="input_check">흡연기간은?<input type="text" class="input_txt_s" />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" class="input_check">하루 평균 흡연량은?<input type="text" class="input_txt_s" />(개비)<br /></label>
+							<label class="label_txt" ><input type="checkbox" <c:if test="${result.Q5_0 eq '1'}">checked='checked'</c:if> class="input_check">아니오<br /></label>
+							<label class="label_txt" ><input type="checkbox" <c:if test="${result.Q5_0 eq '2'}">checked='checked'</c:if> class="input_check">과거에 흡연하였으나 현재는 끊음<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_1_0}">checked='chekced'</c:if> class="input_check">금연하신지는 몇 년 되셨습니까?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_0}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_1_1}">checked='chekced'</c:if> class="input_check">금연 전까지 흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_1}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_1_2}">checked='chekced'</c:if> class="input_check">금연 전 하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_2}"/>' />(개비)<br /></label>
+							<label class="label_txt"><input type="checkbox"  <c:if test="${result.Q5_0 eq '3'}">checked='checked'</c:if> class="input_check">현재도 흡연중<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_2_0}">checked='chekced'</c:if> class="input_check">흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_0}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_2_1}">checked='chekced'</c:if> class="input_check">하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_1}"/>' />(개비)<br /></label>
 						</div>
 						<div class="qest_btn_group">
 							<input type="button" class="btn_prev" value="이전">
@@ -422,105 +440,108 @@
 								</tr>
 								<tr>
 									<td class="align_left font_14">인두염 / 편도염</td>
-									<td><label><input type="radio" name="q06-1">예</label><br />
-										<label><input type="radio" name="q06-1">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_1_0 eq '1'}">checked='checked'</c:if> name="q06-1">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_1_0 eq '2'}">checked='checked'</c:if> name="q06-1">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_1_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_1_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_1_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">부비동염 / 축농증</td>
-									<td><label><input type="radio" name="q06-1">예</label><br />
-										<label><input type="radio" name="q06-1">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_2_0 eq '1'}">checked='checked'</c:if> name="q06-1">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_2_0 eq '2'}">checked='checked'</c:if> name="q06-1">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_2_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_2_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_2_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">천 식</td>
-									<td><label><input type="radio" name="q06-2">예</label><br />
-										<label><input type="radio" name="q06-2">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_3_0 eq '1'}">checked='checked'</c:if> name="q06-2">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_3_0 eq '2'}">checked='checked'</c:if> name="q06-2">아니오</label></td>
+									<td class="align_center"><input <c:if test="${result.Q6_3_1 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
+									<td class="align_center"><input <c:if test="${result.Q6_3_2 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
+									<td class="align_center"><input <c:if test="${result.Q6_3_3 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">결 핵</td>
-									<td><label><input type="radio" name="q06-3">예</label><br />
-										<label><input type="radio" name="q06-3">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_4_0 eq '1'}">checked='checked'</c:if> name="q06-3">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_4_0 eq '2'}">checked='checked'</c:if> name="q06-3">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_4_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_4_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_4_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">기관지염</td>
-									<td><label><input type="radio" name="q06-4">예</label><br />
-										<label><input type="radio" name="q06-4">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_5_0 eq '1'}">checked='checked'</c:if> name="q06-4">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_5_0 eq '2'}">checked='checked'</c:if> name="q06-4">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_5_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_5_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_5_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">폐 렴</td>
-									<td><label><input type="radio" name="q06-5">예</label><br />
-										<label><input type="radio" name="q06-5">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_6_0 eq '1'}">checked='checked'</c:if> name="q06-5">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_6_0 eq '2'}">checked='checked'</c:if> name="q06-5">아니오</label></td>
+									<td class="align_center"><input <c:if test="${result.Q6_6_1 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
+									<td class="align_center"><input <c:if test="${result.Q6_6_2 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
+									<td class="align_center"><input <c:if test="${result.Q6_6_3 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">기관지확장증</td>
-									<td><label><input type="radio" name="q06-6">예</label><br />
-										<label><input type="radio" name="q06-6">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_7_0 eq '1'}">checked='checked'</c:if> name="q06-6">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_7_0 eq '2'}">checked='checked'</c:if> name="q06-6">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_7_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_7_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_7_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">비 염</td>
-									<td><label><input type="radio" name="q06-7">예</label><br />
-										<label><input type="radio" name="q06-7">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_8_0 eq '1'}">checked='checked'</c:if> name="q06-7">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_8_0 eq '2'}">checked='checked'</c:if> name="q06-7">아니오</label></td>
+									<td class="align_center"><input <c:if test="${result.Q6_8_1 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
+									<td class="align_center"><input <c:if test="${result.Q6_8_2 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
+									<td class="align_center"><input <c:if test="${result.Q6_8_3 eq '1'}">checked='checked'</c:if> type="checkbox" class="input_check"></td>
 								</tr>
 								<tr>
-									<td class="align_left font_14">중이염</td>
-									<td><label><input type="radio" name="q06-8">예</label><br />
-										<label><input type="radio" name="q06-8">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td class="align_left font_14" >중이염</td>
+									<td><label><input type="radio" <c:if test="${result.Q6_9_0 eq '1'}">checked='checked'</c:if> name="q06-8">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_9_0 eq '2'}">checked='checked'</c:if> name="q06-8">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_9_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_9_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_9_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">아토피 피부염</td>
-									<td><label><input type="radio" name="q06-9">예</label><br />
-										<label><input type="radio" name="q06-9">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_10_0 eq '1'}">checked='checked'</c:if> name="q06-9">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_10_0 eq '2'}">checked='checked'</c:if> name="q06-9">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_10_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_10_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_10_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">결막염</td>
-									<td><label><input type="radio" name="q06-10">예</label><br />
-										<label><input type="radio" name="q06-10">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_11_0 eq '1'}">checked='checked'</c:if> name="q06-10">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_11_0 eq '2'}">checked='checked'</c:if> name="q06-10">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_11_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_11_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_11_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">독성 간염</td>
-									<td><label><input type="radio" name="q06-11">예</label><br />
-										<label><input type="radio" name="q06-11">아니오</label></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
-									<td class="align_center"><input type="checkbox" class="input_check"></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_12_0 eq '1'}">checked='checked'</c:if> name="q06-11">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_12_0 eq '2'}">checked='checked'</c:if> name="q06-11">아니오</label></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_12_1 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_12_2 eq '1'}">checked='checked'</c:if> class="input_check"></td>
+									<td class="align_center"><input type="checkbox" <c:if test="${result.Q6_12_3 eq '1'}">checked='checked'</c:if> class="input_check"></td>
 								</tr>
 								<tr>
 									<td class="align_left font_14">간질성폐렴(폐섬유화)</td>
-									<td><label><input type="radio" name="q06-12">예</label><br />
-										<label><input type="radio" name="q06-12">아니오</label></td>
-									<td colspan="3" class="align_left">진단명 상세 : <textarea></textarea></td>
+									<td><label><input type="radio" <c:if test="${result.Q6_13_0 eq '1'}">checked='checked'</c:if> name="q06-12">예</label><br />
+										<label><input type="radio" <c:if test="${result.Q6_13_0 eq '2'}">checked='checked'</c:if> name="q06-12">아니오</label></td>
+									<td colspan="3" class="align_left">진단명 상세 : 
+									<textarea>
+										<c:out value="${result.Q6_13_1}"/>
+									</textarea></td>
 								</tr>
 							</table>
 						</div>
@@ -552,8 +573,12 @@
 										질환명 외)</td>
 								</tr>
 								<tr>
-									<td><textarea class="txt_area"></textarea></td>
-									<td><textarea class="txt_area"></textarea></td>
+									<td><textarea class="txt_area">
+										<c:out value="${result.Q7_1}"/>
+									</textarea></td>
+									<td><textarea class="txt_area">
+										<c:out value="${result.Q7_2}"/>
+									</textarea></td>
 								</tr>
 							</table>
 						</div>
@@ -576,19 +601,19 @@
 							<span class="view_quest_no">08.&nbsp;&nbsp;</span>귀하는 <u>호흡기계 증상과 관련</u>하여 현재 병원 방문을 하고 있습니까?
 						</div>
 						<div class="qest_anwer_wrap">
-							<label><input type="radio" hasSubQuest="Y" showQuest="q08-1" name="q08-1">예</label>
-							<label><input type="radio" hasSubQuest="Y" hideQuest="q08-1" name="q08-1">아니오</label>
+							<label><input type="radio" <c:if test="${result.Q8_0_0 eq '1'}">checked='checked'</c:if> hasSubQuest="Y" showQuest="q08-1" name="q08-1">예</label>
+							<label><input type="radio" <c:if test="${result.Q8_0_0 eq '2'}">checked='checked'</c:if>  hasSubQuest="Y" hideQuest="q08-1" name="q08-1">아니오</label>
 							<div class="subQuestLine"></div>
 							<div class="subQuest" name="q08-1">08-1. 병원에 내원한 원인 질환은 무엇(질병명)입니까?</div>
 							<div class="subAnwer" name="q08-1">
-								<input type="text" class="input_txt">
+								<input type="text" class="input_txt" value='<c:out value="${result.Q8_1_0}"/>' >
 							</div>
 							<div class="subQuest" name="q08-1">08-2. 병원 방문을 하고 있다면, 얼마나 자주 병원에 가나요?</div>
 							<div class="subAnwer" name="q08-1">
-								<label><input type="radio" name="q08-2-1">한 달에 한번 이상</label><br />
-								<label><input type="radio" name="q08-2-1">2,3개월에 한번</label><br />
-								<label><input type="radio" name="q08-2-1">6~12개월에 한번</label><br />
-								<label><input type="radio" name="q08-2-1">증상이 있을 때만</label>
+								<label><input type="radio" <c:if test="${result.Q8_2_0 eq '1'}">checked='checked'</c:if> name="q08-2-1">한 달에 한번 이상</label><br />
+								<label><input type="radio" <c:if test="${result.Q8_2_0 eq '2'}">checked='checked'</c:if> name="q08-2-1">2,3개월에 한번</label><br />
+								<label><input type="radio" <c:if test="${result.Q8_2_0 eq '3'}">checked='checked'</c:if> name="q08-2-1">6~12개월에 한번</label><br />
+								<label><input type="radio" <c:if test="${result.Q8_2_0 eq '4'}">checked='checked'</c:if> name="q08-2-1">증상이 있을 때만</label>
 							</div>
 						</div>
 						<div class="qest_btn_group">
@@ -604,8 +629,8 @@
 						<span class="qest_no">09 Question</span>
 						<div class="qest_title"><span class="view_quest_no">09.&nbsp;&nbsp;</span>현재 8번 문항과 관련하여 약물 치료를 받고 있습니까?</div>
 						<div class="qest_anwer_wrap">
-							<label><input type="radio" hasSubQuest="Y" showQuest="q09-1" name="q09-1">예</label>
-							<label><input type="radio" hasSubQuest="Y" hideQuest="q09-1" name="q09-1">아니오</label>
+							<label><input type="radio" hasSubQuest="Y" showQuest="q09-1" <c:if test="${result.Q9 eq '1'}">checked='checked'</c:if> name="q09-1">예</label>
+							<label><input type="radio" hasSubQuest="Y" hideQuest="q09-1" <c:if test="${result.Q9 eq '2'}">checked='checked'</c:if> name="q09-1">아니오</label>
 							<div class="subQuestLine"></div>
 							<div class="subQuest" name="q09-1">09-1. 있다면 어떤 치료를 받는
 								중인가요?</div>
@@ -627,13 +652,25 @@
 									</tr>
 									<tr>
 										<td>약물명</td>
-										<td><textarea class="txt_area_s" style="height: 60px"></textarea>
+										<td>
+											<textarea class="txt_area_s" style="min-height: 100px">
+												<c:out value="${result.Q9_1_0}"/>
+											</textarea>
 										</td>
-										<td><textarea class="txt_area_s" style="height: 60px"></textarea>
+										<td>
+											<textarea class="txt_area_s" style="min-height: 100px">
+												<c:out value="${result.Q9_1_1}"/>
+											</textarea>
 										</td>
-										<td><textarea class="txt_area_s" style="height: 60px"></textarea>
+										<td>
+											<textarea class="txt_area_s" style="min-height: 100px">
+												<c:out value="${result.Q9_1_2}"/>
+											</textarea>
 										</td>
-										<td><textarea class="txt_area_s" style="height: 60px"></textarea>
+										<td>
+											<textarea class="txt_area_s" style="min-height: 100px">
+												<c:out value="${result.Q9_1_3}"/>
+											</textarea>
 										</td>
 									</tr>
 								</table>
@@ -655,22 +692,22 @@
 							번입니까?<br /> (8번 문항에서 표기한 내용 제외)
 						</div>
 						<div class="qest_anwer_wrap">
-							<label class="label_txt"><input type="radio" hasSubQuest="Y" name="q10" hideQuest="q10-1" class="input_radio">없었음</label>
-							<label class="label_txt"><input type="radio" hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">1~3회</label>
-							<label class="label_txt"><input type="radio" hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">4~6회</label>
-							<label class="label_txt"><input type="radio" hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">7~9회</label>
-							<label class="label_txt"><input type="radio" hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">10회 이상</label>
+							<label class="label_txt"><input type="radio" <c:if test="${result.Q10_0_0 eq '1'}">checked='checked'</c:if> hasSubQuest="Y" name="q10" hideQuest="q10-1" class="input_radio">없었음</label>
+							<label class="label_txt"><input type="radio" <c:if test="${result.Q10_0_0 eq '2'}">checked='checked'</c:if> hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">1~3회</label>
+							<label class="label_txt"><input type="radio" <c:if test="${result.Q10_0_0 eq '3'}">checked='checked'</c:if> hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">4~6회</label>
+							<label class="label_txt"><input type="radio" <c:if test="${result.Q10_0_0 eq '4'}">checked='checked'</c:if> hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">7~9회</label>
+							<label class="label_txt"><input type="radio" <c:if test="${result.Q10_0_0 eq '5'}">checked='checked'</c:if> hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">10회 이상</label>
 							<div class="subQuestLine"></div>
 							<div class="subQuest" name="q10-1">10-1. 병원에 내원한 원인 질환은 무엇(질병명)이라 들었습니까?(아는 범위 내에서 표시)</div>
 							<div class="subAnwer" name="q10-1">
-								<label class="label_txt"><input type="checkbox" class="input_check">급성 인두염/편도염(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">급성/만성 부비동염 (축농증)(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">급성 폐렴(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">급성 기관지염(<input type="text" class="input_txt_s" />회)<br /></label>
-								<labelclass="label_txt"><input type="checkbox" class="input_check">독감(인플루엔자)(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">기타<br /></label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" class="input_txt_m">(<input type="text" class="input_txt_s" />회)<br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" class="input_txt_m">(<input type="text" class="input_txt_s" />회)<br />
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_1_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 인두염/편도염(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_1_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_2_1 eq '1'}">checked='checked'</c:if> class="input_check">급성/만성 부비동염 (축농증)(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_2_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_3_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 폐렴(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_3_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_4_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 기관지염(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_4_2}"/>' />회)<br /></label>
+								<labelclass="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_5_1 eq '1'}">checked='checked'</c:if> class="input_check">독감(인플루엔자)(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_5_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_6_1 eq '1'}">checked='checked'</c:if> class="input_check">기타<br /></label>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_2}"/>' class="input_txt_m">(<input type="text" value='<c:out value="${result.Q10_1_6_3}"/>' class="input_txt_s" />회)<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_4}"/>' class="input_txt_m">(<input type="text" value='<c:out value="${result.Q10_1_6_5}"/>' class="input_txt_s" />회)<br />
 							</div>
 						</div>
 						<div class="qest_btn_group">
@@ -689,8 +726,8 @@
 							있습니까?
 						</div>
 						<div class="qest_anwer_wrap">
-							<label class="label_txt"><input type="radio" class="input_radio" hasSubQuest="Y" showQuest="q11-1" name="q11">예</label>
-							<label class="label_txt"><input type="radio" class="input_radio" hasSubQuest="Y" hideQuest="q11-1" name="q11">아니오</label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_0_0 eq '1'}">checked='checked'</c:if> hasSubQuest="Y" showQuest="q11-1" name="q11">예</label>
+							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_0_0 eq '2'}">checked='checked'</c:if> hasSubQuest="Y" hideQuest="q11-1" name="q11">아니오</label>
 							<div class="subQuestLine"></div>
 							<div class="subQuest" name="q11-1">
 								11-1. 최근 일년간 <u><b>응급실 내원 횟수</b></u>와 <u><b>입원 횟수</b></u>는 몇
@@ -708,16 +745,16 @@
 									</tr>
 									<tr>
 										<td class="align_left">
-											<label class="label_txt"><input type="radio" class="input_radio" name="q11-1-1">없었음</label><br />
-											<label class="label_txt"><input type="radio" class="input_radio" name="q11-1-1">1~3회</label><br />
-											<label class="label_txt"><input type="radio" class="input_radio" name="q11-1-1">4~6회</label><br />
-											<label class="label_txt"><input type="radio" class="input_radio" name="q11-1-1">10회 이상</label><br />
+											<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_1_1 eq '1'}">checked='checked'</c:if> name="q11-1-1">없었음</label><br />
+											<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_1_1 eq '2'}">checked='checked'</c:if> name="q11-1-1">1~3회</label><br />
+											<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_1_1 eq '3'}">checked='checked'</c:if> name="q11-1-1">4~6회</label><br />
+											<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_1_1 eq '4'}">checked='checked'</c:if> name="q11-1-1">10회 이상</label><br />
 										</td>
 										<td class="align_left">
-											<label class="label_txt"><input type="radio" class="input_radio" name="q11-1-2">없었음</label><br />
-											<label class="label_txt"><input type="radio" class="input_radio" name="q11-1-2">1~3회</label><br />
-											<label class="label_txt"><input type="radio" class="input_radio" name="q11-1-2">4~6회</label><br />
-											<label class="label_txt"><input type="radio" class="input_radio" name="q11-1-2">10회 이상</label><br />
+											<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_1_2 eq '1'}">checked='checked'</c:if> name="q11-1-2">없었음</label><br />
+											<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_1_2 eq '2'}">checked='checked'</c:if> name="q11-1-2">1~3회</label><br />
+											<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_1_2 eq '3'}">checked='checked'</c:if> name="q11-1-2">4~6회</label><br />
+											<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_1_2 eq '4'}">checked='checked'</c:if> name="q11-1-2">10회 이상</label><br />
 										</td>
 									</tr>
 								</table>
@@ -727,14 +764,14 @@
 								11-2. 응급실 내원 또는 입원의 <u><b>원인 질환</b></u>은 무엇이었습니까?
 							</div>
 							<div class="subAnwer" name="q11-1">
-								<label class="label_txt"><input type="checkbox" class="input_check">급성 인두염/편도염(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">급성/만성 부비동염 (축농증)(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">급성 폐렴(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">급성 기관지염(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">독감(인플루엔자)(<input type="text" class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" class="input_check">기타<br /></label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" class="input_txt_m">(<input type="text" class="input_txt_s" />회)<br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" class="input_txt_m">(<input type="text" class="input_txt_s" />회)<br />
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_1_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 인두염/편도염(<input type="text" value='<c:out value="${result.Q11_2_1_2}"/>' class="input_txt_s" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_2_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성/만성 부비동염 (축농증)(<input type="text" value='<c:out value="${result.Q11_2_2_2}"/>' class="input_txt_s" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_3_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 폐렴(<input type="text" value='<c:out value="${result.Q11_2_3_2}"/>' class="input_txt_s" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_4_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 기관지염(<input type="text" value='<c:out value="${result.Q11_2_4_2}"/>' class="input_txt_s" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_5_1 eq '1'}">checked='checked'</c:if>  class="input_check">독감(인플루엔자)(<input type="text" value='<c:out value="${result.Q11_2_5_2}"/>' class="input_txt_s" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_6_1 eq '1'}">checked='checked'</c:if>  class="input_check">기타<br /></label>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_2}"/>' class="input_txt_m">(<input type="text" value='<c:out value="${result.Q11_2_6_3}"/>' class="input_txt_s" />회)<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_4}"/>' class="input_txt_m">(<input type="text" value='<c:out value="${result.Q11_2_6_5}"/>' class="input_txt_s" />회)<br />
 							</div>
 						</div>
 						<div class="qest_btn_group">
@@ -752,7 +789,7 @@
 							<div class="qest_title">절문지 작성 시 어려웠던 점, 개선이 필요한 점이 있으시면 의견
 								부탁드립니다.</div>
 							<div class="qest_anwer_wrap">
-								(<input type="text" class="input_txt" />)
+								(<input type="text" class="input_txt" value='<c:out value="${result.Q12}"/>' />)
 							</div>
 							<div class="qest_btn_group">
 								<input type="button" class="btn_prev" value="이전">
