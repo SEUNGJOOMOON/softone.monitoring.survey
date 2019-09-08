@@ -12,9 +12,9 @@
 
 	<select id="selectSurveyMaster" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
-			SELECT SURVEY_ANS_MST_SN, SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, HSPTL_ID, SUFRER_PIN, SUFRER_NM, SEXDSTN, BRTHDY, SUFRER_RELATE, SURVEY_DE, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, ANS_NM
+			SELECT SURVEY_ANS_MST_SN, SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, HSPTL_ID, REGEXP_REPLACE(SUFRER_PIN, '.', '*', 8) AS SUFRER_PIN, REGEXP_REPLACE(SUFRER_NM, '.', '*', 3) AS SUFRER_NM, SEXDSTN, BRTHDY, SUFRER_RELATE, SURVEY_DE, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, ANS_NM
 			FROM SURVEY.SURVEY_ANS_MST
-			WHERE SUFRER_PIN = #{sufrerPin} AND SUFRER_NM = #{sufrerNm} AND SEXDSTN = #{sexdstn} AND BRTHDY = #{brthdy}
+			where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd}
 		]]>
 	</select>
 
@@ -282,8 +282,8 @@
 				decode(qn_cd, 'Q12', ans_value, '') as "Q12"
 			from(
 				SELECT qn_cd, ans_value
- 				FROM SURVEY.SURVEY_ANs
-				where SURVEY_ANS_MST_SN='2' and ORG_CD='충남대'
+ 				FROM SURVEY.SURVEY_ANS
+ 				where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd}
 			)
 		)
 		]]>

@@ -25,11 +25,14 @@ public class SurveyController {
 	public ModelAndView surveyAdultNew(Map<String, Object> surveyParams, String viewMode) throws Exception {
 		
 		ModelAndView mv = new ModelAndView("/user/survey/adultNew");
-		surveyParams.put("surveyAnsMstSn","test");
+		surveyParams.put("surveyAnsMstSn","9");
+		surveyParams.put("orgCd","충남대");
+		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 		Map<String, Object> result = surveyService.selectSurveyResult(surveyParams);
 		
-		System.out.print(result);
+		System.out.print(surveyMaster);
 		mv.addObject("result", result);
+		mv.addObject("surveyMaster", surveyMaster);
 		return mv;
 	}
 	
