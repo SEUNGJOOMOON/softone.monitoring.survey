@@ -283,7 +283,7 @@
 			from(
 				SELECT qn_cd, ans_value
  				FROM SURVEY.SURVEY_ANS
- 				where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd}
+ 				where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd} and survey_cd='건강영향(성인)'
 			)
 		)
 		]]>

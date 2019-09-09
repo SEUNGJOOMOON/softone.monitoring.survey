@@ -114,7 +114,7 @@
 
 		$(document).ready(
 				function() {
-					var viewMode = getQuerystring("viewMode");
+					var viewMode = value='<c:out value="${viewMode}"/>';
 					switch (viewMode) {
 					case "survey":
 						surveyCommonUtils.setLayoutToSurvey();
@@ -402,12 +402,12 @@
 						<div class="qest_anwer_wrap">
 							<label class="label_txt" ><input type="checkbox" <c:if test="${result.Q5_0 eq '1'}">checked='checked'</c:if> class="input_check">아니오<br /></label>
 							<label class="label_txt" ><input type="checkbox" <c:if test="${result.Q5_0 eq '2'}">checked='checked'</c:if> class="input_check">과거에 흡연하였으나 현재는 끊음<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_1_0}">checked='chekced'</c:if> class="input_check">금연하신지는 몇 년 되셨습니까?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_0}"/>' />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_1_1}">checked='chekced'</c:if> class="input_check">금연 전까지 흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_1}"/>' />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_1_2}">checked='chekced'</c:if> class="input_check">금연 전 하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_2}"/>' />(개비)<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_1_0) and (result.Q5_1_0 ne '-')}">checked='chekced'</c:if> class="input_check">금연하신지는 몇 년 되셨습니까?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_0}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_1_1) and (result.Q5_1_1 ne '-')}"> checked='chekced'</c:if> class="input_check">금연 전까지 흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_1}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_1_2) and (result.Q5_1_2 ne '-')}">  checked='chekced'</c:if>class="input_check">금연 전 하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_2}"/>' />(개비)<br /></label>
 							<label class="label_txt"><input type="checkbox"  <c:if test="${result.Q5_0 eq '3'}">checked='checked'</c:if> class="input_check">현재도 흡연중<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_2_0}">checked='chekced'</c:if> class="input_check">흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_0}"/>' />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${not empty result.Q5_2_1}">checked='chekced'</c:if> class="input_check">하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_1}"/>' />(개비)<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_2_0) and (result.Q5_2_0 ne '-')}"> checked='chekced'</c:if> class="input_check">흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_0}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_2_1) and (result.Q5_2_1 ne '-')}"> checked='chekced'</c:if> class="input_check">하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_1}"/>' />(개비)<br /></label>
 						</div>
 						<div class="qest_btn_group">
 							<input type="button" class="btn_prev" value="이전">
