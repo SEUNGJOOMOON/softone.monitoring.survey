@@ -6,7 +6,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+<title>[건강영향설문조사]성인용(첫방문)</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=1.0,user-scalable=yes">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -15,102 +15,10 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scrolloverflow.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fullpage.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/JQuery3.4.1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/sweetAlert.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/surveyCommonUtils.js"></script>
 
 	<script>
-		var surveyCommonUtils = {
-			"setLayoutToSurvey" : function() {
-				var myFullpage = new fullpage('#fullpage', {
-					licenseKey : '2BD03B7C-BEE54D5A-AA0125A7-58B34D98',
-					scrollOverflow : true,
-					afterLoad : function(origin, destination, direction) {
-						$(".btn_prev").bind("click", function() {
-							fullpage_api.moveSlideLeft();
-						});
-						$(".btn_next").bind("click", function() {
-							fullpage_api.moveSlideRight();
-						});
-						fullpage_api.setAllowScrolling(false, 'left, right');
-					},
-					scrollOverflowOptions : {
-						click : false,
-						preventDefaultException : {
-							tagName : /.*/
-						}
-					}
-				});
-			},
-			"setLayoutToView" : function() {
-				$("html, body").css("overflow", "visible");
-				$(".qest_title").css("margin-top", "0px");
-				$(".qest_title, .label_txt, label, td, th").css("font-size","15px");
-				$("input, textarea").attr("disabled", "disabled");
-				$("input[type='text']").each(function() {//input text -> span 태그로 변경
-					$(this).replaceWith("<span class='span_font15'>" + $(this).val() + '</span>');
-				});
-				$("textarea").each(function() {//input textarea -> span 태그로 변경
-					$(this).replaceWith("<span class='span_font15'>" + $(this).val() + '</span>');
-				});
-				$("html, body").css("font-size", "12px");
-				$(".subQuest").css("font-size", "14px");
-				$(".qest_btn_group").hide();
-				$(".surveyTop").css("top", "0px");
-				$("#btn_close").hide();
-				$(".qest_wrap").css("border", "0px").css("min-height", "100px");
-				$(".slide").css("margin-top", "-150px");
-				if(this.isMobile()){
-					$("#slide1").css("margin-top", "40px");	
-				}else{
-					$("#slide1").css("margin-top", "0px");
-				}
-				//$(".surveyTop").hide();
-				$(".quest_end").hide();
-				$(".quest_red").hide();
-				$(".btn_close").hide();
-				$(".subQuest").show();
-				$(".subAnwer").show();
-				$(".view_quest_no").show();
-				$(".qest_no").hide();
-				$(".qest").hide();
-				$(".qest_anwer_wrap").css("margin-top", "0px");
-			},
-			"printSurvey" : function(printThis) {
-				if(!this.isMobile()){
-					alert("인쇄는 PC에서만 가능합니다.");
-					return;
-				}
-				this.setLayoutToView();
-				$("#survey_cover").show();
-				$(".qest_wrap").eq(0).css("margin-top", "0px");
-				$(".qest_title").css("border-bottom", "0px");
-				window.onbeforeprint = function(ev) {
-					document.body.innerHTML = $("#fullpage").html();
-				};
-
-				window.print();
-
-			},
-			"isMobile" : function(){
-				var filter = "win16|win32|win64|mac";
-				if(navigator.platform){
-					if(0 > filter.indexOf(navigator.platform.toLowerCase())){
-						return true;
-					}else{
-						return false;
-					}
-				}
-			}
-		};
-
-		function getQuerystring(paramName) {
-			var _tempUrl = window.location.search.substring(1); //url에서 처음부터 '?'까지 삭제 
-			var _tempArray = _tempUrl.split('&'); // '&'을 기준으로 분리하기 
-			for (var i = 0; _tempArray.length; i++) {
-				var _keyValuePair = _tempArray[i].split('='); // '=' 을 기준으로 분리하기 
-				if (_keyValuePair[0] == paramName) { // _keyValuePair[0] : 파라미터 명 // _keyValuePair[1] : 파라미터 값 
-					return _keyValuePair[1];
-				}
-			}
-		}
 
 		$(document).ready(
 				function() {
@@ -181,20 +89,18 @@
 	
 	
 	<div id="fullpage">
-		<div style="margin:0 auto;width:800px;display:none" id="survey_cover">
-			<div style="height:150px;position:relative">
-				<img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo" style="position:absolute;bottom:10px;width:300px;">
+		<div id="survey_cover" class="survey_cover">
+			<div class="survey_cover_img">
+				<img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo" >
 			</div>
-			<div style="border-top:6px solid black;border-bottom:6px solid black;margin:0 auto;text-align:center;font-size:40px;padding:20px;">
-				가습기살균제 건강모니터링<br/>
-				건강영향설문조사<br/>
-				작성 결과지
+			<div class="survey_cover_title" >
+				건강모니터링 건강영향설문조사<br/>작성 결과지
 			</div>
-			<div style="font-size:25px;width:100%;height:300px;text-align:center;line-height:300px;">
-				건강영향설문조사(성인용)<br/>
-			</div>
-			<div style="width:100%;height:500px;position:relative">
-				<table style="width:80%;margin:0 auto;" class="cover_table">
+			<div class="survey_cover_wrap">
+				<div class="survey_kind_of">
+					<b>[건강영향설문조사]성인용(첫방문)</b>
+				</div>
+				<table class="cover_table">
 					<colgroup>
 						<col style="width:25%"/>
 						<col style="width:25%"/>
@@ -202,31 +108,31 @@
 						<col style="width:25%"/>
 					</colgroup>
 					<tr>
-						<td>식별번호</td>
+						<td style="text-align:center;">식 별 번 호</td>
 						<td style="border-left:1px solid black;"><c:out value="${surveyMaster.SUFRER_PIN}"/></td>
-						<td style="border-left:1px solid black;">성   명</td>
+						<td style="border-left:1px solid black;text-align:center;">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td>
 						<td style="border-left:1px solid black;"><c:out value="${surveyMaster.SUFRER_NM}"/></td>
 					</tr>
 					<tr>
-						<td>성   별</td>
+						<td style="text-align:center;">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;별</td>
 						<td style="border-left:1px solid black;"><c:out value="${surveyMaster.SEXDSTN}"/></td>
-						<td style="border-left:1px solid black;">생 년 월 일</td>
+						<td style="border-left:1px solid black;text-align:center;">생 년 월 일</td>
 						<td style="border-left:1px solid black;"><c:out value="${surveyMaster.BRTHDY}"/></td>
 					</tr>
 					<tr>
-						<td>응답자 성명</td>
+						<td style="text-align:center;">응답자 성명</td>
 						<td style="border-left:1px solid black;"><c:out value="${surveyMaster.SUFRER_NM}"/></td>
-						<td style="border-left:1px solid black;">조사대상자와의 관계</td>
+						<td style="border-left:1px solid black;text-align:center;">조사대상자와의<br/>관계</td>
 						<td style="border-left:1px solid black;"><c:out value="${surveyMaster.SUFRER_RELATE}"/></td>
 					</tr>
 					<tr>
-						<td>의 료 기 관</td>
+						<td style="text-align:center;">의 료 기 관</td>
 						<td style="border-left:1px solid black;"><c:out value="${surveyMaster.ORG_CD}"/></td>
-						<td style="border-left:1px solid black;">작 성 일 자</td>
+						<td style="border-left:1px solid black;text-align:center;">작 성 일 자</td>
 						<td style="border-left:1px solid black;"><c:out value="${surveyMaster.SURVEY_DE}"/></td>
 					</tr>
 				</table>
-				<div style="height:50px;width:100%;text-align:center;margin-top:30px;6">
+				<div class="survey_cover_bottm_img">
 					<img src="${pageContext.request.contextPath}/resources/img/logo_kor.gif" alt="" >
 				</div>
 			</div>
@@ -240,7 +146,7 @@
 					<div class="qest_wrap">
 						<span class="qest_no">01 Question</span>
 
-						<div class="qest_title"><span class="view_quest_no">01.&nbsp;&nbsp;</span>가습기살균제를 처음 사용하게 된 계기는 무엇입니까?</div>
+						<div class="qest_title"><span class="view_quest_no">01.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN1}" escapeXml="false" /></div>
 						<div class="qest_anwer_wrap">
 							
 							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '1')}">checked='checked'</c:if>>출산/육아<br /></label>
@@ -261,7 +167,7 @@
 					<div class="qest_wrap">
 						<span class="qest_no">02 Question</span>
 						<div class="qest_title">
-							<span class="view_quest_no">02.&nbsp;&nbsp;</span>아래 해당 기간 중 호흡기 증상이 있었습니까?<br />해당 기간에 각각 표시해 주세요.
+							<span class="view_quest_no">02.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN2}" escapeXml="false" />
 						</div>
 						<div class="qest_anwer_wrap">
 							<table class="ques_table">
@@ -286,7 +192,7 @@
 							</table>
 							<div class="subQuestLine"></div>
 							<div class="subQuest" style="display: block;" name="q11-1">
-								02-1. 해당 기간 중 나타났던 호흡기 증상은 어떤 것입니까?<br />(중복 표시 가능)
+								<c:out value="${surveyQn.QN2_1}" escapeXml="false" />
 							</div>
 							<div class="subAnwer" style="display: block;" name="q11-1">
 								<table class="ques_table">
@@ -306,37 +212,37 @@
 										</th>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_1_1 eq '1') || (result.Q2_1_2 eq '1') || (result.Q2_1_3 eq '1')}">checked='checked'</c:if> >기침</label></td>
+										<td class="align_left">① 기침</td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_1_1 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_1_2 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_1_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_2_1 eq '1') || (result.Q2_2_2 eq '1') || (result.Q2_2_3 eq '1')}">checked='checked'</c:if>>객담(가래)</label></td>
+										<td class="align_left">② 객담(가래)</td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_2_1 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_2_2 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_2_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_3_1 eq '1') || (result.Q2_3_2 eq '1') || (result.Q2_3_3 eq '1')}">checked='checked'</c:if>>가슴답답함</label></td>
+										<td class="align_left">③ 가슴답답함</td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_3_1 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_3_2 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_3_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_4_1 eq '1') || (result.Q2_4_2 eq '1') || (result.Q2_4_3 eq '1')}">checked='checked'</c:if>>호흡곤란</label></td>
+										<td class="align_left">④ 호흡곤란</td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_4_1 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_4_2 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_4_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(result.Q2_5_1 eq '1') || (result.Q2_5_2 eq '1') || (result.Q2_5_3 eq '1')}">checked='checked'</c:if>>콧물</label></td>
+										<td class="align_left">⑤ 콧물</td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_5_1 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_5_2 eq '1'}">checked='checked'</c:if>></td>
 										<td class="align_center"><input type="checkbox" class="input_check" <c:if test="${result.Q2_5_3 eq '1'}">checked='checked'</c:if>></td>
 									</tr>
 									<tr>
-										<td class="align_left"><label><input type="checkbox" class="input_check" name="q02-1-1" <c:if test="${(fn:contains(result.Q2_6_1, '1')) || (fn:contains(result.Q2_6_2, '1')) || (fn:contains(result.Q2_6_3, '1'))}">checked='checked'</c:if>>기타(작성)</label></td>
+										<td class="align_left">⑥ 기타(작성)</td>
 										<td class="align_center"><input type="text" class="input_txt" <c:if test="${fn:contains(result.Q2_6_1, '1')}">value='<c:out value="${result.Q2_6_1}"/>'</c:if>></td>
 										<td class="align_center"><input type="text" class="input_txt" <c:if test="${fn:contains(result.Q2_6_2, '1')}">value='<c:out value="${result.Q2_6_2}"/>'</c:if>></td>
 										<td class="align_center"><input type="text" class="input_txt" <c:if test="${fn:contains(result.Q2_6_3, '1')}">value='<c:out value="${result.Q2_6_3}"/>'</c:if>></td>
@@ -356,7 +262,7 @@
 					<div class="qest_wrap">
 						<span class="qest_no">03 Question</span>
 						<div class="qest_title">
-							<span class="view_quest_no">03.&nbsp;&nbsp;</span>호흡곤란이 있다면, 어느 정도인지를 체크해 주십시오.<br />(가장 유사한 항목 <b>한가지만</b>)
+							<span class="view_quest_no">03.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN3}" escapeXml="false" />
 						</div>
 						<div class="qest_anwer_wrap">
 							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '1'}">checked='checked'</c:if> name="q03-1">극심한 운동 다음에 숨이 차다.<br /></label>
@@ -378,9 +284,7 @@
 					<div class="qest_wrap">
 						<span class="qest_no">04 Question</span>
 						<div class="qest_title">
-							<span class="view_quest_no">04.&nbsp;&nbsp;</span><u><b>현재 운동 장애나 운동 불내성(운동시 호흡곤란 등으로 인해 운동 지속 어려움)</b></u>이 있습니까?<br />
-							예를 들어 <u><b>달리기를 할 때 동년배의 친구들에 비해 처지거나, 뛰기 힘들어하여 자주 주저 앉아
-									쉬게 되는 경우가</b></u> 있습니가?
+							<span class="view_quest_no">04.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN4}" escapeXml="false" />
 						</div>
 						<div class="qest_anwer_wrap">
 							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q4 eq '1'}">checked='checked'</c:if> name="q04-1">예<br /></label>
@@ -397,8 +301,7 @@
 				<div class="fp-responsive" id="q05">
 					<div class="qest_wrap">
 						<span class="qest_no">05 Question</span>
-						<div class="qest_title"><span class="view_quest_no">05.&nbsp;&nbsp;</span>지금까지 평생 총 5갑(100개피) 이상의 담배를 피운 적이
-							있습니까?</div>
+						<div class="qest_title"><span class="view_quest_no">05.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN5}" escapeXml="false" /></div>
 						<div class="qest_anwer_wrap">
 							<label class="label_txt" ><input type="checkbox" <c:if test="${result.Q5_0 eq '1'}">checked='checked'</c:if> class="input_check">아니오<br /></label>
 							<label class="label_txt" ><input type="checkbox" <c:if test="${result.Q5_0 eq '2'}">checked='checked'</c:if> class="input_check">과거에 흡연하였으나 현재는 끊음<br /></label>
@@ -421,9 +324,7 @@
 					<div class="qest_wrap">
 						<span class="qest_no">06 Question</span>
 						<div class="qest_title">
-							<span class="view_quest_no">06.&nbsp;&nbsp;</span><u><b>가습기살균제 사용하기 전, 동안 (가습기살균제를 처음 사용하기 시작한 날부터 사용을 완전히
-									중단한 날까지) 가습기 살균제 사용 중단 이후에</b></u> 다음 질환을 <u><b>의사에게서 진단</b></u> 받은 적이
-							있습니까? ('예'라고 한다면, 해당되는 기간에 모두 표시 바랍니다.)
+							<span class="view_quest_no">06.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN6}" escapeXml="false" />
 						</div>
 						<div class="qest_anwer_wrap">
 							<table class="ques_table">
@@ -544,7 +445,7 @@
 									<td class="align_left font_14">간질성폐렴(폐섬유화)</td>
 									<td><label><input type="radio" <c:if test="${result.Q6_13_0 eq '1'}">checked='checked'</c:if> name="q06-12">예</label><br />
 										<label><input type="radio" <c:if test="${result.Q6_13_0 eq '2'}">checked='checked'</c:if> name="q06-12">아니오</label></td>
-									<td colspan="3" class="align_left">진단명 상세 : <textarea><c:out value="${result.Q6_13_1}"/></textarea></td>
+									<td colspan="3" class="align_left">진단명 상세 : <textarea class="txt_area" ><c:out value="${result.Q6_13_1}"/></textarea></td>
 								</tr>
 							</table>
 						</div>
@@ -560,7 +461,7 @@
 					<div class="qest_wrap">
 						<span class="qest_no">07 Question</span>
 						<div class="qest_title">
-							<span class="view_quest_no">07.&nbsp;&nbsp;</span>아래의 질문에 <b><u>정확하게 아는대로 기술</u></b>해 주시기를 부탁드립니다.
+							<span class="view_quest_no">07.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN7}" escapeXml="false" />
 						</div>
 						<div class="qest_anwer_wrap">
 							<table class="ques_table">
@@ -594,20 +495,20 @@
 
 						<span class="qest_no">08 Question</span>
 						<div class="quest_red">
-							다음 8번 이하 문항은 <u>호흡기 증상, 질환</u>과 관련된 질문입니다.
+							<c:out value="${surveyQn.GN1}" escapeXml="false" />
 						</div>
 						<div class="qest_title">
-							<span class="view_quest_no">08.&nbsp;&nbsp;</span>귀하는 <u>호흡기계 증상과 관련</u>하여 현재 병원 방문을 하고 있습니까?
+							<span class="view_quest_no">08.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN8}" escapeXml="false" />
 						</div>
 						<div class="qest_anwer_wrap">
 							<label><input type="radio" <c:if test="${result.Q8_0_0 eq '1'}">checked='checked'</c:if> hasSubQuest="Y" showQuest="q08-1" name="q08-1">예</label>
 							<label><input type="radio" <c:if test="${result.Q8_0_0 eq '2'}">checked='checked'</c:if>  hasSubQuest="Y" hideQuest="q08-1" name="q08-1">아니오</label>
 							<div class="subQuestLine"></div>
-							<div class="subQuest" name="q08-1">08-1. 병원에 내원한 원인 질환은 무엇(질병명)입니까?</div>
+							<div class="subQuest" name="q08-1"><c:out value="${surveyQn.QN8_1}" escapeXml="false" /></div>
 							<div class="subAnwer" name="q08-1">
 								<input type="text" class="input_txt" value='<c:out value="${result.Q8_1_0}"/>' >
 							</div>
-							<div class="subQuest" name="q08-1">08-2. 병원 방문을 하고 있다면, 얼마나 자주 병원에 가나요?</div>
+							<div class="subQuest" name="q08-1"><c:out value="${surveyQn.QN8_2}" escapeXml="false" /></div>
 							<div class="subAnwer" name="q08-1">
 								<label><input type="radio" <c:if test="${result.Q8_2_0 eq '1'}">checked='checked'</c:if> name="q08-2-1">한 달에 한번 이상</label><br />
 								<label><input type="radio" <c:if test="${result.Q8_2_0 eq '2'}">checked='checked'</c:if> name="q08-2-1">2,3개월에 한번</label><br />
@@ -626,13 +527,12 @@
 				<div class="fp-responsive" id="q09">
 					<div class="qest_wrap">
 						<span class="qest_no">09 Question</span>
-						<div class="qest_title"><span class="view_quest_no">09.&nbsp;&nbsp;</span>현재 8번 문항과 관련하여 약물 치료를 받고 있습니까?</div>
+						<div class="qest_title"><span class="view_quest_no">09.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN9}" escapeXml="false" /></div>
 						<div class="qest_anwer_wrap">
 							<label><input type="radio" hasSubQuest="Y" showQuest="q09-1" <c:if test="${result.Q9 eq '1'}">checked='checked'</c:if> name="q09-1">예</label>
 							<label><input type="radio" hasSubQuest="Y" hideQuest="q09-1" <c:if test="${result.Q9 eq '2'}">checked='checked'</c:if> name="q09-1">아니오</label>
 							<div class="subQuestLine"></div>
-							<div class="subQuest" name="q09-1">09-1. 있다면 어떤 치료를 받는
-								중인가요?</div>
+							<div class="subQuest" name="q09-1"><c:out value="${surveyQn.QN9_1}" escapeXml="false" /></div>
 							<div class="subAnwer" name="q09-1">
 								<table class="ques_table">
 									<colgroup>
@@ -679,8 +579,7 @@
 					<div class="qest_wrap">
 						<span class="qest_no">10 Question</span>
 						<div class="qest_title">
-							<span class="view_quest_no">10.&nbsp;&nbsp;</span><u><b>최근 일년간</b></u> 기저(현재질병)질환 외로 <u><b>통원치료</b></u>한 횟수가 몇
-							번입니까?<br /> (8번 문항에서 표기한 내용 제외)
+							<span class="view_quest_no">10.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN10}" escapeXml="false" />
 						</div>
 						<div class="qest_anwer_wrap">
 							<label class="label_txt"><input type="radio" <c:if test="${result.Q10_0_0 eq '1'}">checked='checked'</c:if> hasSubQuest="Y" name="q10" hideQuest="q10-1" class="input_radio">없었음</label>
@@ -689,7 +588,7 @@
 							<label class="label_txt"><input type="radio" <c:if test="${result.Q10_0_0 eq '4'}">checked='checked'</c:if> hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">7~9회</label>
 							<label class="label_txt"><input type="radio" <c:if test="${result.Q10_0_0 eq '5'}">checked='checked'</c:if> hasSubQuest="Y" name="q10" showQuest="q10-1" class="input_radio">10회 이상</label>
 							<div class="subQuestLine"></div>
-							<div class="subQuest" name="q10-1">10-1. 병원에 내원한 원인 질환은 무엇(질병명)이라 들었습니까?(아는 범위 내에서 표시)</div>
+							<div class="subQuest" name="q10-1"><c:out value="${surveyQn.QN10_1}" escapeXml="false" /></div>
 							<div class="subAnwer" name="q10-1">
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_1_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 인두염/편도염(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_1_2}"/>' />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_2_1 eq '1'}">checked='checked'</c:if> class="input_check">급성/만성 부비동염 (축농증)(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_2_2}"/>' />회)<br /></label>
@@ -697,8 +596,8 @@
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_4_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 기관지염(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_4_2}"/>' />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_5_1 eq '1'}">checked='checked'</c:if> class="input_check">독감(인플루엔자)(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_5_2}"/>' />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_6_1 eq '1'}">checked='checked'</c:if> class="input_check">기타<br /></label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_2}"/>' class="input_txt_m">(<input type="text" value='<c:out value="${result.Q10_1_6_3}"/>' class="input_txt_s" />회)<br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_4}"/>' class="input_txt_m">(<input type="text" value='<c:out value="${result.Q10_1_6_5}"/>' class="input_txt_s" />회)<br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_2}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q10_1_6_3}"/>' class="input_txt_s" />회)<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_4}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q10_1_6_5}"/>' class="input_txt_s" />회)<br />
 							</div>
 						</div>
 						<div class="qest_btn_group">
@@ -708,22 +607,20 @@
 					</div>
 				</div>
 			</div>
+			<br/>
+			<br/>
 			<div class="slide" id="slide12">
 				<div class="fp-responsive" id="q11">
 					<div class="qest_wrap">
 						<span class="qest_no">11 Question</span>
 						<div class="qest_title">
-							<span class="view_quest_no">11.&nbsp;&nbsp;</span><u><b>최근 일년간</b></u> 증상이 심하여 <u><b>응급실 또는 병원에 입원</b></u>한 적이
-							있습니까?
+							<span class="view_quest_no">11.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN11}" escapeXml="false" />
 						</div>
 						<div class="qest_anwer_wrap">
 							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_0_0 eq '1'}">checked='checked'</c:if> hasSubQuest="Y" showQuest="q11-1" name="q11">예</label>
 							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q11_0_0 eq '2'}">checked='checked'</c:if> hasSubQuest="Y" hideQuest="q11-1" name="q11">아니오</label>
 							<div class="subQuestLine"></div>
-							<div class="subQuest" name="q11-1">
-								11-1. 최근 일년간 <u><b>응급실 내원 횟수</b></u>와 <u><b>입원 횟수</b></u>는 몇
-								번입니까?
-							</div>
+							<div class="subQuest" name="q11-1"><c:out value="${surveyQn.QN11_1}" escapeXml="false" /></div>
 							<div class="subAnwer" name="q11-1">
 								<table class="ques_table">
 									<colgroup>
@@ -751,9 +648,7 @@
 								</table>
 							</div>
 							<div class="subQuestLine"></div>
-							<div class="subQuest" name="q11-1">
-								11-2. 응급실 내원 또는 입원의 <u><b>원인 질환</b></u>은 무엇이었습니까?
-							</div>
+							<div class="subQuest" name="q11-1"><c:out value="${surveyQn.QN11_2}" escapeXml="false" /></div>
 							<div class="subAnwer" name="q11-1">
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_1_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 인두염/편도염(<input type="text" value='<c:out value="${result.Q11_2_1_2}"/>' class="input_txt_s" />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_2_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성/만성 부비동염 (축농증)(<input type="text" value='<c:out value="${result.Q11_2_2_2}"/>' class="input_txt_s" />회)<br /></label>
@@ -761,8 +656,8 @@
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_4_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 기관지염(<input type="text" value='<c:out value="${result.Q11_2_4_2}"/>' class="input_txt_s" />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_5_1 eq '1'}">checked='checked'</c:if>  class="input_check">독감(인플루엔자)(<input type="text" value='<c:out value="${result.Q11_2_5_2}"/>' class="input_txt_s" />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_6_1 eq '1'}">checked='checked'</c:if>  class="input_check">기타<br /></label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_2}"/>' class="input_txt_m">(<input type="text" value='<c:out value="${result.Q11_2_6_3}"/>' class="input_txt_s" />회)<br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_4}"/>' class="input_txt_m">(<input type="text" value='<c:out value="${result.Q11_2_6_5}"/>' class="input_txt_s" />회)<br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_2}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q11_2_6_3}"/>' class="input_txt_s" />회)<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_4}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q11_2_6_5}"/>' class="input_txt_s" />회)<br />
 							</div>
 						</div>
 						<div class="qest_btn_group">
@@ -775,10 +670,9 @@
 					<div class="fp-auto-height" id="q12">
 						<div class="qest_wrap">
 							<div class="quest_end">
-								오랜 시간 설문 조사에 응답해 주셔서 <br /> 진심으로 감사드립니다.
+								<c:out value="${surveyQn.GN2}" escapeXml="false" />
 							</div>
-							<div class="qest_title">절문지 작성 시 어려웠던 점, 개선이 필요한 점이 있으시면 의견
-								부탁드립니다.</div>
+							<div class="qest_title"><c:out value="${surveyQn.QN12}" escapeXml="false" /></div>
 							<div class="qest_anwer_wrap">
 								(<input type="text" class="input_txt" value='<c:out value="${result.Q12}"/>' />)
 							</div>

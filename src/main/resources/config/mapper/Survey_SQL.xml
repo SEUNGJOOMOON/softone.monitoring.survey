@@ -17,8 +17,63 @@
 			where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd}
 		]]>
 	</select>
+	
+	
+	<select id="selectSurveyQnAdultNew" resultType="hashmap">
+		<![CDATA[
+			SELECT 
+				MAX(QN1) AS QN1,
+				MAX(QN2) AS QN2,
+				MAX(QN2_1) AS QN2_1,
+				MAX(QN3) AS QN3,
+				MAX(QN4) AS QN4,
+				MAX(QN5) AS QN5,
+				MAX(QN6) AS QN6,
+				MAX(QN7) AS QN7,
+				MAX(GR1) AS GR1,
+				MAX(QN8) AS QN8,
+				MAX(QN8_1) AS QN8_1,
+				MAX(QN8_2) AS QN8_2,
+				MAX(QN9) AS QN9,
+				MAX(QN9_1) AS QN9_1,
+				MAX(QN10) AS QN10,
+				MAX(QN10_1) AS QN10_1,
+				MAX(QN11) AS QN11,
+				MAX(QN11_1) AS QN11_1,
+				MAX(QN11_2) AS QN11_2,
+				MAX(GR2) AS GR2,
+				MAX(QN12) AS QN12
+			FROM (
+				SELECT 
+					DECODE(QN_CD, 'QN1', QN_NM, '') AS QN1,
+					DECODE(QN_CD, 'QN2', QN_NM, '') AS QN2,
+					DECODE(QN_CD, 'QN2_1', QN_NM, '') AS QN2_1,
+					DECODE(QN_CD, 'QN3', QN_NM, '') AS QN3,
+					DECODE(QN_CD, 'QN4', QN_NM, '') AS QN4,
+					DECODE(QN_CD, 'QN5', QN_NM, '') AS QN5,
+					DECODE(QN_CD, 'QN6', QN_NM, '') AS QN6,
+					DECODE(QN_CD, 'QN7', QN_NM, '') AS QN7,
+					DECODE(QN_CD, 'GR1', QN_NM, '') AS GR1,
+					DECODE(QN_CD, 'QN8', QN_NM, '') AS QN8,
+					DECODE(QN_CD, 'QN8_1', QN_NM, '') AS QN8_1,
+					DECODE(QN_CD, 'QN8_2', QN_NM, '') AS QN8_2,
+					DECODE(QN_CD, 'QN9', QN_NM, '') AS QN9,
+					DECODE(QN_CD, 'QN9_1', QN_NM, '') AS QN9_1,
+					DECODE(QN_CD, 'QN10', QN_NM, '') AS QN10,
+					DECODE(QN_CD, 'QN10_1', QN_NM, '') AS QN10_1,
+					DECODE(QN_CD, 'QN11', QN_NM, '') AS QN11,
+					DECODE(QN_CD, 'QN11_1', QN_NM, '') AS QN11_1,
+					DECODE(QN_CD, 'QN11_2', QN_NM, '') AS QN11_2,
+					DECODE(QN_CD, 'GR2', QN_NM, '') AS GR2,
+					DECODE(QN_CD, 'QN12', QN_NM, '') AS QN12
+				FROM (
+					SELECT QN_CD, QN_NM FROM SURVEY.SURVEY_QN
+					WHERE SURVEY_CD = '건강영향(성인)'
+				))
+		]]>
+	</select>
 
-	<select id="selectSurveyResult" parameterType="hashmap" resultType="hashmap">
+	<select id="selectSurveyResultAdultNew" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			
 	select 

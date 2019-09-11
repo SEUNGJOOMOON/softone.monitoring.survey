@@ -17,10 +17,14 @@ public class SurveyServiceImpl implements SurveyService {
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectBoardList(map);
 	}
-	public Map<String, Object> selectSurveyResult(Map<String, Object> map) throws Exception {
-		return surveyDAO.selectSurveyResult(map);
+	public Map<String, Object> selectSurveyResultAdultNew(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectSurveyResultAdultNew(map);
 	}
 	public Map<String, Object> selectSurveyMaster(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyMaster(map);
+	}
+	@Override
+	public Map<String, Object> selectSurveyQnAdultNew() throws Exception {
+		return surveyDAO.selectSurveyQnAdultNew();
 	}
 }

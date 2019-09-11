@@ -51,7 +51,7 @@
 			이외에는 절대 이용되지 않으며, 통계법 33조에 의해 개인 비밀이 보장됩니다.<br /> 바쁘시더라도 각 질문에 대하여
 			아래 보기 중 정확하게 있는 그대로 기술해 주시기를 부탁 드립니다.
 		</div>
-		<form id="surveyTestForm" name="surveyTestForm" method="post" action="/user/survey/adultNew.do" onSubmit="return checkFrm();")>
+		<form id="surveyTestForm" name="surveyTestForm" method="post" action="/user/survey/surveyprocess.do" onSubmit="return checkFrm();")>
 			<div class="surveyPersonal">
 				<div class="surveyPersonTitle">대상자정보</div>
 	
@@ -73,10 +73,12 @@
 						<li class="qu">관리 비밀번호</li>
 						<li class="aw"><input type="password" class="input_txt" name="confirmPass"></li>
 						<li class="qu">조회 모드</li>
-						<li class="aw">
-							<label><input type="radio" name="viewMode" value="survey"></input>설문작성</label>
-							<label><input type="radio" name="viewMode" value="view"></input>설문조회</label>
-							<label><input type="radio" name="viewMode" value="print"></input>프린트</label>
+						<li class="aw" style="width:500px">
+							<ul>
+							<li style="float:left"><label><input type="radio" name="viewMode" value="survey"></input>설문작성</label></li>
+							<li style="float:left"><label><input type="radio" name="viewMode" value="view"></input>설문조회</label></li>
+							<li style="float:left"><label><input type="radio" name="viewMode" value="print"></input>프린트(PC)</label></li>
+							</ul>
 						</li>
 					</ul>
 					</div>

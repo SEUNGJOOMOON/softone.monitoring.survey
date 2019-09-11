@@ -27,8 +27,8 @@ public class SurveyController {
 		return "/user/survey_test";
 	}
 	
-	@RequestMapping(value = "/user/survey/adultNew.do")
-	public ModelAndView surveyAdultNew(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass) throws Exception {
+	@RequestMapping(value = "/user/survey/surveyprocess.do")
+	public ModelAndView surveyProcess(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass) throws Exception {
 		
 		if(!confirmPass.equals("softone123!!@@")){
 			return new ModelAndView("/user/survey_test");
@@ -37,9 +37,13 @@ public class SurveyController {
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
 		surveyParams.put("orgCd",orgCd);
 		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
-		Map<String, Object> result = surveyService.selectSurveyResult(surveyParams);
+		Map<String, Object> surveyQn = surveyService.selectSurveyQnAdultNew();
+		Map<String, Object> result = surveyService.selectSurveyResultAdultNew(surveyParams);
+		
+		System.out.print(surveyQn);
 		
 		mv.addObject("viewMode", viewMode);
+		mv.addObject("surveyQn", surveyQn);
 		mv.addObject("result", result);
 		mv.addObject("surveyMaster", surveyMaster);
 		return mv;
