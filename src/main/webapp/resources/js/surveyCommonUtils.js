@@ -3,17 +3,31 @@
 				var myFullpage = new fullpage('#fullpage', {
 					licenseKey : '2BD03B7C-BEE54D5A-AA0125A7-58B34D98',
 					scrollOverflow : true,
-					navigation: true,
-					navigationPosition: 'left',
-					anchors:['#slide1', '#slide2', '#slide3'],
+					anchors:['questionGroup'],
 					afterLoad : function(origin, destination, direction) {
 						$(".btn_prev").bind("click", function() {
+							//네비게이션 dot
+							$(".navi-dot").removeClass("active-dot");
+							$(".navi-dot").eq(Number(Number($(this).attr("turn"))-1)).addClass("active-dot");
+							
 							fullpage_api.moveSlideLeft();
 						});
 						$(".btn_next").bind("click", function() {
+							//네비게이션 dot
+							$(".navi-dot").removeClass("active-dot");
+							$(".navi-dot").eq(Number(Number($(this).attr("turn"))+1)).addClass("active-dot");
+							
 							fullpage_api.moveSlideRight();
+							
 						});
-						fullpage_api.setAllowScrolling(false, 'left, right');
+						//fullpage_api.setAllowScrolling(false, 'left, right');
+					},
+					onSlideLeave: function(section, origin, destination, direction){
+						//이곳에 필수입력, 다음 문항 이동 등 로직
+						console.log(section);
+						console.log(origin);
+						console.log(destination);
+						console.log(direction);
 					},
 					scrollOverflowOptions : {
 						click : false,

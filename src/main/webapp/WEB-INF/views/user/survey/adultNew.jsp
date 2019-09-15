@@ -62,6 +62,12 @@
 							$("#btn_close").addClass("btn_close3");
 						}
 					});
+					
+					//네비게이션 클릭시
+					$(".navi-dot").click(function(){
+						$(".navi-dot").removeClass("active-dot");
+						$(this).addClass("active-dot");
+					});
 
 				});
 	</script>
@@ -139,7 +145,7 @@
 		</div>
 		<div class="section" id="section1">
 			
-			<div class="slide" id="slide1">
+			<div class="slide" id="slide1" data-anchor="question1">
 
 				<div class="fp-responsive" id="q01">
 					
@@ -156,13 +162,13 @@
 							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '5')}">checked='checked'</c:if>>기타(<input type="text" class="input_txt_s" value='<c:out value="${result.Q1_4T}"/>'>)</label>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_next" turn="0" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="slide" id="slide2">
+			<div class="slide" id="slide2" data-anchor="question2">
 				<div class="fp-responsive" id="q02">
 					<div class="qest_wrap">
 						<span class="qest_no">02 Question</span>
@@ -251,13 +257,13 @@
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="1" value="이전">
+							<input type="button" class="btn_next" turn="1" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="slide" id="slide4">
+			<div class="slide" id="slide3" data-anchor="question3">
 				<div class="fp-responsive" id="q03">
 					<div class="qest_wrap">
 						<span class="qest_no">03 Question</span>
@@ -273,13 +279,13 @@
 							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '6'}">checked='checked'</c:if> name="q03-1">해당 없음.<br /></label>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="2" value="이전">
+							<input type="button" class="btn_next" turn="2" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="slide" id="slide5">
+			<div class="slide" id="slide4" data-anchor="question4">
 				<div class="fp-responsive" id="q04">
 					<div class="qest_wrap">
 						<span class="qest_no">04 Question</span>
@@ -291,13 +297,13 @@
 							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q4 eq '2'}">checked='checked'</c:if> name="q04-1">아니오<br /></label>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="3" value="이전">
+							<input type="button" class="btn_next" turn="3" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="slide" id="slide6">
+			<div class="slide" id="slide5" data-anchor="question5">
 				<div class="fp-responsive" id="q05">
 					<div class="qest_wrap">
 						<span class="qest_no">05 Question</span>
@@ -313,13 +319,13 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_2_1) and (result.Q5_2_1 ne '-')}"> checked='chekced'</c:if> class="input_check">하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_1}"/>' />(개비)<br /></label>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="4" value="이전">
+							<input type="button" class="btn_next" turn="4" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="slide" id="slide7">
+			<div class="slide" id="slide6" data-anchor="question6">
 				<div class="fp-responsive" id="q06">
 					<div class="qest_wrap">
 						<span class="qest_no">06 Question</span>
@@ -450,13 +456,13 @@
 							</table>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" onclick="fullpage_api.moveSlideLeft();" value="이전">
-							<input type="button" class="btn_next" onclick="fullpage_api.moveSlideRight();" value="다음">
+							<input type="button" class="btn_prev" turn="5" value="이전">
+							<input type="button" class="btn_next" turn="5" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="slide" id="slide8">
+			<div class="slide" id="slide7" data-anchor="question7">
 				<div class="fp-responsive" id="q07">
 					<div class="qest_wrap">
 						<span class="qest_no">07 Question</span>
@@ -483,19 +489,19 @@
 							</table>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="6" value="이전">
+							<input type="button" class="btn_next" turn="6" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="slide" id="slide9">
+			<div class="slide" id="slide8" data-anchor="question8">
 				<div class="fp-responsive" id="q08">
 					<div class="qest_wrap">
 
 						<span class="qest_no">08 Question</span>
 						<div class="quest_red">
-							<c:out value="${surveyQn.GN1}" escapeXml="false" />
+							<c:out value="${surveyQn.GR1}" escapeXml="false" />
 						</div>
 						<div class="qest_title">
 							<span class="view_quest_no">08.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN8}" escapeXml="false" />
@@ -517,13 +523,13 @@
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="7" value="이전">
+							<input type="button" class="btn_next" turn="7" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="slide" id="slide10">
+			<div class="slide" id="slide9" data-anchor="question9">
 				<div class="fp-responsive" id="q09">
 					<div class="qest_wrap">
 						<span class="qest_no">09 Question</span>
@@ -568,13 +574,13 @@
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="8" value="이전">
+							<input type="button" class="btn_next" turn="8" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="slide" id="slide11">
+			<div class="slide" id="slide10" data-anchor="question10">
 				<div class="fp-responsive" id="q10">
 					<div class="qest_wrap">
 						<span class="qest_no">10 Question</span>
@@ -601,15 +607,15 @@
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="9" value="이전">
+							<input type="button" class="btn_next" turn="9" value="다음">
 						</div>
 					</div>
 				</div>
 			</div>
 			<br/>
 			<br/>
-			<div class="slide" id="slide12">
+			<div class="slide" id="slide11" data-anchor="question11">
 				<div class="fp-responsive" id="q11">
 					<div class="qest_wrap">
 						<span class="qest_no">11 Question</span>
@@ -661,31 +667,48 @@
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" value="이전">
-							<input type="button" class="btn_next" value="다음">
+							<input type="button" class="btn_prev" turn="10" value="이전">
+							<input type="button" class="btn_next" turn="10" value="다음">
 						</div>
 					</div>
 				</div>
-				<div class="slide" id="slide13">
-					<div class="fp-auto-height" id="q12">
+				<div class="slide" id="slide12" data-anchor="question12">
+					<div class="fp-responsive" id="q12">
 						<div class="qest_wrap">
 							<div class="quest_end">
-								<c:out value="${surveyQn.GN2}" escapeXml="false" />
+								<c:out value="${surveyQn.GR2}" escapeXml="false" />
 							</div>
 							<div class="qest_title"><c:out value="${surveyQn.QN12}" escapeXml="false" /></div>
 							<div class="qest_anwer_wrap">
 								(<input type="text" class="input_txt" value='<c:out value="${result.Q12}"/>' />)
 							</div>
 							<div class="qest_btn_group">
-								<input type="button" class="btn_prev" value="이전">
-								<input type="button" class="btn_next" value="설문완료">
+								<input type="button" class="btn_prev" turn="11" value="이전">
+								<input type="button" class="btn_next" turn="11" value="설문완료">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+			<div class="navigation">
+			<ul>
+				<li><a href="#questionGroup/question1" class="navi-dot active-dot" id="slide1_dot" ></a></li>
+				<li><a href="#questionGroup/question2" class="navi-dot" id="slide2_dot" ></a></li>
+				<li><a href="#questionGroup/question3" class="navi-dot" id="slide3_dot" ></a></li>
+				<li><a href="#questionGroup/question4" class="navi-dot" id="slide4_dot" ></a></li>
+				<li><a href="#questionGroup/question5" class="navi-dot" id="slide5_dot" ></a></li>
+				<li><a href="#questionGroup/question6" class="navi-dot" id="slide6_dot" ></a></li>
+				<li><a href="#questionGroup/question7" class="navi-dot" id="slide7_dot" ></a></li>
+				<li><a href="#questionGroup/question8" class="navi-dot" id="slide8_dot" ></a></li>
+				<li><a href="#questionGroup/question9" class="navi-dot" id="slide9_dot" ></a></li>
+				<li><a href="#questionGroup/question10" class="navi-dot" id="slide10_dot" ></a></li>
+				<li><a href="#questionGroup/question11" class="navi-dot" id="slide11_dot" ></a></li>
+				<li><a href="#questionGroup/question12" class="navi-dot" id="slide12_dot" ></a></li>
+			</ul>
+		</div>
 	</div>
+	
 
 </body>
 </html>
