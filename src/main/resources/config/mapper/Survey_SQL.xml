@@ -10,6 +10,14 @@
 		]]>
 	</select>
 
+	<select id="selectVictimInfo" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT *
+			FROM SURVEY.VICTIM_LIST
+			WHERE SUFRER_PIN=#{sufrerPin} AND SUFRER_NM=#{sufrerNm}
+		]]>
+	</select>
+
 	<select id="selectSurveyMaster" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT SURVEY_ANS_MST_SN, SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, HSPTL_ID, REGEXP_REPLACE(SUFRER_PIN, '.', '*', 8) AS SUFRER_PIN, REGEXP_REPLACE(SUFRER_NM, '.', '*', 3) AS SUFRER_NM, SEXDSTN, BRTHDY, SUFRER_RELATE, SURVEY_DE, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, ANS_NM

@@ -23,7 +23,8 @@
 						//fullpage_api.setAllowScrolling(false, 'left, right');
 					},
 					onSlideLeave: function(section, origin, destination, direction){
-						//이곳에 필수입력, 다음 문항 이동 등 로직
+						//이곳에 필수입력, 다음 문항 이동 등 로직 
+						//이곳에서 설문데이터 저장
 						console.log(section);
 						console.log(origin);
 						console.log(destination);
@@ -69,6 +70,7 @@
 				$(".view_quest_no").show();
 				$(".qest_no").hide();
 				$(".qest").hide();
+				$(".navigation").hide();
 				$(".qest_anwer_wrap").css("margin-top", "0px");
 			},
 			"printSurvey" : function(printThis) {

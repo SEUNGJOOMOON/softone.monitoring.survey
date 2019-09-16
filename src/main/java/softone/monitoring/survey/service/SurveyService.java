@@ -6,6 +6,8 @@ import java.util.Map;
 public interface SurveyService {
 	List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception;
 	
+	Map<String, Object> selectVictimInfo(Map<String, Object> map) throws Exception;
+	
 	Map<String, Object> selectSurveyResultAdultNew(Map<String, Object> map) throws Exception;
 	
 	Map<String, Object> selectSurveyMaster(Map<String, Object> map) throws Exception;

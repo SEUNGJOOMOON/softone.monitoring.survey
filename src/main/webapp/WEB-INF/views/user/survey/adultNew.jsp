@@ -93,7 +93,7 @@
 		<div id="btn_close" class="btn_close2">정보닫기</div>
 	</div>
 	
-	
+	<!-- 설문지 작성영역 -->
 	<div id="fullpage">
 		<div id="survey_cover" class="survey_cover">
 			<div class="survey_cover_img">
@@ -309,14 +309,14 @@
 						<span class="qest_no">05 Question</span>
 						<div class="qest_title"><span class="view_quest_no">05.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN5}" escapeXml="false" /></div>
 						<div class="qest_anwer_wrap">
-							<label class="label_txt" ><input type="checkbox" <c:if test="${result.Q5_0 eq '1'}">checked='checked'</c:if> class="input_check">아니오<br /></label>
-							<label class="label_txt" ><input type="checkbox" <c:if test="${result.Q5_0 eq '2'}">checked='checked'</c:if> class="input_check">과거에 흡연하였으나 현재는 끊음<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_1_0) and (result.Q5_1_0 ne '-')}">checked='chekced'</c:if> class="input_check">금연하신지는 몇 년 되셨습니까?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_0}"/>' />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_1_1) and (result.Q5_1_1 ne '-')}"> checked='chekced'</c:if> class="input_check">금연 전까지 흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_1}"/>' />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_1_2) and (result.Q5_1_2 ne '-')}">  checked='chekced'</c:if>class="input_check">금연 전 하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_2}"/>' />(개비)<br /></label>
-							<label class="label_txt"><input type="checkbox"  <c:if test="${result.Q5_0 eq '3'}">checked='checked'</c:if> class="input_check">현재도 흡연중<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_2_0) and (result.Q5_2_0 ne '-')}"> checked='chekced'</c:if> class="input_check">흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_0}"/>' />년<br /></label>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt"><input type="checkbox" <c:if test="${(not empty result.Q5_2_1) and (result.Q5_2_1 ne '-')}"> checked='chekced'</c:if> class="input_check">하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_1}"/>' />(개비)<br /></label>
+							<label class="label_txt" ><input type="radio" name="q05" <c:if test="${result.Q5_0 eq '1'}">checked='checked'</c:if> class="input_radio">아니오<br /></label>
+							<label class="label_txt" ><input type="radio" name="q05"<c:if test="${result.Q5_0 eq '2'}">checked='checked'</c:if> class="input_radio">과거에 흡연하였으나 현재는 끊음<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt">- 금연하신지는 몇 년 되셨습니까?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_0}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt">- 금연 전까지 흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_1}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt">- 금연 전 하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_1_2}"/>' />(개비)<br /></label>
+							<label class="label_txt"><input type="radio" name="q05" <c:if test="${result.Q5_0 eq '3'}">checked='checked'</c:if> class="input_radio">현재도 흡연중<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt">- 흡연기간은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_0}"/>' />년<br /></label>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt">- 하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_1}"/>' />(개비)<br /></label>
 						</div>
 						<div class="qest_btn_group">
 							<input type="button" class="btn_prev" turn="4" value="이전">
@@ -602,8 +602,8 @@
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_4_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 기관지염(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_4_2}"/>' />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_5_1 eq '1'}">checked='checked'</c:if> class="input_check">독감(인플루엔자)(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_5_2}"/>' />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_6_1 eq '1'}">checked='checked'</c:if> class="input_check">기타<br /></label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_2}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q10_1_6_3}"/>' class="input_txt_s" />회)<br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_4}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q10_1_6_5}"/>' class="input_txt_s" />회)<br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_2}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q10_1_6_3}"/>' class="input_txt_s" />회)</span><br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_4}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q10_1_6_5}"/>' class="input_txt_s" />회)</span><br />
 							</div>
 						</div>
 						<div class="qest_btn_group">
@@ -662,8 +662,8 @@
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_4_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 기관지염(<input type="text" value='<c:out value="${result.Q11_2_4_2}"/>' class="input_txt_s" />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_5_1 eq '1'}">checked='checked'</c:if>  class="input_check">독감(인플루엔자)(<input type="text" value='<c:out value="${result.Q11_2_5_2}"/>' class="input_txt_s" />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_6_1 eq '1'}">checked='checked'</c:if>  class="input_check">기타<br /></label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_2}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q11_2_6_3}"/>' class="input_txt_s" />회)<br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_4}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q11_2_6_5}"/>' class="input_txt_s" />회)<br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_2}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q11_2_6_3}"/>' class="input_txt_s" />회)</span><br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_4}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q11_2_6_5}"/>' class="input_txt_s" />회)</span><br />
 							</div>
 						</div>
 						<div class="qest_btn_group">
