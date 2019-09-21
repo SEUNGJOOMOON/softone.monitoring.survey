@@ -157,9 +157,9 @@
 							
 							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '1')}">checked='checked'</c:if>>출산/육아<br /></label>
 							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '2')}">checked='checked'</c:if>>가습기 사용 중 청결을 위해서<br /></label>
-							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '3')}">checked='checked'</c:if>>호흡기 증상이 있어서 사용(진단명 : <input type="text" class="input_txt_s" value='<c:out value="${result.Q1_2}"/>'>)<br /></label>
-							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '4')}">checked='checked'</c:if>>피부 증상이 있어서 사용(진단명 : <input type="text" class="input_txt_s" value='<c:out value="${result.Q1_3}"/>'>)<br /></label>
-							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '5')}">checked='checked'</c:if>>기타(<input type="text" class="input_txt_s" value='<c:out value="${result.Q1_4T}"/>'>)</label>
+							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '3')}">checked='checked'</c:if>>호흡기 증상이 있어서 사용(진단명 : <input type="text" class="input_txt_m" value='<c:out value="${result.Q1_2}"/>'>)<br /></label>
+							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '4')}">checked='checked'</c:if>>피부 증상이 있어서 사용(진단명 : <input type="text" class="input_txt_m" value='<c:out value="${result.Q1_3}"/>'>)<br /></label>
+							<label class="label_txt"><input type="checkbox" class="input_check" <c:if test="${fn:contains(result.Q1, '5')}">checked='checked'</c:if>>기타(<input type="text" class="input_txt_m" value='<c:out value="${result.Q1_4T}"/>'>)</label>
 						</div>
 						<div class="qest_btn_group">
 							<input type="button" class="btn_next" turn="0" value="다음">
@@ -257,7 +257,7 @@
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="1" value="이전">
+							<input type="button" class="btn_prev" turn="1" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="1" value="다음">
 						</div>
 					</div>
@@ -279,7 +279,7 @@
 							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q3 eq '6'}">checked='checked'</c:if> name="q03-1">해당 없음.<br /></label>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="2" value="이전">
+							<input type="button" class="btn_prev" turn="2" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="2" value="다음">
 						</div>
 					</div>
@@ -297,7 +297,7 @@
 							<label class="label_txt"><input type="radio" class="input_radio" <c:if test="${result.Q4 eq '2'}">checked='checked'</c:if> name="q04-1">아니오<br /></label>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="3" value="이전">
+							<input type="button" class="btn_prev" turn="3" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="3" value="다음">
 						</div>
 					</div>
@@ -319,7 +319,7 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label class="label_txt">- 하루 평균 흡연량은?<input type="text" class="input_txt_s" value='<c:out value="${result.Q5_2_1}"/>' />(개비)<br /></label>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="4" value="이전">
+							<input type="button" class="btn_prev" turn="4" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="4" value="다음">
 						</div>
 					</div>
@@ -456,7 +456,7 @@
 							</table>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="5" value="이전">
+							<input type="button" class="btn_prev" turn="5" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="5" value="다음">
 						</div>
 					</div>
@@ -489,7 +489,7 @@
 							</table>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="6" value="이전">
+							<input type="button" class="btn_prev" turn="6" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="6" value="다음">
 						</div>
 					</div>
@@ -523,7 +523,7 @@
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="7" value="이전">
+							<input type="button" class="btn_prev" turn="7" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="7" value="다음">
 						</div>
 					</div>
@@ -574,7 +574,7 @@
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="8" value="이전">
+							<input type="button" class="btn_prev" turn="8" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="8" value="다음">
 						</div>
 					</div>
@@ -596,18 +596,18 @@
 							<div class="subQuestLine"></div>
 							<div class="subQuest" name="q10-1"><c:out value="${surveyQn.QN10_1}" escapeXml="false" /></div>
 							<div class="subAnwer" name="q10-1">
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_1_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 인두염/편도염(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_1_2}"/>' />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_2_1 eq '1'}">checked='checked'</c:if> class="input_check">급성/만성 부비동염 (축농증)(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_2_2}"/>' />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_3_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 폐렴(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_3_2}"/>' />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_4_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 기관지염(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_4_2}"/>' />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_5_1 eq '1'}">checked='checked'</c:if> class="input_check">독감(인플루엔자)(<input type="text" class="input_txt_s" value='<c:out value="${result.Q10_1_5_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_1_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 인두염/편도염(<input type="text" class="input_txt_40" value='<c:out value="${result.Q10_1_1_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_2_1 eq '1'}">checked='checked'</c:if> class="input_check">급성/만성 부비동염 (축농증)(<input type="text" class="input_txt_40" value='<c:out value="${result.Q10_1_2_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_3_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 폐렴(<input type="text" class="input_txt_40" value='<c:out value="${result.Q10_1_3_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_4_1 eq '1'}">checked='checked'</c:if> class="input_check">급성 기관지염(<input type="text" class="input_txt_40" value='<c:out value="${result.Q10_1_4_2}"/>' />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_5_1 eq '1'}">checked='checked'</c:if> class="input_check">독감(인플루엔자)(<input type="text" class="input_txt_40" value='<c:out value="${result.Q10_1_5_2}"/>' />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q10_1_6_1 eq '1'}">checked='checked'</c:if> class="input_check">기타<br /></label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_2}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q10_1_6_3}"/>' class="input_txt_s" />회)</span><br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_4}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q10_1_6_5}"/>' class="input_txt_s" />회)</span><br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_2}"/>' class="input_txt_100">(<input type="text" value='<c:out value="${result.Q10_1_6_3}"/>' class="input_txt_40" />회)</span><br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q10_1_6_4}"/>' class="input_txt_100">(<input type="text" value='<c:out value="${result.Q10_1_6_5}"/>' class="input_txt_40" />회)</span><br />
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="9" value="이전">
+							<input type="button" class="btn_prev" turn="9" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="9" value="다음">
 						</div>
 					</div>
@@ -656,18 +656,18 @@
 							<div class="subQuestLine"></div>
 							<div class="subQuest" name="q11-1"><c:out value="${surveyQn.QN11_2}" escapeXml="false" /></div>
 							<div class="subAnwer" name="q11-1">
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_1_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 인두염/편도염(<input type="text" value='<c:out value="${result.Q11_2_1_2}"/>' class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_2_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성/만성 부비동염 (축농증)(<input type="text" value='<c:out value="${result.Q11_2_2_2}"/>' class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_3_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 폐렴(<input type="text" value='<c:out value="${result.Q11_2_3_2}"/>' class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_4_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 기관지염(<input type="text" value='<c:out value="${result.Q11_2_4_2}"/>' class="input_txt_s" />회)<br /></label>
-								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_5_1 eq '1'}">checked='checked'</c:if>  class="input_check">독감(인플루엔자)(<input type="text" value='<c:out value="${result.Q11_2_5_2}"/>' class="input_txt_s" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_1_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 인두염/편도염(<input type="text" value='<c:out value="${result.Q11_2_1_2}"/>' class="input_txt_40" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_2_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성/만성 부비동염 (축농증)(<input type="text" value='<c:out value="${result.Q11_2_2_2}"/>' class="input_txt_40" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_3_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 폐렴(<input type="text" value='<c:out value="${result.Q11_2_3_2}"/>' class="input_txt_40" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_4_1 eq '1'}">checked='checked'</c:if>  class="input_check">급성 기관지염(<input type="text" value='<c:out value="${result.Q11_2_4_2}"/>' class="input_txt_40" />회)<br /></label>
+								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_5_1 eq '1'}">checked='checked'</c:if>  class="input_check">독감(인플루엔자)(<input type="text" value='<c:out value="${result.Q11_2_5_2}"/>' class="input_txt_40" />회)<br /></label>
 								<label class="label_txt"><input type="checkbox" <c:if test="${result.Q11_2_6_1 eq '1'}">checked='checked'</c:if>  class="input_check">기타<br /></label>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_2}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q11_2_6_3}"/>' class="input_txt_s" />회)</span><br />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_4}"/>' class="input_txt_s">(<input type="text" value='<c:out value="${result.Q11_2_6_5}"/>' class="input_txt_s" />회)</span><br />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">①&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_2}"/>' class="input_txt_100">(<input type="text" value='<c:out value="${result.Q11_2_6_3}"/>' class="input_txt_40" />회)</span><br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="span_font15">②&nbsp;&nbsp;<input type="text" value='<c:out value="${result.Q11_2_6_4}"/>' class="input_txt_100">(<input type="text" value='<c:out value="${result.Q11_2_6_5}"/>' class="input_txt_40" />회)</span><br />
 							</div>
 						</div>
 						<div class="qest_btn_group">
-							<input type="button" class="btn_prev" turn="10" value="이전">
+							<input type="button" class="btn_prev" turn="10" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="button" class="btn_next" turn="10" value="다음">
 						</div>
 					</div>
@@ -683,7 +683,7 @@
 								(<input type="text" class="input_txt" value='<c:out value="${result.Q12}"/>' />)
 							</div>
 							<div class="qest_btn_group">
-								<input type="button" class="btn_prev" turn="11" value="이전">
+								<input type="button" class="btn_prev" turn="11" value="이전">&nbsp;&nbsp;&nbsp;&nbsp;
 								<input type="button" class="btn_next" turn="11" value="설문완료">
 							</div>
 						</div>
@@ -691,7 +691,7 @@
 				</div>
 			</div>
 		</div>
-			<div class="navigation">
+		<div class="navigation">
 			<ul>
 				<li><a href="#questionGroup/question1" class="navi-dot active-dot" id="slide1_dot" ></a></li>
 				<li><a href="#questionGroup/question2" class="navi-dot" id="slide2_dot" ></a></li>

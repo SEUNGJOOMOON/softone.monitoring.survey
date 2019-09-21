@@ -13,4 +13,10 @@ public interface SurveyService {
 	Map<String, Object> selectSurveyMaster(Map<String, Object> map) throws Exception;
 	
 	Map<String, Object> selectSurveyQnAdultNew() throws Exception;
+
+	List<Map<String, Object>> selectSurveyQnEx(Map<String, Object> map) throws Exception;
+	
+	List<Map<String, Object>> selectSurveyQn(Map<String, Object> map) throws Exception;
+	
+	List<Map<String, Object>> selectSurveyEx(Map<String, Object> map) throws Exception;
 }

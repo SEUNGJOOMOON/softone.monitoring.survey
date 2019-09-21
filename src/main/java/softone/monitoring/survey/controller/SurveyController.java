@@ -1,7 +1,10 @@
 package softone.monitoring.survey.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
@@ -49,11 +52,61 @@ public class SurveyController {
 		mv.addObject("result", result);
 		mv.addObject("surveyMaster", surveyMaster);
 		return mv;
+	} 
+//	구조변경
+	@RequestMapping(value = "/user/test2.do")
+	public String test2() throws Exception {
+		return "/user/survey_test2";
+	}
+	@RequestMapping(value = "/user/survey/surveyprocess2.do")
+	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd) throws Exception {
+
+		ModelAndView mv = new ModelAndView("/user/survey/survey");
+
+		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
+		surveyParams.put("orgCd",orgCd);
+		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
+		
+		
+		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
+		List<Map<String, Object>> surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
+		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();
+		
+		for (Map<String, Object> qn : surveyQn) {//질문 리스트에 해당 질문에 해당하는 보기를 넣음.
+		  String qnCd = qn.get("QN_CD").toString();
+		  List<Map<String, Object>> surveySubEx = new ArrayList<Map<String, Object>>();
+		  for (Map<String, Object> ex : surveyEx) {//질문보기 loop
+			  if(ex.get("QN_CD").toString().equals(qnCd)){
+				  surveySubEx.add(ex);
+			  }
+		  }
+		  
+		  
+		  qn.put("QN_EX", surveySubEx);
+		  surveyQnEx.add(qn);
+		}
+		
+		//서브질문 분리
+		for(Iterator<Map<String, Object>> it = surveyQnEx.iterator() ; it.hasNext() ; ) {
+		  Map<String, Object> qnEx = it.next();
+		  if(qnEx.get("P_QN_CD") != null) {
+			 surveySubQnEx.add(qnEx);
+		    it.remove();
+		  }
+		}
+		
+		mv.addObject("surveySubQnEx", surveySubQnEx);
+		mv.addObject("surveyQnEx", surveyQnEx);
+		mv.addObject("viewMode", viewMode);
+		mv.addObject("surveyMaster", surveyMaster);
+		return mv;
 	}
 	
+	
 //	실사용
-	@RequestMapping(value = "/user/survey/surveyprocess2.do")
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, String sufrerPin, String sufrerNm) throws Exception {
+	@RequestMapping(value = "/user/survey/surveyprocess-real.do")
+	public ModelAndView surveyProcessReal(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, String sufrerPin, String sufrerNm) throws Exception {
 		
 		Map<String, Object> surveyQn = null;
 		Map<String, Object> victimInfo = null;

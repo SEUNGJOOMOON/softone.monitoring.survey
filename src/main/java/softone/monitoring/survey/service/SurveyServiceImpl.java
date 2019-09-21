@@ -30,4 +30,16 @@ public class SurveyServiceImpl implements SurveyService {
 	public Map<String, Object> selectSurveyQnAdultNew() throws Exception {
 		return surveyDAO.selectSurveyQnAdultNew();
 	}
+	@Override
+	public List<Map<String, Object>> selectSurveyQnEx(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectSurveyQnEx(map);
+	}
+	@Override
+	public List<Map<String, Object>> selectSurveyQn(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectSurveyQn(map);
+	}
+	@Override
+	public List<Map<String, Object>> selectSurveyEx(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectSurveyEx(map);
+	}
 }

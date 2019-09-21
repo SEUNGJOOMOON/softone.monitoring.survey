@@ -9,77 +9,6 @@
 			from connect_test
 		]]>
 	</select>
-	
-	<select id="selectSurveyMaster" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-			SELECT SURVEY_ANS_MST_SN, SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, HSPTL_ID, REGEXP_REPLACE(SUFRER_PIN, '.', '*', 8) AS SUFRER_PIN, REGEXP_REPLACE(SUFRER_NM, '.', '*', 3) AS SUFRER_NM, SEXDSTN, BRTHDY, SUFRER_RELATE, SURVEY_DT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, ANS_NM
-			FROM SURVEY.SURVEY_ANS_MST
-			where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd}
-		]]>
-	</select>
-	
-	<select id="selectSurveyQn" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-			Select QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_TYPE, QN_CD, QN_SE, QN_GRP, QN_NM, P_QN_CD, EX_TYPE, EX_TYPE_TXT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR
-			From Survey_qn
-			Where Survey_sn = 1 And Survey_cd = '건강영향(성인)'
-			Order By Qn_cd
-		]]>
-	</select>
-	
-	
-	<select id="selectSurveyEx" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-			Select QN_EX_SN, QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_CD, EX_CD, EX_TYPE, EX_QN_LINK, EX_NM, EX_TXT1_UNIT, EX_TXT2_UNIT, EX_IMG_LINK, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, EX_INNER_AT, EX_CLASS1, EX_CLASS2
-			From Survey_qn_ex
-			Where Survey_sn = 1 And Survey_cd = '건강영향(성인)'
-			Order By Qn_cd,Ex_cd
-		]]>
-	</select>
-	
-	
-	<select id="selectSurveyQnEx" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-			Select Qn.Qn_type, Qn.Qn_cd, Qn.Qn_nm, Qn.P_qn_cd, Qn.Ex_type, Ex.Ex_type As Ex_type2, Ex.Ex_cd, Ex_qn_link, Ex.Ex_nm, Ex.Ex_txt1_unit, Ex.Ex_txt2_unit, Ex.Ex_img_link
-			From Survey_qn Qn, Survey_qn_ex Ex
-			Where Qn.Survey_sn = 1 And Qn.Survey_cd = '건강영향(성인)' And Qn.Qn_cd = Ex.Qn_cd
-			Order By Qn.Qn_cd
-		]]>
-	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	<select id="selectVictimInfo" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
@@ -91,7 +20,13 @@
 
 	
 
-	
+	<select id="selectSurveyMaster" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT SURVEY_ANS_MST_SN, SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, HSPTL_ID, REGEXP_REPLACE(SUFRER_PIN, '.', '*', 8) AS SUFRER_PIN, REGEXP_REPLACE(SUFRER_NM, '.', '*', 3) AS SUFRER_NM, SEXDSTN, BRTHDY, SUFRER_RELATE, SURVEY_DE, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, ANS_NM
+			FROM SURVEY.SURVEY_ANS_MST
+			where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd}
+		]]>
+	</select>
 	
 	
 	<select id="selectSurveyQnAdultNew" resultType="hashmap">
