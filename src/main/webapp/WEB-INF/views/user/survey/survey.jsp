@@ -157,41 +157,45 @@
 	
 							<div class="qest_title"><span class="view_quest_no">01.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
 							<div class="qest_anwer_wrap">
-								<c:forEach var="qnEx" items="${surveyQn.QN_EX}" varStatus="status2">
-									<c:if test="${surveyQn.EX_TYPE eq '일반'}"><!-- 일반 항목 -->
-										<c:if test="${qnEx.EX_INNER_AT eq 'Y' }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
-										<c:if test="${qnEx.EX_TYPE eq '선택'}">
-											<label class="label_txt">
-												<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
-													<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
-												</c:if>
-												<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
-													<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>"/>
-												</c:if>
-												<c:out value="${qnEx.EX_NM}"/>
-											</label><br/>
+								<c:if test="${surveyQn.EX_TYPE ne '표'}"><!-- 일반 -->
+									<c:forEach var="qnEx" items="${surveyQn.QN_EX}" varStatus="qn_status">
+										<c:if test="${surveyQn.EX_TYPE eq '일반'}"><!-- 일반 항목 -->
+											<c:if test="${qnEx.EX_INNER_AT eq 'Y' }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
+											<c:if test="${qnEx.EX_TYPE eq '선택'}">
+												<label class="label_txt">
+													<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
+														<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
+													</c:if>
+													<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
+														<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>"/>
+													</c:if>
+													<c:out value="${qnEx.EX_NM}"/>
+												</label><br/>
+											</c:if>
+											<c:if test="${qnEx.EX_TYPE eq '선택(텍스트)'}">
+												<label class="label_txt">
+													<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
+														<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
+													</c:if>
+													<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
+														<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
+													</c:if>
+													<c:out value="${qnEx.EX_NM}"/>
+													(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_m" /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
+												</label><br/>
+											</c:if>
+											<c:if test="${qnEx.EX_TYPE eq '텍스트'}">
+												(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_100" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>"  /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
+												<br/>
+											</c:if>
 										</c:if>
-										<c:if test="${qnEx.EX_TYPE eq '선택(텍스트)'}">
-											<label class="label_txt">
-												<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
-													<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
-												</c:if>
-												<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
-													<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
-												</c:if>
-												<c:out value="${qnEx.EX_NM}"/>
-												(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_m" /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
-											</label><br/>
-										</c:if>
-										<c:if test="${qnEx.EX_TYPE eq '텍스트'}">
-											(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_100" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>"  /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
-											<br/>
-										</c:if>
-									</c:if>
-								</c:forEach>
+									</c:forEach>
+								</c:if>
 								<c:if test="${surveyQn.EX_TYPE eq '표'}"><!-- 표 항목 -->
 									<jsp:include page="./survey_table.jsp">
-									    <jsp:param name="surveyQn" value="${surveyQn}"/>
+										<jsp:param name="SURVEY_SN" value="${surveyQn.SURVEY_SN}"/>
+										<jsp:param name="SURVEY_CD" value="${surveyQn.SURVEY_CD}"/>
+									    <jsp:param name="QN_CD" value="${surveyQn.QN_CD}"/>
 									</jsp:include>
 								</c:if>
 								<!-- 서브질문  -->
@@ -201,41 +205,50 @@
 											<c:out value="${subQnEx.QN_NM}" escapeXml="false" />
 										</div>
 										<div class="subAnwer" style="display: block;" name="q11-1">
-											<c:forEach var="qnEx" items="${subQnEx.QN_EX}" varStatus="status2">
-												<c:if test="${subQnEx.EX_TYPE eq '일반'}"><!-- 일반 항목 -->
-												<c:if test="${qnEx.EX_INNER_AT eq 'Y' }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
-												<c:if test="${qnEx.EX_TYPE eq '선택'}">
-													<label class="label_txt">
-														<c:if test="${subQnEx.QN_TYPE eq '복수(체크)'}">
-															<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
+											
+											<c:if test="${subQnEx.EX_TYPE ne '표'}"><!-- 일반 항목 -->
+												<c:forEach var="qnEx" items="${subQnEx.QN_EX}" varStatus="qn_status">
+													<c:if test="${subQnEx.EX_TYPE eq '일반'}"><!-- 일반 항목 -->
+														<c:if test="${qnEx.EX_INNER_AT eq 'Y' }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
+														<c:if test="${qnEx.EX_TYPE eq '선택'}">
+															<label class="label_txt">
+																<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
+																	<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
+																</c:if>
+																<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
+																	<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>"/>
+																</c:if>
+																<c:out value="${qnEx.EX_NM}"/>
+															</label><br/>
 														</c:if>
-														<c:if test="${subQnEx.QN_TYPE eq '단수(라디오)'}">
-															<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>"/>
+														<c:if test="${qnEx.EX_TYPE eq '선택(텍스트)'}">
+															<label class="label_txt">
+																<c:if test="${subQnEx.QN_TYPE eq '복수(체크)'}">
+																	<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
+																</c:if>
+																<c:if test="${subQnEx.QN_TYPE eq '단수(라디오)'}">
+																	<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
+																</c:if>
+																<c:out value="${qnEx.EX_NM}"/>
+																(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_m" /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
+															</label><br/>
 														</c:if>
-														<c:out value="${qnEx.EX_NM}"/>
-													</label><br/>
-												</c:if>
-												<c:if test="${qnEx.EX_TYPE eq '선택(텍스트)'}">
-													<label class="label_txt">
-														<c:if test="${subQnEx.QN_TYPE eq '복수(체크)'}">
-															<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
+														<c:if test="${qnEx.EX_TYPE eq '텍스트'}">
+															(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_100" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>"  /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
+															<br/>
 														</c:if>
-														<c:if test="${subQnEx.QN_TYPE eq '단수(라디오)'}">
-															<input type="radio" class="input_radio" name='<c:out value="${subQnEx.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
-														</c:if>
-														<c:out value="${qnEx.EX_NM}"/>
-														(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_m" /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
-													</label><br/>
-												</c:if>
-												<c:if test="${qnEx.EX_TYPE eq '텍스트'}">
-													(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_100" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>"  /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
-													<br/>
-												</c:if>
-												</c:if>
-												<c:if test="${subQnEx.EX_TYPE eq '표'}"><!-- 표 항목 -->
-													표
-												</c:if>
-											</c:forEach>
+													</c:if>
+												</c:forEach>
+											</c:if>
+											<c:if test="${subQnEx.EX_TYPE eq '표'}"><!-- 표 항목 -->
+												<jsp:include page="./survey_table.jsp">
+													<jsp:param name="SURVEY_SN" value="${subQnEx.SURVEY_SN}"/>
+													<jsp:param name="SURVEY_CD" value="${subQnEx.SURVEY_CD}"/>
+												    <jsp:param name="QN_CD" value="${subQnEx.QN_CD}"/>
+												</jsp:include>
+											</c:if>
+											
+											
 										</div>
 									</c:if>
 								</c:forEach>

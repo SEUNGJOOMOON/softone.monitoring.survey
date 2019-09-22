@@ -82,8 +82,9 @@ public class SurveyController {
 			  }
 		  }
 		  
-		  
+		  System.out.println(qn);
 		  qn.put("QN_EX", surveySubEx);
+		  System.out.println(qn);
 		  surveyQnEx.add(qn);
 		}
 		
@@ -92,7 +93,7 @@ public class SurveyController {
 		  Map<String, Object> qnEx = it.next();
 		  if(qnEx.get("P_QN_CD") != null) {
 			 surveySubQnEx.add(qnEx);
-		    it.remove();
+			 it.remove();
 		  }
 		}
 		
