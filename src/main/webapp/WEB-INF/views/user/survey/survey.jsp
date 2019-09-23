@@ -7,9 +7,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>[건강영향설문조사]성인용(첫방문)</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=1.0,user-scalable=yes">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=1.0,user-scalable=yes"/>
+<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common2.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/fullpage.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scrolloverflow.js"></script>
@@ -78,8 +78,8 @@
 	<div class="surveyTop">
 		<div class="st_con">
 			<div class="surveyLogo">
-				<img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo">
-				<img src="${pageContext.request.contextPath}/resources/img/logo_kor.gif" alt="" class="kor_logo">
+				<img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo" />
+				<img src="${pageContext.request.contextPath}/resources/img/logo_kor.gif" alt="" class="kor_logo" />
 			</div>
 			<div class="surveyTitle"><c:out value="${surveyMaster.SURVEY_NM}"/></div>
 
@@ -159,15 +159,16 @@
 							<div class="qest_anwer_wrap">
 								<c:if test="${surveyQn.EX_TYPE ne '표'}"><!-- 일반 -->
 									<c:forEach var="qnEx" items="${surveyQn.QN_EX}" varStatus="qn_status">
+										
 										<c:if test="${surveyQn.EX_TYPE eq '일반'}"><!-- 일반 항목 -->
 											<c:if test="${qnEx.EX_INNER_AT eq 'Y' }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 											<c:if test="${qnEx.EX_TYPE eq '선택'}">
 												<label class="label_txt">
 													<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
-														<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
+														<input type="checkbox" class="input_check" <c:if test="${qnEx.ANS_VALUE eq 'Y' }">checked='checked'</c:if> qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
 													</c:if>
 													<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
-														<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>"/>
+														<input type="radio" class="input_radio" <c:if test="${qnEx.ANS_VALUE eq 'Y' }">checked='checked'</c:if> name='<c:out value="${qnEx.EX_GROUP}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>"/>
 													</c:if>
 													<c:out value="${qnEx.EX_NM}"/>
 												</label><br/>
@@ -178,7 +179,7 @@
 														<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
 													</c:if>
 													<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
-														<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
+														<input type="radio" class="input_radio" name='<c:out value="${qnEx.EX_GROUP}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
 													</c:if>
 													<c:out value="${qnEx.EX_NM}"/>
 													(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_m" /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
@@ -200,23 +201,25 @@
 								</c:if>
 								<!-- 서브질문  -->
 								<c:forEach var="subQnEx" items="${surveySubQnEx}" varStatus="status3">
+								
 									<c:if test="${subQnEx.P_QN_CD eq surveyQn.QN_CD }">
-										<div class="subQuest" style="display: block;" name="q11-1">
+										<div class="subQuest" style="display: block;" name="<c:out value='${subQnEx.QN_CD}'/>">
 											<c:out value="${subQnEx.QN_NM}" escapeXml="false" />
 										</div>
-										<div class="subAnwer" style="display: block;" name="q11-1">
+										<div class="subAnwer" style="display: block;" name="<c:out value='${subQnEx.QN_CD}'/>">
 											
 											<c:if test="${subQnEx.EX_TYPE ne '표'}"><!-- 일반 항목 -->
 												<c:forEach var="qnEx" items="${subQnEx.QN_EX}" varStatus="qn_status">
+												
 													<c:if test="${subQnEx.EX_TYPE eq '일반'}"><!-- 일반 항목 -->
 														<c:if test="${qnEx.EX_INNER_AT eq 'Y' }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
 														<c:if test="${qnEx.EX_TYPE eq '선택'}">
 															<label class="label_txt">
-																<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
+																<c:if test="${subQnEx.QN_TYPE eq '복수(체크)'}">
 																	<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
 																</c:if>
-																<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
-																	<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>"/>
+																<c:if test="${subQnEx.QN_TYPE eq '단수(라디오)'}">
+																	<input type="radio" class="input_radio" name='<c:out value="${qnEx.EX_GROUP}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>"/>
 																</c:if>
 																<c:out value="${qnEx.EX_NM}"/>
 															</label><br/>
@@ -227,7 +230,7 @@
 																	<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
 																</c:if>
 																<c:if test="${subQnEx.QN_TYPE eq '단수(라디오)'}">
-																	<input type="radio" class="input_radio" name='<c:out value="${surveyQn.QN_CD}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
+																	<input type="radio" class="input_radio" name='<c:out value="${qnEx.EX_GROUP}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
 																</c:if>
 																<c:out value="${qnEx.EX_NM}"/>
 																(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_m" /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
@@ -251,7 +254,7 @@
 											
 										</div>
 									</c:if>
-								</c:forEach>
+								</c:forEach> 
 							</div>
 							<div class="qest_btn_group">
 								<c:if test='${not status.first}'><input type="button" class="btn_prev" turn="<c:out value='${status.index}' />" value="이전" /></c:if>

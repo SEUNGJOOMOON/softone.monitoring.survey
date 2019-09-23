@@ -102,104 +102,104 @@
 		</tr>
 		<tr>
 			<td class="align_left font_14">인두염 / 편도염</td>
-			<td><label><input type="radio" class="input_radio" name="q06-1" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-1" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-1" qncd="Q06" excd="01_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-1" qncd="Q06" excd="01_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="01_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="01_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="01_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">부비동염 / 축농증</td>
-			<td><label><input type="radio" class="input_radio" name="q06-1" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-1" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-1" qncd="Q06" excd="02_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-1" qncd="Q06" excd="02_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="02_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="02_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="02_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">천 식</td>
-			<td><label><input type="radio" class="input_radio" name="q06-2" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-2" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-2" qncd="Q06" excd="03_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-2" qncd="Q06" excd="03_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="03_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="03_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="03_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">결 핵</td>
-			<td><label><input type="radio" class="input_radio" name="q06-3" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-3" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-3" qncd="Q06" excd="04_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-3" qncd="Q06" excd="04_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="04_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="04_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="04_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">기관지염</td>
-			<td><label><input type="radio" class="input_radio" name="q06-4" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-4" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-4" qncd="Q06" excd="05_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-4" qncd="Q06" excd="05_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="05_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="05_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="05_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">폐 렴</td>
-			<td><label><input type="radio" class="input_radio" name="q06-5" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-5" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-5" qncd="Q06" excd="06_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-5" qncd="Q06" excd="06_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="06_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="06_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="06_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">기관지확장증</td>
-			<td><label><input type="radio" class="input_radio" name="q06-6" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-6" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-6" qncd="Q06" excd="07_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-6" qncd="Q06" excd="07_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="07_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="07_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="07_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">비 염</td>
-			<td><label><input type="radio" class="input_radio" name="q06-7" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-7" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-7" qncd="Q06" excd="08_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-7" qncd="Q06" excd="08_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="08_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="08_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="08_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14" >중이염</td>
-			<td><label><input type="radio" class="input_radio" name="q06-8" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-8" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-8" qncd="Q06" excd="09_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-8" qncd="Q06" excd="09_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="09_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="09_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="09_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">아토피 피부염</td>
-			<td><label><input type="radio" class="input_radio" name="q06-9" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-9" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-9" qncd="Q06" excd="10_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-9" qncd="Q06" excd="10_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="10_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="10_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="10_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">결막염</td>
-			<td><label><input type="radio" class="input_radio" name="q06-10" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-10" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-10" qncd="Q06" excd="11_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-10" qncd="Q06" excd="11_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="11_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="11_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="11_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">독성 간염</td>
-			<td><label><input type="radio" class="input_radio" name="q06-11" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio"  name="q06-11" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-11" qncd="Q06" excd="12_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio"  name="q06-11" qncd="Q06" excd="12_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="12_02" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="12_03" qnType="복수(체크)"></td>
 			<td class="align_center"><input type="checkbox" class="input_check" qncd="Q06" excd="12_04" qnType="복수(체크)"></td>
 		</tr>
 		<tr>
 			<td class="align_left font_14">간질성폐렴(폐섬유화)</td>
-			<td><label><input type="radio" class="input_radio" name="q06-12" qncd="Q06" excd="06_01" qnType="단수(라디오)">예</label><br />
-				<label><input type="radio" class="input_radio" name="q06-12" qncd="Q06" excd="06_01" qnType="단수(라디오)">아니오</label></td>
+			<td><label><input type="radio" class="input_radio" name="q06-12" qncd="Q06" excd="13_01_01" qnType="단수(라디오)">예</label><br />
+				<label><input type="radio" class="input_radio" name="q06-12" qncd="Q06" excd="13_01_02" qnType="단수(라디오)">아니오</label></td>
 			<td colspan="3" class="align_left">진단명 상세 : <textarea class="txt_area" ></textarea></td>
 		</tr>
 	</table>

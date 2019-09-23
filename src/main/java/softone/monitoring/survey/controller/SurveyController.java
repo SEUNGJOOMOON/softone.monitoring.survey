@@ -69,7 +69,7 @@ public class SurveyController {
 		
 		
 		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
-		List<Map<String, Object>> surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
+		List<Map<String, Object>> surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
 		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();
 		

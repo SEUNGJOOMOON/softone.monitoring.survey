@@ -42,4 +42,7 @@ public class SurveyServiceImpl implements SurveyService {
 	public List<Map<String, Object>> selectSurveyEx(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyEx(map);
 	}
+	public List<Map<String, Object>> selectSurveyExWithAns(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectSurveyExWithAns(map);
+	}
 }
