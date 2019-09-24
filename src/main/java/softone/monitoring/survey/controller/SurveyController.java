@@ -45,7 +45,6 @@ public class SurveyController {
 		Map<String, Object> surveyQn = surveyService.selectSurveyQnAdultNew();
 		Map<String, Object> result = surveyService.selectSurveyResultAdultNew(surveyParams);
 		
-		System.out.print(surveyQn);
 		
 		mv.addObject("viewMode", viewMode);
 		mv.addObject("surveyQn", surveyQn);
@@ -82,9 +81,8 @@ public class SurveyController {
 			  }
 		  }
 		  
-		  System.out.println(qn);
 		  qn.put("QN_EX", surveySubEx);
-		  System.out.println(qn);
+
 		  surveyQnEx.add(qn);
 		}
 		

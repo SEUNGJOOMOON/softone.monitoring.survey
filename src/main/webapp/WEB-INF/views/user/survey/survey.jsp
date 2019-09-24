@@ -11,6 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common2.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_ex_class.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/fullpage.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scrolloverflow.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fullpage.js"></script>
@@ -154,51 +155,20 @@
 						
 						<div class="qest_wrap">
 							<span class="qest_no"><c:out value="${surveyQn.QN_CD}"/> Question</span>
-	
+							<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE1'}">
+								<div class="quest_red">
+									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
+								</div>
+							</c:if>
+							<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE2'}">
+								<div class="quest_end">
+									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
+								</div>
+							</c:if>
 							<div class="qest_title"><span class="view_quest_no">01.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
 							<div class="qest_anwer_wrap">
-								<c:if test="${surveyQn.EX_TYPE ne '표'}"><!-- 일반 -->
-									<c:forEach var="qnEx" items="${surveyQn.QN_EX}" varStatus="qn_status">
-										
-										<c:if test="${surveyQn.EX_TYPE eq '일반'}"><!-- 일반 항목 -->
-											<c:if test="${qnEx.EX_INNER_AT eq 'Y' }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
-											<c:if test="${qnEx.EX_TYPE eq '선택'}">
-												<label class="label_txt">
-													<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
-														<input type="checkbox" class="input_check" <c:if test="${qnEx.ANS_VALUE eq 'Y' }">checked='checked'</c:if> qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
-													</c:if>
-													<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
-														<input type="radio" class="input_radio" <c:if test="${qnEx.ANS_VALUE eq 'Y' }">checked='checked'</c:if> name='<c:out value="${qnEx.EX_GROUP}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>"/>
-													</c:if>
-													<c:out value="${qnEx.EX_NM}"/>
-												</label><br/>
-											</c:if>
-											<c:if test="${qnEx.EX_TYPE eq '선택(텍스트)'}">
-												<label class="label_txt">
-													<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
-														<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
-													</c:if>
-													<c:if test="${surveyQn.QN_TYPE eq '단수(라디오)'}">
-														<input type="radio" class="input_radio" name='<c:out value="${qnEx.EX_GROUP}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" />
-													</c:if>
-													<c:out value="${qnEx.EX_NM}"/>
-													(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_m" /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
-												</label><br/>
-											</c:if>
-											<c:if test="${qnEx.EX_TYPE eq '텍스트'}">
-												(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_100" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>"  /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
-												<br/>
-											</c:if>
-										</c:if>
-									</c:forEach>
-								</c:if>
-								<c:if test="${surveyQn.EX_TYPE eq '표'}"><!-- 표 항목 -->
-									<jsp:include page="./survey_table.jsp">
-										<jsp:param name="SURVEY_SN" value="${surveyQn.SURVEY_SN}"/>
-										<jsp:param name="SURVEY_CD" value="${surveyQn.SURVEY_CD}"/>
-									    <jsp:param name="QN_CD" value="${surveyQn.QN_CD}"/>
-									</jsp:include>
-								</c:if>
+								<c:set var="p_surveyDate" value="${surveyQn}" scope="request"/><!-- 보기 컴포넌트로 전달용 파라메터 -->
+								<jsp:include page="./components/survey_component.jsp"/>
 								<!-- 서브질문  -->
 								<c:forEach var="subQnEx" items="${surveySubQnEx}" varStatus="status3">
 								
@@ -207,54 +177,11 @@
 											<c:out value="${subQnEx.QN_NM}" escapeXml="false" />
 										</div>
 										<div class="subAnwer" style="display: block;" name="<c:out value='${subQnEx.QN_CD}'/>">
-											
-											<c:if test="${subQnEx.EX_TYPE ne '표'}"><!-- 일반 항목 -->
-												<c:forEach var="qnEx" items="${subQnEx.QN_EX}" varStatus="qn_status">
-												
-													<c:if test="${subQnEx.EX_TYPE eq '일반'}"><!-- 일반 항목 -->
-														<c:if test="${qnEx.EX_INNER_AT eq 'Y' }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
-														<c:if test="${qnEx.EX_TYPE eq '선택'}">
-															<label class="label_txt">
-																<c:if test="${subQnEx.QN_TYPE eq '복수(체크)'}">
-																	<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
-																</c:if>
-																<c:if test="${subQnEx.QN_TYPE eq '단수(라디오)'}">
-																	<input type="radio" class="input_radio" name='<c:out value="${qnEx.EX_GROUP}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>"/>
-																</c:if>
-																<c:out value="${qnEx.EX_NM}"/>
-															</label><br/>
-														</c:if>
-														<c:if test="${qnEx.EX_TYPE eq '선택(텍스트)'}">
-															<label class="label_txt">
-																<c:if test="${subQnEx.QN_TYPE eq '복수(체크)'}">
-																	<input type="checkbox" class="input_check" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
-																</c:if>
-																<c:if test="${subQnEx.QN_TYPE eq '단수(라디오)'}">
-																	<input type="radio" class="input_radio" name='<c:out value="${qnEx.EX_GROUP}"/>' qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>" />
-																</c:if>
-																<c:out value="${qnEx.EX_NM}"/>
-																(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_m" /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
-															</label><br/>
-														</c:if>
-														<c:if test="${qnEx.EX_TYPE eq '텍스트'}">
-															(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" class="input_txt_100" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${subQnEx.QN_TYPE}'/>"  /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
-															<br/>
-														</c:if>
-													</c:if>
-												</c:forEach>
-											</c:if>
-											<c:if test="${subQnEx.EX_TYPE eq '표'}"><!-- 표 항목 -->
-												<jsp:include page="./survey_table.jsp">
-													<jsp:param name="SURVEY_SN" value="${subQnEx.SURVEY_SN}"/>
-													<jsp:param name="SURVEY_CD" value="${subQnEx.SURVEY_CD}"/>
-												    <jsp:param name="QN_CD" value="${subQnEx.QN_CD}"/>
-												</jsp:include>
-											</c:if>
-											
-											
+											<c:set var="p_surveyDate" value="${subQnEx}" scope="request"/><!-- 서브보기 컴포넌트로 전달용 파라메터 -->
+											<jsp:include page="./components/survey_component.jsp"/>
 										</div>
 									</c:if>
-								</c:forEach> 
+								</c:forEach>
 							</div>
 							<div class="qest_btn_group">
 								<c:if test='${not status.first}'><input type="button" class="btn_prev" turn="<c:out value='${status.index}' />" value="이전" /></c:if>

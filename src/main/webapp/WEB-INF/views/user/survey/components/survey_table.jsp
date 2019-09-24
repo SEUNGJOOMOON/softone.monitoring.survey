@@ -2,9 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<c:set var="surveyQn" value="${requestScope.p_surveyDate }" scope="page"/>
 <!-- 건강영향평가 성인 -->
-<c:if test="${(param.QN_CD eq 'Q02') && (param.SURVEY_CD eq '건강영향(성인)') && (param.SURVEY_SN eq '1') }">
+<c:if test="${(surveyQn.QN_CD eq 'Q02') && (surveyQn.SURVEY_CD eq '건강영향(성인)') && (surveyQn.SURVEY_SN eq '1') }">
 	<table class="ques_table">
 		<tr>
 			<th>가습기살균제<br />사용 전
@@ -26,7 +26,7 @@
 		</tr>
 	</table>
 </c:if>
-<c:if test="${(param.QN_CD eq 'Q02_01') && (param.SURVEY_CD eq '건강영향(성인)') && (param.SURVEY_SN eq '1') }">
+<c:if test="${(surveyQn.QN_CD eq 'Q02_01') && (surveyQn.SURVEY_CD eq '건강영향(성인)') && (surveyQn.SURVEY_SN eq '1') }">
 	<table class="ques_table">
 		<colgroup>
 			<col width="25%" />
@@ -81,7 +81,7 @@
 		</tr>
 	</table>
 </c:if>
-<c:if test="${(param.QN_CD eq 'Q06') && (param.SURVEY_CD eq '건강영향(성인)') && (param.SURVEY_SN eq '1') }">
+<c:if test="${(surveyQn.QN_CD eq 'Q06') && (surveyQn.SURVEY_CD eq '건강영향(성인)') && (surveyQn.SURVEY_SN eq '1') }">
 	<table class="ques_table">
 		<colgroup>
 			<col width="20%" />
@@ -200,11 +200,11 @@
 			<td class="align_left font_14">간질성폐렴(폐섬유화)</td>
 			<td><label><input type="radio" class="input_radio" name="q06-12" qncd="Q06" excd="13_01_01" qnType="단수(라디오)">예</label><br />
 				<label><input type="radio" class="input_radio" name="q06-12" qncd="Q06" excd="13_01_02" qnType="단수(라디오)">아니오</label></td>
-			<td colspan="3" class="align_left">진단명 상세 : <textarea class="txt_area" ></textarea></td>
+			<td colspan="3" class="align_left">진단명 상세 : <textarea class="txt_area" qncd="Q06" excd="13_02"></textarea></td>
 		</tr>
 	</table>
 </c:if>
-<c:if test="${(param.QN_CD eq 'Q07') && (param.SURVEY_CD eq '건강영향(성인)') && (param.SURVEY_SN eq '1') }">
+<c:if test="${(surveyQn.QN_CD eq 'Q07') && (surveyQn.SURVEY_CD eq '건강영향(성인)') && (surveyQn.SURVEY_SN eq '1') }">
 	<table class="ques_table">
 		<colgroup>
 			<col width="50%" />
@@ -220,7 +220,7 @@
 		</tr>
 	</table>
 </c:if>
-<c:if test="${(param.QN_CD eq 'Q09_01') && (param.SURVEY_CD eq '건강영향(성인)') && (param.SURVEY_SN eq '1') }">
+<c:if test="${(surveyQn.QN_CD eq 'Q09_01') && (surveyQn.SURVEY_CD eq '건강영향(성인)') && (surveyQn.SURVEY_SN eq '1') }">
 	<table class="ques_table">
 		<colgroup>
 			<col width="10%">
@@ -253,7 +253,7 @@
 		</tr>
 	</table>
 </c:if>
-<c:if test="${(param.QN_CD eq 'Q11_01') && (param.SURVEY_CD eq '건강영향(성인)') && (param.SURVEY_SN eq '1') }">
+<c:if test="${(surveyQn.QN_CD eq 'Q11_01') && (surveyQn.SURVEY_CD eq '건강영향(성인)') && (surveyQn.SURVEY_SN eq '1') }">
 	<table class="ques_table">
 		<colgroup>
 			<col width="50%">
@@ -281,3 +281,4 @@
 		</tr>
 	</table>
 </c:if>
+
