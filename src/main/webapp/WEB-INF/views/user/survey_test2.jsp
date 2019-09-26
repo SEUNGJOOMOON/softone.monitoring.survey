@@ -24,7 +24,10 @@
 					swal("설문조회 마스터키를 입력해주세요.");
 					return false;
 				}
-			
+				if(!$("input[name='confirmPass']").val()){
+					swal("관리 비밀번호를 입력해주세요.");
+					return false;
+				}
 				return true;
 				
 			}

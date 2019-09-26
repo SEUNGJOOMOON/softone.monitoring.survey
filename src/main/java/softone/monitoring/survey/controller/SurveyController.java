@@ -58,8 +58,10 @@ public class SurveyController {
 		return "/user/survey_test2";
 	}
 	@RequestMapping(value = "/user/survey/surveyprocess2.do")
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd) throws Exception {
-
+	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass) throws Exception {
+		if(!confirmPass.equals("softone123!!@@")){
+			return new ModelAndView("/user/survey_test2");
+		}
 		ModelAndView mv = new ModelAndView("/user/survey/survey");
 
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
@@ -68,7 +70,12 @@ public class SurveyController {
 		
 		
 		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
-		List<Map<String, Object>> surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
+		List<Map<String, Object>> surveyEx = null;
+		if(surveyMaster != null){
+			surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
+		}else{
+			surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
+		}
 		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();
 		

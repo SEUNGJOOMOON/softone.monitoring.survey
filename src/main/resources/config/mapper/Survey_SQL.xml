@@ -41,7 +41,7 @@
 		<![CDATA[
 			Select B.ANS_VALUE, ANS_TXT1, ANS_TXT2, A.*
 			From Survey_qn_ex A, Survey_ans B
-			Where A.Survey_sn = 1 And A.Survey_cd = '건강영향(성인)' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD and B.SURVEY_ANS_MST_SN = 9999
+			Where A.Survey_sn = 1 And A.Survey_cd = '건강영향(성인)' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD and B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn}
 			Order By A.Qn_cd, A.Ex_cd
 		]]>
 	</select>
