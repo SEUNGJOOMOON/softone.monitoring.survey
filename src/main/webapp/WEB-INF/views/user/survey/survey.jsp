@@ -17,10 +17,116 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fullpage.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/JQuery3.4.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/sweetAlert.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/surveyCommonUtils2.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/surveyCommonUtils2.js"></script> --%>
 
 	<script>
 
+	var surveyCommonUtils = {
+			"setLayoutToSurvey" : function() {
+				var myFullpage = new fullpage('#fullpage', {
+					licenseKey : '2BD03B7C-BEE54D5A-AA0125A7-58B34D98',
+					scrollOverflow : true,
+					recordHistory: true,
+					anchors:['questionGroup'],
+					afterLoad : function(origin, destination, direction) {
+						$(".btn_prev").bind("click", function() {
+							//네비게이션 dot
+							$(".navi-dot").removeClass("active-dot");
+							$(".navi-dot").eq(Number(Number($(this).attr("turn"))-1)).addClass("active-dot");
+							
+							fullpage_api.moveSlideLeft();
+						});
+						$(".btn_next").bind("click", function() {
+							//네비게이션 dot
+							$(".navi-dot").removeClass("active-dot");
+							$(".navi-dot").eq(Number(Number($(this).attr("turn"))+1)).addClass("active-dot");
+							
+							fullpage_api.moveSlideRight();
+							
+						});
+						fullpage_api.setAllowScrolling(false, 'left, right');
+					},
+					onSlideLeave: function(section, origin, destination, direction){
+						//이곳에 필수입력, 다음 문항 이동 등 로직 
+						//이곳에서 설문데이터 저장
+						console.log(section);
+						console.log(origin);
+						console.log(destination);
+						console.log(direction);
+					},
+					scrollOverflowOptions : {
+						click : false,
+						preventDefaultException : {
+							tagName : /.*/
+						}
+					}
+				});
+			},
+			"setLayoutToView" : function() {
+				$("html, body").css("overflow", "visible");
+				$(".qest_title").css("margin-top", "0px");
+				$(".qest_title, .label_txt, label, td, th").css("font-size","15px");
+				$("input, textarea").attr("disabled", "disabled");
+				$("input[type='text']").each(function() {//input text -> span 태그로 변경
+					$(this).replaceWith("<span class='span_font15'>" + $(this).val() + '</span>');
+				});
+				$("textarea").each(function() {//input textarea -> span 태그로 변경
+					$(this).replaceWith("<div class='span_font15 txt_area_min_60'>" + $(this).val() + '</div>');
+				});
+				$("html, body").css("font-size", "12px");
+				$(".subQuest").css("font-size", "15px");
+				$(".qest_btn_group").hide();
+				$(".surveyTop").css("top", "0px");
+				$("#btn_close").hide();
+				$(".qest_wrap").css("border", "0px").css("min-height", "100px");
+				$(".slide").css("margin-top", "-150px");
+				if(this.isMobile()){
+					$("#slide1").css("margin-top", "40px");	
+				}else{
+					$("#slide1").css("margin-top", "0px");
+				}
+				//$(".surveyTop").hide();
+				$(".quest_end").hide();
+				$(".quest_red").hide();
+				$(".btn_close").hide();
+				$(".subQuest").show();
+				$(".subAnwer").show();
+				$(".view_quest_no").show();
+				$(".qest_no").hide();
+				$(".qest").hide();
+				$(".navigation").hide();
+				$(".qest_anwer_wrap").css("margin-top", "0px");
+			},
+			"printSurvey" : function(printThis) {
+				/* if(!this.isMobile()){
+					alert("인쇄는 PC에서만 가능합니다.");
+					return;
+				} */
+				this.setLayoutToView();
+				$(".qest_wrap").css("margin-top", "150px");
+				$("#survey_cover").show();
+				$(".qest_wrap").eq(0).css("margin-top", "0px");
+				$(".qest_title").css("border-bottom", "0px");
+				window.onbeforeprint = function(ev) {
+					document.body.innerHTML = $("#fullpage").html();
+				};
+				window.print();
+
+			},
+			"isMobile" : function(){
+				var filter = "win16|win32|win64|mac";
+				if(navigator.platform){
+					if(0 > filter.indexOf(navigator.platform.toLowerCase())){
+						return true;
+					}else{
+						return false;
+					}
+				}
+			}
+		};
+	
+	
+	
 		$(document).ready(
 				function() {
 					var viewMode = value='<c:out value="${viewMode}"/>';
@@ -95,6 +201,17 @@
 	</div>
 	<!-- 설문지 인쇄용 표지영역 끝 -->
 	<!-- 설문지 작성영역 -->
+	<form id="survey_form">
+		<input type="hidden" id="SURVEY_ANS_MST_SN" value="<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>" />
+		<input type="hidden" id="SUFRER_NM" value="<c:out value="${surveyMaster.SUFRER_NM}"/>" />
+		<input type="hidden" id="SUFRER_PIN" value="<c:out value="${surveyMaster.SUFRER_PIN}"/>" />
+		<input type="hidden" id="ORG_CD" value="<c:out value="${surveyMaster.ORG_CD}"/>" />
+		<input type="hidden" id="OPER_CD" value="<c:out value="${surveyMaster.OPER_CD}"/>" />
+		<input type="hidden" id="SURVEY_SN" value="<c:out value="${surveyMaster.SURVEY_SN}"/>" />
+		<input type="hidden" id="SURVEY_ANS_MST_SN" value="<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>" />
+		<input type="hidden" id="SURVEY_CD" value="<c:out value="${surveyMaster.SURVEY_CD}"/>" />
+		<input type="hidden" id="SURVEY_NM" value="<c:out value="${surveyMaster.SURVEY_NM}"/>" />
+	</form>
 	<div id="fullpage">
 		<!-- 설문지 상단 작성자 정보 -->
 		<div id="survey_cover" class="survey_cover">
