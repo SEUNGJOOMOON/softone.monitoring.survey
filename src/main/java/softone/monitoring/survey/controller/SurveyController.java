@@ -76,8 +76,22 @@ public class SurveyController {
 		}else{
 			surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
 		}
-		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();
-		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();
+		
+		//생성정보를 위한 임시
+		if(surveyMaster == null){
+			surveyMaster = new HashMap<String, Object>();
+			surveyMaster.put("SURVEY_ANS_MST_SN", "10000");
+			surveyMaster.put("SUFRER_NM", "홍길동");
+			surveyMaster.put("SUFRER_PIN", "11-1-0111");
+			surveyMaster.put("ORG_CD", "강북삼성");
+			surveyMaster.put("OPER_CD", "강북삼성");
+			surveyMaster.put("SURVEY_SN", "1");
+			surveyMaster.put("SURVEY_CD", "건강영향(성인)");
+			surveyMaster.put("SURVEY_NM", "【건강영향 설문조사】(성인용)");
+		}
+		
+		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();//질문
+		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();//서브질문
 		
 		for (Map<String, Object> qn : surveyQn) {//질문 리스트에 해당 질문에 해당하는 보기를 넣음.
 		  String qnCd = qn.get("QN_CD").toString();

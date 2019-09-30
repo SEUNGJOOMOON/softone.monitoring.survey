@@ -49,10 +49,46 @@
 					onSlideLeave: function(section, origin, destination, direction){
 						//이곳에 필수입력, 다음 문항 이동 등 로직 
 						//이곳에서 설문데이터 저장
-						console.log(section);
-						console.log(origin);
-						console.log(destination);
-						console.log(direction);
+						
+						var surveyAnsMstSn = $("#survey_form > #SURVEY_ANS_MST_SN").val();
+						var surferNm = $("#survey_form > #SUFRER_NM").val();
+						var sufrerPin = $("#survey_form > #SUFRER_PIN").val();
+						var orgCd = $("#survey_form > #ORG_CD").val();
+						var operCd = $("#survey_form > #OPER_CD").val();
+						var surveySn = $("#survey_form > #SURVEY_SN").val();
+						var surveyCd = $("#survey_form > #SURVEY_CD").val();
+						var surveyAnsMstSn = $("#survey_form > #SURVEY_NM").val();
+						var extype = "";
+						var ansValue = "";
+						var ansTxt1 = "";
+						var ansTxt2 = "";
+						var qnCd = "";
+						var exCd = "";
+						if(direction == "right"){//"다음"버튼 클릭시에만 저장
+							$("div[quest-no='"+origin.anchor + "']").find("textarea, input[type=checkbox], input[type=radio]").each(function(index, el){//현재 작성중인 설문지의 모든 textarea, input 태그를 가져와서 반복
+								extype = $(el).attr("extype");
+								qnCd = $(el).attr("qncd");
+								exCd = $(el).attr("excd");
+								switch(extype){
+									case "선택" :
+										ansValue = $(el).is(":checked")? "Y" : "N";
+										break;
+									case "선택(텍스트)" :
+										ansValue = $(el).is(":checked")? "Y" : "N";
+										ansTxt1 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
+										break;
+									case "텍스트" :
+										ansTxt1 = $(el).text();
+										break;
+									
+									//그외 survey_qn_ex.ex_type이 추가되면 이곳에 정의
+									
+								}
+								console.log(ansValue);
+								
+							})
+						}
+						
 					},
 					scrollOverflowOptions : {
 						click : false,
@@ -208,7 +244,6 @@
 		<input type="hidden" id="ORG_CD" value="<c:out value="${surveyMaster.ORG_CD}"/>" />
 		<input type="hidden" id="OPER_CD" value="<c:out value="${surveyMaster.OPER_CD}"/>" />
 		<input type="hidden" id="SURVEY_SN" value="<c:out value="${surveyMaster.SURVEY_SN}"/>" />
-		<input type="hidden" id="SURVEY_ANS_MST_SN" value="<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>" />
 		<input type="hidden" id="SURVEY_CD" value="<c:out value="${surveyMaster.SURVEY_CD}"/>" />
 		<input type="hidden" id="SURVEY_NM" value="<c:out value="${surveyMaster.SURVEY_NM}"/>" />
 	</form>
@@ -266,9 +301,9 @@
 		<!-- 설문지 작성 -->
 		<div class="section" id="section1">
 			<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
-				<div class="slide" id="slide1" data-anchor="question<c:out value='${status.count}' />">
+				<div class="slide" id="slide1" data-anchor="question<c:out value='${status.count}' />" >
 
-					<div class="fp-responsive" id="q01">
+					<div class="fp-responsive" id="q01" quest-no="question<c:out value='${status.count}' />">
 						
 						<div class="qest_wrap">
 							<span class="qest_no"><c:out value="${surveyQn.QN_CD}"/> Question</span>
@@ -283,7 +318,7 @@
 								</div>
 							</c:if>
 							<div class="qest_title"><span class="view_quest_no">01.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
-							<div class="qest_anwer_wrap">
+							<div class="qest_anwer_wrap" >
 								<c:set var="p_surveyDate" value="${surveyQn}" scope="request"/><!-- 보기 컴포넌트로 전달용 파라메터 -->
 								<jsp:include page="./components/survey_component.jsp"/>
 								<!-- 서브질문  -->
