@@ -57,15 +57,19 @@
 						var operCd = $("#survey_form > #OPER_CD").val();
 						var surveySn = $("#survey_form > #SURVEY_SN").val();
 						var surveyCd = $("#survey_form > #SURVEY_CD").val();
-						var surveyAnsMstSn = $("#survey_form > #SURVEY_NM").val();
+						var surveyNm = $("#survey_form > #SURVEY_NM").val();
 						var extype = "";
 						var ansValue = "";
 						var ansTxt1 = "";
 						var ansTxt2 = "";
 						var qnCd = "";
 						var exCd = "";
+						
+						var surveyQnArray = new Array();
+				        
+						
 						if(direction == "right"){//"다음"버튼 클릭시에만 저장
-							$("div[quest-no='"+origin.anchor + "']").find("textarea, input[type=checkbox], input[type=radio]").each(function(index, el){//현재 작성중인 설문지의 모든 textarea, input 태그를 가져와서 반복
+							$("div[quest-no='"+origin.anchor + "']").find("textarea, input[type=checkbox], input[type=radio], input[type=text]").each(function(index, el){//현재 작성중인 설문지의 모든 textarea, input 태그를 가져와서 반복
 								extype = $(el).attr("extype");
 								qnCd = $(el).attr("qncd");
 								exCd = $(el).attr("excd");
@@ -73,20 +77,61 @@
 									case "선택" :
 										ansValue = $(el).is(":checked")? "Y" : "N";
 										break;
-									case "선택(텍스트)" :
+									case "선택(텍스트)" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
 										ansValue = $(el).is(":checked")? "Y" : "N";
 										ansTxt1 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
 										break;
 									case "텍스트" :
-										ansTxt1 = $(el).text();
+										ansTxt1 = $(el).val();
 										break;
-									
+									case "텍스트(텍스트)" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
+										ansTxt1 = $(el).val();
+										ansTxt2 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
+										break;
 									//그외 survey_qn_ex.ex_type이 추가되면 이곳에 정의
 									
 								}
-								console.log(ansValue);
+								if(typeof extype != "undefined"){//해당 문항내 모든 input element를 대상으로 조회하므로, extype을 갖고 있지 않은 태그(ex : qntxtlink용 태그) 등은 답변목록에서 제외
+									var surveyQnObj = new Object();
+									surveyQnObj.surveyAnsMstSn = surveyAnsMstSn;
+									surveyQnObj.surferNm = surferNm;
+									surveyQnObj.sufrerPin = sufrerPin;
+									surveyQnObj.orgCd = orgCd;
+									surveyQnObj.operCd = operCd;
+									surveyQnObj.surveySn = surveySn;
+									surveyQnObj.surveyCd = surveyCd;
+									surveyQnObj.surveyNm = surveyNm;
+									surveyQnObj.ansValue = ansValue;
+									surveyQnObj.ansTxt1 = ansTxt1;
+									surveyQnObj.ansTxt2 = ansTxt2;
+									surveyQnObj.qnCd = qnCd;
+									surveyQnObj.exCd = exCd;
+									surveyQnArray.push(surveyQnObj);//현재 답변정보를 저장
+									console.log(surveyQnObj)
+									
+								}
+								//해당 답변정보 초기화
+								extype = "";
+								ansValue = "";
+								ansTxt1 = "";
+								ansTxt2 = "";
+								qnCd = "";
+								exCd = "";
+								
 								
 							})
+							
+							var surveyJson = JSON.stringify(surveyQnArray);//서버 전달용 JSON
+							$.ajax({
+						        type: "POST",
+						        url: "/user/survey/write",
+						        dataType: 'json',
+						        data: surveyJson,
+						        contentType:'application/json; charset=utf-8',
+						        success: function(data){
+						            alert("JSON.stringify로 파라미터로 넘기기 성공!" + data.result);
+						        }
+							});  
 						}
 						
 					},
@@ -339,6 +384,7 @@
 								<c:if test='${not status.first}'><input type="button" class="btn_prev" turn="<c:out value='${status.index}' />" value="이전" /></c:if>
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								<c:if test='${not status.last}'><input type="button" class="btn_next" turn="<c:out value='${status.index}' />" value="다음" /></c:if>
+								<c:if test='${status.last}'><input type="button" class="btn_next" turn="<c:out value='${status.index}' />" value="설문완료" /></c:if>
 							</div>
 						</div>
 					</div>
@@ -346,6 +392,7 @@
 			</c:forEach>
 		</div>
 		<!-- 설문지 작성 끝 -->
+		<!-- 설문지 네비게이션 -->
 		<div class="navigation">
 			<ul>
 				<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
@@ -353,6 +400,7 @@
 				</c:forEach>
 			</ul>
 		</div>
+		<!-- 설문지 네비게이션 끝-->
 	</div>
 	
 

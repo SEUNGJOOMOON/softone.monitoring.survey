@@ -45,4 +45,10 @@ public class SurveyServiceImpl implements SurveyService {
 	public List<Map<String, Object>> selectSurveyExWithAns(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyExWithAns(map);
 	}
+	public void insertSurveyAns(Map<String, Object> map) throws Exception {
+		surveyDAO.insertSurveyAns(map);
+	}
+	public void updateSurveyAnsUseAtN(Map<String, Object> map) throws Exception {
+		surveyDAO.updateSurveyAnsUseAtN(map);
+	}
 }

@@ -22,7 +22,7 @@
 		<![CDATA[
 			Select QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_TYPE, QN_CD, QN_SE, QN_GRP, QN_NM, P_QN_CD, EX_TYPE, EX_TYPE_TXT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, QN_EXPLN_TYPE, QN_EXPLN
 			From Survey_qn
-			Where Survey_sn = 1 And Survey_cd = '건강영향(성인)'
+			Where Survey_sn = 1 And Survey_cd = '건강영향(성인)' AND USE_AT = 'Y'
 			Order By Qn_cd
 		]]>
 	</select>
@@ -32,7 +32,7 @@
 		<![CDATA[
 			Select QN_EX_SN, QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_CD, EX_CD, EX_TYPE, EX_QN_LINK, EX_NM, EX_TXT1_UNIT, EX_TXT2_UNIT, EX_IMG_LINK, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, EX_INNER_AT, EX_CLASS1, EX_CLASS2, EX_GROUP, EX_SUB_DISPLAY
 			From Survey_qn_ex
-			Where Survey_sn = 1 And Survey_cd = '건강영향(성인)'
+			Where Survey_sn = 1 And Survey_cd = '건강영향(성인)' AND USE_AT = 'Y'
 			Order By Qn_cd,Ex_cd
 		]]>
 	</select>
@@ -41,7 +41,7 @@
 		<![CDATA[
 			Select B.ANS_VALUE, ANS_TXT1, ANS_TXT2, A.*
 			From Survey_qn_ex A, Survey_ans B
-			Where A.Survey_sn = 1 And A.Survey_cd = '건강영향(성인)' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD and B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn}
+			Where A.Survey_sn = 1 And A.Survey_cd = '건강영향(성인)' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD and B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND A.USE_AT = 'Y' AND B.USE_AT = 'Y'
 			Order By A.Qn_cd, A.Ex_cd
 		]]>
 	</select>
@@ -50,10 +50,30 @@
 		<![CDATA[
 			Select Qn.Qn_type, Qn.Qn_cd, Qn.Qn_nm, Qn.P_qn_cd, Qn.Ex_type, Ex.Ex_type As Ex_type2, Ex.Ex_cd, Ex_qn_link, Ex.Ex_nm, Ex.Ex_txt1_unit, Ex.Ex_txt2_unit, Ex.Ex_img_link
 			From Survey_qn Qn, Survey_qn_ex Ex
-			Where Qn.Survey_sn = 1 And Qn.Survey_cd = '건강영향(성인)' And Qn.Qn_cd = Ex.Qn_cd
+			Where Qn.Survey_sn = 1 And Qn.Survey_cd = '건강영향(성인)' And Qn.Qn_cd = Ex.Qn_cd AND Qn.USE_AT = 'Y' AND Ex.USE_AT = 'Y'
 			Order By Qn.Qn_cd
 		]]>
 	</select>
+	
+	<update id="updateSurveyAnsUseAtN" parameterType="hashmap" >
+		<![CDATA[
+			UPDATE SURVEY_ANS
+			SET USE_AT = 'N'
+			WHERE SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND SURVEY_SN = #{surveySn,jdbcType=VARCHAR} AND QN_CD = #{qnCd,jdbcType=VARCHAR} AND EX_CD = #{exCd,jdbcType=VARCHAR}
+		]]>
+	</update>
+	
+	<insert id="insertSurveyAns" parameterType="hashmap" >
+		<selectKey resultType="string" keyProperty="ansSn" order="BEFORE">
+			SELECT MAX(ANS_SN) + 1 From SURVEY_ANS
+		</selectKey> 
+		
+		<![CDATA[
+			INSERT INTO SURVEY_ANS(ANS_SN, SURVEY_ANS_MST_SN, SUFRER_NM, SUFRER_PIN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, ANS_VALUE, ANS_TXT1, ANS_TXT2, QN_CD, EX_CD)
+			VALUES(#{ansSn}, #{surveyAnsMstSn}, #{surferNm,jdbcType=VARCHAR}, #{sufrerPin,jdbcType=VARCHAR}, #{orgCd,jdbcType=VARCHAR}, #{operCd,jdbcType=VARCHAR}, #{surveySn,jdbcType=VARCHAR}, #{surveyCd,jdbcType=VARCHAR}, #{surveyNm,jdbcType=VARCHAR}, #{ansValue,jdbcType=VARCHAR}, #{ansTxt1,jdbcType=VARCHAR}, #{ansTxt2,jdbcType=VARCHAR}, #{qnCd,jdbcType=VARCHAR}, #{exCd,jdbcType=VARCHAR})
+		]]>
+	</insert>
+
 	
 	
 

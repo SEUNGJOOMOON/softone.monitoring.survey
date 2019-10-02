@@ -21,4 +21,8 @@ public interface SurveyService {
 	List<Map<String, Object>> selectSurveyEx(Map<String, Object> map) throws Exception;
 	
 	List<Map<String, Object>> selectSurveyExWithAns(Map<String, Object> map) throws Exception;
+	
+	void insertSurveyAns(Map<String, Object> map) throws Exception;
+	
+	void updateSurveyAnsUseAtN(Map<String, Object> map) throws Exception;
 }

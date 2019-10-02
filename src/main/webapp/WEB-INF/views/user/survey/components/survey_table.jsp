@@ -76,9 +76,9 @@
 		</tr>
 		<tr>
 			<td class="align_left">⑥ 기타(작성)</td>
-			<td class="align_center"><input type="text" class="input_txt" qncd="Q02_01" excd="06_01" <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q02_01') && (qnEx.EX_CD eq '06_01')}">value="<c:out value="${qnEx.ANS_TXT1 }"/>"</c:if></c:forEach> qnType="복수(체크)"></td>
-			<td class="align_center"><input type="text" class="input_txt" qncd="Q02_01" excd="06_02" <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q02_01') && (qnEx.EX_CD eq '06_02')}">value="<c:out value="${qnEx.ANS_TXT1 }"/>"</c:if></c:forEach> qnType="복수(체크)"></td>
-			<td class="align_center"><input type="text" class="input_txt" qncd="Q02_01" excd="06_03" <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q02_01') && (qnEx.EX_CD eq '06_03')}">value="<c:out value="${qnEx.ANS_TXT1 }"/>"</c:if></c:forEach> qnType="복수(체크)"></td>
+			<td class="align_center"><input type="text" <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q02_01') && (qnEx.EX_CD eq '06_01')}"> value="<c:out value="${qnEx.ANS_TXT1 }"/>" class="input_txt <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />"  qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" </c:if></c:forEach>></td>
+			<td class="align_center"><input type="text" <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q02_01') && (qnEx.EX_CD eq '06_02')}"> value="<c:out value="${qnEx.ANS_TXT1 }"/>" class="input_txt <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />"  qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" </c:if></c:forEach>></td>
+			<td class="align_center"><input type="text" <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q02_01') && (qnEx.EX_CD eq '06_03')}"> value="<c:out value="${qnEx.ANS_TXT1 }"/>" class="input_txt <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />"  qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" </c:if></c:forEach>></td>
 		</tr>
 	</table>
 </c:if>
@@ -201,7 +201,7 @@
 			<td class="align_left font_14">간질성폐렴(폐섬유화)</td>
 			<td><label><input type="radio" <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q06') && (qnEx.EX_CD eq '13_01_01')}"><c:if test="${qnEx.ANS_VALUE eq 'Y'}">checked="checked"</c:if> class="input_radio <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" </c:if></c:forEach>>예</label><br />
 				<label><input type="radio" <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q06') && (qnEx.EX_CD eq '13_01_02')}"><c:if test="${qnEx.ANS_VALUE eq 'Y'}">checked="checked"</c:if> class="input_radio <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" </c:if></c:forEach>>아니오</label></td>
-			<td colspan="3" class="align_left">진단명 상세 : <textarea class="txt_area" qncd="Q06" excd="13_02"><c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q06') && (qnEx.EX_CD eq '13_02')}"><c:out value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach></textarea></td>
+			<td colspan="3" class="align_left">진단명 상세 : <textarea <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q06') && (qnEx.EX_CD eq '13_02')}"> class="txt_area <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" </c:if><c:set var="ANS_TXT1" value="${qnEx.ANS_TXT1 }"/></c:forEach>><c:out value='${ANS_TXT1 }' /></textarea></td>
 		</tr>
 	</table>
 </c:if>
@@ -217,10 +217,10 @@
 		</tr>
 		<tr>
 			<td>
-				<textarea class="txt_area" qncd="Q07" excd="01" qnType="복수(체크)"><c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q07') && (qnEx.EX_CD eq '01')}"><c:out value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach>	</textarea>
+				<textarea <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q07') && (qnEx.EX_CD eq '01')}"> class="txt_area <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" <c:set var="ANS_TXT07_01" value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach>><c:out value='${ANS_TXT07_01 }' /></textarea>
 			</td>
 			<td>
-				<textarea class="txt_area" qncd="Q07" excd="02" qnType="복수(체크)"><c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q07') && (qnEx.EX_CD eq '02')}"><c:out value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach></textarea>
+				<textarea <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q07') && (qnEx.EX_CD eq '02')}"> class="txt_area <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" <c:set var="ANS_TXT07_02" value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach>><c:out value='${ANS_TXT07_02 }' /></textarea>
 			</td>
 		</tr>
 	</table>
@@ -244,16 +244,16 @@
 		<tr>
 			<td>약물명</td>
 			<td>
-				<textarea class="txt_area_s" style="min-height: 100px" qncd="Q09_01" excd="01" qnType="복수(체크)"><c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q09_01') && (qnEx.EX_CD eq '01')}"><c:out value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach></textarea>
+				<textarea <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q09_01') && (qnEx.EX_CD eq '01')}"> class="txt_area_s <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" <c:set var="ANS_TXT09_01_01" value="${qnEx.ANS_TXT1 }"/> </c:if></c:forEach>><c:out value='${ANS_TXT09_01_01 }' /></textarea>
 			</td>
 			<td>
-				<textarea class="txt_area_s" style="min-height: 100px" qncd="Q09_01" excd="02" qnType="복수(체크)"><c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q09_01') && (qnEx.EX_CD eq '02')}"><c:out value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach></textarea>
+				<textarea <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q09_01') && (qnEx.EX_CD eq '02')}"> class="txt_area_s <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" <c:set var="ANS_TXT09_01_02" value="${qnEx.ANS_TXT1 }"/> </c:if></c:forEach>><c:out value='${ANS_TXT09_01_02 }' /></textarea>
 			</td>
 			<td>
-				<textarea class="txt_area_s" style="min-height: 100px" qncd="Q09_01" excd="03" qnType="복수(체크)"><c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q09_01') && (qnEx.EX_CD eq '03')}"><c:out value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach></textarea>
+				<textarea <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q09_01') && (qnEx.EX_CD eq '03')}"> class="txt_area_s <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" <c:set var="ANS_TXT09_01_03" value="${qnEx.ANS_TXT1 }"/> </c:if></c:forEach>><c:out value='${ANS_TXT09_01_03 }' /></textarea>
 			</td>
 			<td>
-				<textarea class="txt_area_s" style="min-height: 100px" qncd="Q09_01" excd="04" qnType="복수(체크)"><c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q09_01') && (qnEx.EX_CD eq '04')}"><c:out value="${qnEx.ANS_TXT1 }"/></c:if></c:forEach></textarea>
+				<textarea <c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status"><c:if test="${(qnEx.QN_CD eq 'Q09_01') && (qnEx.EX_CD eq '04')}"> class="txt_area_s <c:out value='${qnEx.EX_CLASS1 }' /> <c:out value='${qnEx.EX_CLASS2 }' />" name="<c:out value='${qnEx.EX_GROUP }' />" qncd="<c:out value='${qnEx.QN_CD }' />" excd="<c:out value='${qnEx.EX_CD }' />" extype="<c:out value='${qnEx.EX_TYPE }' />" qnType="<c:out value='${surveyQn.QN_TYPE }' />" <c:set var="ANS_TXT09_01_04" value="${qnEx.ANS_TXT1 }"/> </c:if></c:forEach>><c:out value='${ANS_TXT09_01_04 }' /></textarea>
 			</td>
 		</tr>
 	</table>

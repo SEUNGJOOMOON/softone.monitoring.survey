@@ -9,8 +9,11 @@ import java.util.Map;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import softone.monitoring.survey.service.SurveyService;
 
@@ -80,9 +83,9 @@ public class SurveyController {
 		//생성정보를 위한 임시
 		if(surveyMaster == null){
 			surveyMaster = new HashMap<String, Object>();
-			surveyMaster.put("SURVEY_ANS_MST_SN", "10000");
-			surveyMaster.put("SUFRER_NM", "홍길동");
-			surveyMaster.put("SUFRER_PIN", "11-1-0111");
+			surveyMaster.put("SURVEY_ANS_MST_SN", "99999");
+			surveyMaster.put("SUFRER_NM", "문승주");
+			surveyMaster.put("SUFRER_PIN", "11-1-0000");
 			surveyMaster.put("ORG_CD", "강북삼성");
 			surveyMaster.put("OPER_CD", "강북삼성");
 			surveyMaster.put("SURVEY_SN", "1");
@@ -123,6 +126,30 @@ public class SurveyController {
 		return mv;
 	}
 	
+	
+   /*
+	* @param json 설문답변 데이터
+	* @return string 답변저장 성공여부
+	* @ author sjmoon
+	* @ date 2019.10.02
+	*/
+	@RequestMapping(value="/user/survey/write", method=RequestMethod.POST)
+    @ResponseBody
+    public Object surveyWrite(@RequestBody List<Map<String, Object>> surveyAnsJson) {
+
+	for(Map<String, Object> surveyAns : surveyAnsJson){
+		try {
+			surveyService.updateSurveyAnsUseAtN(surveyAns);
+			surveyService.insertSurveyAns(surveyAns);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+        
+        return "";
+    }
 	
 //	실사용
 	@RequestMapping(value = "/user/survey/surveyprocess-real.do")
