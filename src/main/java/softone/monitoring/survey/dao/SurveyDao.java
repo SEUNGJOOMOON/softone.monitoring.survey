@@ -55,6 +55,9 @@ public class SurveyDao extends AbstractDAO {
 	public void insertSurveyAns(Map<String, Object> map) throws Exception {
 		insert("survey.insertSurveyAns", map);
 	}
+	public void insertSurveyAnsMst(Map<String, Object> map) throws Exception {
+		insert("survey.insertSurveyAnsMst", map);
+	}
 	public void updateSurveyAnsUseAtN(Map<String, Object> map) throws Exception {
 		insert("survey.updateSurveyAnsUseAtN", map);
 	}

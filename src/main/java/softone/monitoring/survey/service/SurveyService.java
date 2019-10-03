@@ -24,5 +24,7 @@ public interface SurveyService {
 	
 	void insertSurveyAns(Map<String, Object> map) throws Exception;
 	
+	void insertSurveyAnsMst(Map<String, Object> map) throws Exception;
+	
 	void updateSurveyAnsUseAtN(Map<String, Object> map) throws Exception;
 }

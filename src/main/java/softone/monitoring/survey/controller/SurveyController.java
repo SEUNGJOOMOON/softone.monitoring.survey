@@ -74,24 +74,38 @@ public class SurveyController {
 		
 		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
 		List<Map<String, Object>> surveyEx = null;
-		if(surveyMaster != null){
+		
+		
+		if((viewMode.equals("view") || viewMode.equals("print"))){
 			surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
 		}else{
+			Map<String, Object> surveyMasterMap = new HashMap<String, Object>();
+			surveyMasterMap.put("surveyAnsMstSn", surveyAnsMstSn);
+			surveyService.insertSurveyAnsMst(surveyMasterMap);
+			surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 			surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
 		}
 		
+//		selectSurveyExQnWithAnswer쿼리 임시
+		/* 
+		Select B.ANS_VALUE, ANS_TXT1, ANS_TXT2, A.*
+		From Survey_qn_ex A, Survey_ans B
+		Where A.Survey_sn = 1 And A.Survey_cd = '건강영향(성인)' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD and B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND A.USE_AT = 'Y' AND B.USE_AT = 'Y'
+		Order By A.Qn_cd, A.Ex_cd 
+		*/
+		
 		//생성정보를 위한 임시
-		if(surveyMaster == null){
-			surveyMaster = new HashMap<String, Object>();
-			surveyMaster.put("SURVEY_ANS_MST_SN", "99999");
-			surveyMaster.put("SUFRER_NM", "문승주");
-			surveyMaster.put("SUFRER_PIN", "11-1-0000");
-			surveyMaster.put("ORG_CD", "강북삼성");
-			surveyMaster.put("OPER_CD", "강북삼성");
-			surveyMaster.put("SURVEY_SN", "1");
-			surveyMaster.put("SURVEY_CD", "건강영향(성인)");
-			surveyMaster.put("SURVEY_NM", "【건강영향 설문조사】(성인용)");
-		}
+//		if(surveyMaster == null){
+//			surveyMaster = new HashMap<String, Object>();
+//			surveyMaster.put("SURVEY_ANS_MST_SN", surveyAnsMstSn);
+//			surveyMaster.put("SUFRER_NM", "설문작성테스트");
+//			surveyMaster.put("SUFRER_PIN", "11-1-0111");
+//			surveyMaster.put("ORG_CD", "강북삼성");
+//			surveyMaster.put("OPER_CD", "강북삼성");
+//			surveyMaster.put("SURVEY_SN", "1");
+//			surveyMaster.put("SURVEY_CD", "건강영향(성인)");
+//			surveyMaster.put("SURVEY_NM", "【건강영향 설문조사】(성인용)");
+//		}
 		
 		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();//질문
 		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();//서브질문

@@ -39,10 +39,15 @@
 	
 	<select id="selectSurveyExWithAns" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
-			Select B.ANS_VALUE, ANS_TXT1, ANS_TXT2, A.*
-			From Survey_qn_ex A, Survey_ans B
-			Where A.Survey_sn = 1 And A.Survey_cd = '건강영향(성인)' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD and B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND A.USE_AT = 'Y' AND B.USE_AT = 'Y'
-			Order By A.Qn_cd, A.Ex_cd
+		
+			
+			SELECT A.*, 
+				(SELECT B.ANS_VALUE FROM SURVEY_ANS B WHERE B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND B.USE_AT = 'Y' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD AND A.USE_AT = 'Y' AND B.SURVEY_SN = 1) AS ANS_VALUE,
+				(SELECT B.ANS_TXT1 FROM SURVEY_ANS B WHERE B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND B.USE_AT = 'Y' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD AND A.USE_AT = 'Y' AND B.SURVEY_SN = 1) AS ANS_TXT1,
+				(SELECT B.ANS_TXT2 FROM SURVEY_ANS B WHERE B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND B.USE_AT = 'Y' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD AND A.USE_AT = 'Y' AND B.SURVEY_SN = 1) AS ANS_TXT2
+			FROM SURVEY_QN_EX A
+			WHERE A.SURVEY_SN = 1 AND A.SURVEY_CD = '건강영향(성인)' AND A.USE_AT = 'Y'
+			ORDER BY A.QN_CD, A.EX_CD
 		]]>
 	</select>
 	
@@ -74,6 +79,12 @@
 		]]>
 	</insert>
 
+	<insert id="insertSurveyAnsMst" parameterType="hashmap" >
+		<![CDATA[
+			INSERT INTO SURVEY_ANS_MST(SURVEY_ANS_MST_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, HSPTL_ID, SUFRER_PIN, SUFRER_NM, SEXDSTN, BRTHDY, ANS_NM, SUFRER_RELATE, SURVEY_DT, USE_AT)
+			VALUES(#{surveyAnsMstSn}, '강북삼성', '강북삼성', '1', '건강영향(성인)' ,'【건강영향 설문조사】(성인용)', '111111', '11-1-0111', '설문작성테스트', '남', '9999-11-11', '설문작성테스트', '본인', '2019-01-01', 'Y')
+		]]>
+	</insert>
 	
 	
 

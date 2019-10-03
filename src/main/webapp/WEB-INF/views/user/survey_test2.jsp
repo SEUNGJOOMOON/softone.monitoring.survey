@@ -60,12 +60,12 @@
 						<li class="qu">담당병원</li>
 						<li class="aw">
 							<select name="orgCd">
-								<option value="국립중앙">국립중앙병원</option>
-								<option value="충남대" >충남대병원</option>
+								<!-- <option value="국립중앙">국립중앙병원</option>
+								<option value="충남대" >충남대병원</option> -->
 								<option value="강북삼성" >강북삼성병원</option>
-								<option value="전북대">전북대병원</option>
+								<!-- <option value="전북대">전북대병원</option>
 								<option value="서울아산" >서울아산병원</option>
-								<option value="순천향구미" >순천향구미병원</option>
+								<option value="순천향구미" >순천향구미병원</option> -->
 							</select>
 						</li>
 						<li class="qu">설문조회 마스터키</li>
