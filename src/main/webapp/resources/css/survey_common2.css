@@ -256,13 +256,16 @@ textarea {
 .view_quest_no{
 	display:none;
 }
+.subQuestWrap {
+    display:none;
+}
+
 .subQuest {
     margin-top:10px;
-	display: none;
 }
 
 .subAnwer {
-	display: none;
+	
 }
 
 #pp-nav {

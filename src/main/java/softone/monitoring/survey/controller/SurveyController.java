@@ -60,9 +60,10 @@ public class SurveyController {
 	public String test2() throws Exception {
 		return "/user/survey_test2";
 	}
+	
 	@RequestMapping(value = "/user/survey/surveyprocess2.do")
 	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass) throws Exception {
-		if(!confirmPass.equals("softone123!!@@")){
+		if(!confirmPass.equals("1")){
 			return new ModelAndView("/user/survey_test2");
 		}
 		ModelAndView mv = new ModelAndView("/user/survey/survey");
@@ -85,27 +86,7 @@ public class SurveyController {
 			surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 			surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
 		}
-		
-//		selectSurveyExQnWithAnswer쿼리 임시
-		/* 
-		Select B.ANS_VALUE, ANS_TXT1, ANS_TXT2, A.*
-		From Survey_qn_ex A, Survey_ans B
-		Where A.Survey_sn = 1 And A.Survey_cd = '건강영향(성인)' AND A.QN_CD = B.QN_CD AND A.EX_CD = B.EX_CD and B.SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND A.USE_AT = 'Y' AND B.USE_AT = 'Y'
-		Order By A.Qn_cd, A.Ex_cd 
-		*/
-		
-		//생성정보를 위한 임시
-//		if(surveyMaster == null){
-//			surveyMaster = new HashMap<String, Object>();
-//			surveyMaster.put("SURVEY_ANS_MST_SN", surveyAnsMstSn);
-//			surveyMaster.put("SUFRER_NM", "설문작성테스트");
-//			surveyMaster.put("SUFRER_PIN", "11-1-0111");
-//			surveyMaster.put("ORG_CD", "강북삼성");
-//			surveyMaster.put("OPER_CD", "강북삼성");
-//			surveyMaster.put("SURVEY_SN", "1");
-//			surveyMaster.put("SURVEY_CD", "건강영향(성인)");
-//			surveyMaster.put("SURVEY_NM", "【건강영향 설문조사】(성인용)");
-//		}
+	
 		
 		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();//질문
 		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();//서브질문
@@ -158,12 +139,64 @@ public class SurveyController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "failed";
 		}
 	}
-
-        
-        return "";
+        return "successed";
     }
+	
+	
+	 /*
+	  * 설문작성 미리보기
+	  * @ author sjmoon
+	  * @ date 2019.10.09
+	  */
+	@RequestMapping(value = "/user/survey/preview.do")
+	public ModelAndView preview(String surveyAnsMstSn, String orgCd) throws Exception {
+		ModelAndView mv = new ModelAndView("/user/survey/survey");
+		Map<String, Object> surveyParams = new HashMap<String, Object>();
+		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
+		surveyParams.put("orgCd",orgCd);
+		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
+		
+		
+		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
+		List<Map<String, Object>> surveyEx = null;
+		
+		surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
+
+		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();//질문
+		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();//서브질문
+		
+		for (Map<String, Object> qn : surveyQn) {//질문 리스트에 해당 질문에 해당하는 보기를 넣음.
+		  String qnCd = qn.get("QN_CD").toString();
+		  List<Map<String, Object>> surveySubEx = new ArrayList<Map<String, Object>>();
+		  for (Map<String, Object> ex : surveyEx) {//질문보기 loop
+			  if(ex.get("QN_CD").toString().equals(qnCd)){
+				  surveySubEx.add(ex);
+			  }
+		  }
+		  
+		  qn.put("QN_EX", surveySubEx);
+
+		  surveyQnEx.add(qn);
+		}
+		
+		//서브질문 분리
+		for(Iterator<Map<String, Object>> it = surveyQnEx.iterator() ; it.hasNext() ; ) {
+		  Map<String, Object> qnEx = it.next();
+		  if(qnEx.get("P_QN_CD") != null) {
+			 surveySubQnEx.add(qnEx);
+			 it.remove();
+		  }
+		}
+		
+		mv.addObject("surveySubQnEx", surveySubQnEx);
+		mv.addObject("surveyQnEx", surveyQnEx);
+		mv.addObject("viewMode", "view");
+		mv.addObject("surveyMaster", surveyMaster);
+		return mv;
+	}
 	
 //	실사용
 	@RequestMapping(value = "/user/survey/surveyprocess-real.do")
