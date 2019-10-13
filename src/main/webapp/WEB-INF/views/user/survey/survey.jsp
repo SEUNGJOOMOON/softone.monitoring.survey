@@ -137,7 +137,7 @@
 				var ansTxt2 = "";
 				var qnCd = "";
 				var exCd = "";
-				
+				var exqnlink = "";//예/아니오에 따라 이동할 특정 문항
 				var surveyQnArray = new Array();
 		        
 				
@@ -149,10 +149,17 @@
 						switch(extype){
 							case "선택" :
 								ansValue = $(el).is(":checked")? "Y" : "N";
+								
+								if($(el).is(":checked")){
+									exqnlink = $(el).attr("exqnlink");	
+								}
 								break;
 							case "선택(텍스트)" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
 								ansValue = $(el).is(":checked")? "Y" : "N";
 								ansTxt1 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
+								if($(el).is(":checked")){
+									exqnlink = $(el).attr("exqnlink");	
+								}
 								break;
 							case "텍스트" :
 								ansTxt1 = $(el).val();
@@ -201,11 +208,12 @@
 				        data: surveyJson,
 				        contentType:'application/json; charset=utf-8',
 				        success: function(data){
-				            if(data == "successed"){
-				            	//성공시 로직
-				            }else{
-				            	//실패시 로직
-				            }
+				        	console.log(123);
+			            	location.href="#questionGroup/" + exqnlink;
+			            	if(!exqnlink){
+			            		console.log("#questionGroup/" + exqnlink);
+			            		
+			            	}
 				        }
 					});  
 				}
@@ -222,6 +230,9 @@
 						surveyCommonUtils.setLayoutToSurvey();
 						break;
 					case "view":
+						surveyCommonUtils.setLayoutToView();
+						break;
+					case "tempView":
 						surveyCommonUtils.setLayoutToView();
 						break;
 					case "print":
@@ -263,7 +274,7 @@
 						$(this).addClass("active-dot");
 					});
 					
-					//체크박스 선택시 text필드 활성화/비활성화
+					//체크박스 선택시 text필드 활성화/비활성화, 서브질문 보이기, 감추기 
 					$("input[type='checkbox']").click(function(){
 						
 						//클릭시 서브질문 show/hide
@@ -302,7 +313,7 @@
 						}
 					});
 					
-					//라디오 선택시 text필드 활성화/비활성화
+					//라디오 선택시 text필드 활성화/비활성화 ,서브질문 보이기/감추기
 					$("input[type='radio']").click(function(){
 						
 						//클릭시 서브질문 show/hide
@@ -353,6 +364,42 @@
 						var url = "/user/survey/preview.do?orgCd=<c:out value='${surveyMaster.ORG_CD}'/>&surveyAnsMstSn=<c:out value='${surveyMaster.SURVEY_ANS_MST_SN}'/>";
 						window.open(url,'Survey preview','width=800, height=1000, menubar=no, status=no, toolbar=no');
 						
+					});
+					
+					//설문완료
+					$(".btn_survey_end").click(function(){
+						swal({
+						  title: "설문조사 완료(개발중)",
+						  text: "설문조사를 완료하시겠습니까?",
+						  icon: "info",
+						  buttons: true,
+						  dangerMode: false,
+						})
+						.then((surveyEnd) => {
+						  if (surveyEnd) {
+							//useAt => Y 로직 여기에
+						    swal("설문조사가 완료되었습니다.\r\n 오랜 시간 설문 조사에 응답해 주셔서 진심으로 감사드립니다.", {
+						      icon: "success",
+						    });
+						    
+						  }
+						});
+					});
+					
+					//미리보기 닫기버튼
+					$(".btn_view_close").click(function(){
+						swal({
+						  title: "",
+						  text: "미리보기를 종료하시겠습니까?",
+						  icon: "warning",
+						  buttons: true,
+						  dangerMode: false,
+						})
+						.then((surveyTempEnd) => {
+						  if (surveyTempEnd) {
+						    window.close();
+						  }
+						});
 					});
 
 				});
@@ -444,9 +491,9 @@
 		<!-- 설문지 작성 -->
 		<div class="section" id="section1">
 			<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
-				<div class="slide" id="slide1" data-anchor="question<c:out value='${status.count}' />" >
+				<div class="slide" data-anchor="<c:out value='${surveyQn.QN_CD}' />" >
 
-					<div class="fp-responsive" quest-no="question<c:out value='${status.count}' />">
+					<div class="fp-responsive" quest-no="<c:out value='${surveyQn.QN_CD}' />">
 						
 						<div class="qest_wrap">
 							<span class="qest_no"><c:out value="${surveyQn.QN_CD}"/> Question</span>
@@ -469,7 +516,7 @@
 								
 									<c:if test="${subQnEx.P_QN_CD eq surveyQn.QN_CD }">
 										<form name="<c:out value='${subQnEx.QN_CD}'/>">
-											<div subquestno="<c:out value='${subQnEx.QN_CD}'/>" class="subQuestWrap">
+											<div subquestno="<c:out value='${subQnEx.QN_CD}'/>" class="subQuestWrap" >
 												<div class="subQuest">
 													<c:out value="${subQnEx.QN_NM}" escapeXml="false" />
 												</div>
@@ -484,9 +531,9 @@
 							</div>
 							<div class="qest_btn_group">
 								<c:if test='${not status.first}'><input type="button" class="btn_prev" turn="<c:out value='${status.index}' />" value="이전" /></c:if>
-								&nbsp;&nbsp;<input type="button" name="btn_preview" value="미리보기" />&nbsp;&nbsp;
+								&nbsp;&nbsp;<input type="button" name="btn_preview" class="btn_preview" value="미리보기" />&nbsp;&nbsp;
 								<c:if test='${not status.last}'><input type="button" class="btn_next" turn="<c:out value='${status.index}' />" value="다음" /></c:if>
-								<c:if test='${status.last}'><input type="button" class="btn_next" turn="<c:out value='${status.index}' />" value="설문완료" /></c:if>
+								<c:if test='${status.last}'><input type="button" class="btn_survey_end" turn="<c:out value='${status.index}' />" value="설문완료" /></c:if>
 							</div>
 						</div>
 					</div>
@@ -498,11 +545,16 @@
 		<div class="navigation">
 			<ul>
 				<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
-					<li><a href="#questionGroup/question<c:out value='${status.count}'/>" class="navi-dot <c:if test='${status.first }'>active-dot</c:if>" id="slide<c:out value='${status.count}'/>_dot" ></a></li>
+					<li><a href="#questionGroup/<c:out value='${surveyQn.QN_CD}' />" class="navi-dot <c:if test='${status.first }'>active-dot</c:if>" id="slide<c:out value='${status.count}'/>_dot" ></a></li>
 				</c:forEach>
 			</ul>
 		</div>
 		<!-- 설문지 네비게이션 끝-->
+		<c:if test="${viewMode eq 'tempView' }">
+			<div style="width:100%;text-align:center">
+				<button type="button" class="btn_view_close" >닫기</button>
+			</div>
+		</c:if>
 	</div>
 	
 

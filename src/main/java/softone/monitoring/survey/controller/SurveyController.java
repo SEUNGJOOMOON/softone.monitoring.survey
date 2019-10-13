@@ -55,7 +55,7 @@ public class SurveyController {
 		mv.addObject("surveyMaster", surveyMaster);
 		return mv;
 	} 
-//	구조변경
+//	실사용
 	@RequestMapping(value = "/user/test2.do")
 	public String test2() throws Exception {
 		return "/user/survey_test2";
@@ -63,7 +63,7 @@ public class SurveyController {
 	
 	@RequestMapping(value = "/user/survey/surveyprocess2.do")
 	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass) throws Exception {
-		if(!confirmPass.equals("1")){
+		if(!confirmPass.equals("softone123!!@@")){
 			return new ModelAndView("/user/survey_test2");
 		}
 		ModelAndView mv = new ModelAndView("/user/survey/survey");
@@ -163,7 +163,7 @@ public class SurveyController {
 		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
 		List<Map<String, Object>> surveyEx = null;
 		
-		surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
+		surveyEx = surveyService.selectSurveyExWithAnsTemp(surveyParams);//질문 보기
 
 		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();//질문
 		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();//서브질문
@@ -193,63 +193,10 @@ public class SurveyController {
 		
 		mv.addObject("surveySubQnEx", surveySubQnEx);
 		mv.addObject("surveyQnEx", surveyQnEx);
-		mv.addObject("viewMode", "view");
+		mv.addObject("viewMode", "tempView");
 		mv.addObject("surveyMaster", surveyMaster);
 		return mv;
 	}
 	
-//	실사용
-	@RequestMapping(value = "/user/survey/surveyprocess-real.do")
-	public ModelAndView surveyProcessReal(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, String sufrerPin, String sufrerNm) throws Exception {
-		
-		Map<String, Object> surveyQn = null;
-		Map<String, Object> victimInfo = null;
-		ModelAndView mv = null;
-		String surveyType = "adultNew";
-	
-		//if viewMode = survey
-		if(viewMode.equals("survey")){
-			if(surveyType.equals("adultNew")){
-				
-				Map<String, Object> victimInfoSrchMap = new HashMap<String, Object>();
-				victimInfoSrchMap.put("sufrerPin", sufrerPin);
-				victimInfoSrchMap.put("sufrerNm", sufrerNm);
-				victimInfo = surveyService.selectVictimInfo(victimInfoSrchMap);
-				
-				System.out.print(victimInfo);
-				
-				surveyQn = surveyService.selectSurveyQnAdultNew();
-				mv = new ModelAndView("/user/survey/adultNew");
-				mv.addObject("viewMode", viewMode);
-				mv.addObject("surveyQn", surveyQn);
-			}
-		}
-		//입력된 값으로 victimList에서 조회한다.
-		//if value is not empty
-		//	insert data to answer master table(generate survey master key) 
-		//else if value is empty
-		//	return error(user data is not valied)
-		
-		//check which survey form user must fill out(depends on user data(age, gender..))
-		//put master data and survey from that user must fill and return
-		//end if viewMode = survey
-		
-		//if viewMode = view(same process with print)
-		//if survey data(sufrerPin, sufrerNm, age ETC...) is not empty
-		//	get answer data from table by survey data
-		//	put answer data and survey form and return
-		//if survey data is empty
-		//	return error(user data is not valied)
-		
-//		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
-//		
-//		Map<String, Object> result = surveyService.selectSurveyResultAdultNew(surveyParams);
-//
-//		
-//		
-//		mv.addObject("result", result);
-//		mv.addObject("surveyMaster", surveyMaster);
-		return mv;
-	}
 
 }

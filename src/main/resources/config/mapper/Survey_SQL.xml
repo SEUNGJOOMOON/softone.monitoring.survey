@@ -46,6 +46,15 @@
 		]]>
 	</select>
 	
+	<select id="selectSurveyExWithAnsTemp" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT B.ANS_VALUE,B.ANS_TXT1, B.ANS_TXT2, A.*
+			FROM SURVEY_QN_EX A, (SELECT *  FROM SURVEY_ANS WHERE SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND USE_AT = 'T' AND SURVEY_SN = 1) B
+			WHERE A.QN_CD = B.QN_CD(+) AND A.EX_CD = B.EX_CD(+) AND A.SURVEY_SN = 1 
+			ORDER BY A.QN_CD, A.EX_CD
+		]]>
+	</select>
+	
 	<select id="selectSurveyQnEx" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			Select Qn.Qn_type, Qn.Qn_cd, Qn.Qn_nm, Qn.P_qn_cd, Qn.Ex_type, Ex.Ex_type As Ex_type2, Ex.Ex_cd, Ex_qn_link, Ex.Ex_nm, Ex.Ex_txt1_unit, Ex.Ex_txt2_unit, Ex.Ex_img_link
