@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,7 +65,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value = "/user/survey/surveyprocess2.do")
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass) throws Exception {
+	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
 		if(!confirmPass.equals("softone123!!@@")){
 			return new ModelAndView("/user/survey_test2");
 		}
@@ -118,6 +121,12 @@ public class SurveyController {
 		mv.addObject("surveyQnEx", surveyQnEx);
 		mv.addObject("viewMode", viewMode);
 		mv.addObject("surveyMaster", surveyMaster);
+		
+		HttpSession httpSession = request.getSession(true);
+        
+        // "USER"로 sessionVO를 세션에 바인딩한다.
+        httpSession.setAttribute("auth_key", surveyAnsMstSn);
+		
 		return mv;
 	}
 	
@@ -146,14 +155,53 @@ public class SurveyController {
     }
 	
 	
+	/*SurveyMaster 정보 use_at T(임시저장) ->Y 변경
+	* @ author sjmoon
+	* @ date 2019.10.14
+	*/
+	@RequestMapping(value="/user/survey/surveyMasterActive", method=RequestMethod.POST)
+    @ResponseBody
+    public Object surveyMasterActive(String surveyAnsMstSn, HttpServletRequest request) {
+		HttpSession httpSession = request.getSession(true);
+		
+		httpSession.invalidate();
+		
+		Map<String, Object> masterMap = new HashMap<String, Object>();
+		masterMap.put("surveyAnsMstSn", surveyAnsMstSn);
+		try {
+			surveyService.updateSSurveyAnsMstUseAtY(masterMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "failed";
+		}
+        return "successed";
+    }
+	
+	
 	 /*
 	  * 설문작성 미리보기
 	  * @ author sjmoon
 	  * @ date 2019.10.09
 	  */
 	@RequestMapping(value = "/user/survey/preview.do")
-	public ModelAndView preview(String surveyAnsMstSn, String orgCd) throws Exception {
-		ModelAndView mv = new ModelAndView("/user/survey/survey");
+	public ModelAndView preview(String surveyAnsMstSn, String orgCd, HttpServletRequest request) throws Exception {
+		ModelAndView mv = null;
+		
+		HttpSession httpSession = request.getSession(true);
+		
+		try{
+			if(!httpSession.getAttribute("auth_key").toString().equals(surveyAnsMstSn)){
+				mv = new ModelAndView("/user/survey_test2");
+				return mv;
+			}
+		}catch(Exception e){//세션 널체크 해주어야함.. 임시처리...
+			mv = new ModelAndView("/user/survey_test2");
+			return mv;
+		}
+
+		
+		
+		mv = new ModelAndView("/user/survey/survey");
 		Map<String, Object> surveyParams = new HashMap<String, Object>();
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
 		surveyParams.put("orgCd",orgCd);

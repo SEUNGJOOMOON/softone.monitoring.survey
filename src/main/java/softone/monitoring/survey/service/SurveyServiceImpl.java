@@ -57,4 +57,7 @@ public class SurveyServiceImpl implements SurveyService {
 	public void updateSurveyAnsUseAtN(Map<String, Object> map) throws Exception {
 		surveyDAO.updateSurveyAnsUseAtN(map);
 	}
+	public void updateSSurveyAnsMstUseAtY(Map<String, Object> map) throws Exception {
+		surveyDAO.updateSSurveyAnsMstUseAtY(map);
+	}
 }

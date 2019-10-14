@@ -78,18 +78,25 @@
 		</selectKey> 
 		
 		<![CDATA[
-			INSERT INTO SURVEY_ANS(ANS_SN, SURVEY_ANS_MST_SN, SUFRER_NM, SUFRER_PIN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, ANS_VALUE, ANS_TXT1, ANS_TXT2, QN_CD, EX_CD)
-			VALUES(#{ansSn}, #{surveyAnsMstSn}, #{surferNm,jdbcType=VARCHAR}, #{sufrerPin,jdbcType=VARCHAR}, #{orgCd,jdbcType=VARCHAR}, #{operCd,jdbcType=VARCHAR}, #{surveySn,jdbcType=VARCHAR}, #{surveyCd,jdbcType=VARCHAR}, #{surveyNm,jdbcType=VARCHAR}, #{ansValue,jdbcType=VARCHAR}, #{ansTxt1,jdbcType=VARCHAR}, #{ansTxt2,jdbcType=VARCHAR}, #{qnCd,jdbcType=VARCHAR}, #{exCd,jdbcType=VARCHAR})
+			INSERT INTO SURVEY_ANS(ANS_SN, SURVEY_ANS_MST_SN, SUFRER_NM, SUFRER_PIN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, ANS_VALUE, ANS_TXT1, ANS_TXT2, QN_CD, EX_CD, USE_AT)
+			VALUES(#{ansSn}, #{surveyAnsMstSn}, #{surferNm,jdbcType=VARCHAR}, #{sufrerPin,jdbcType=VARCHAR}, #{orgCd,jdbcType=VARCHAR}, #{operCd,jdbcType=VARCHAR}, #{surveySn,jdbcType=VARCHAR}, #{surveyCd,jdbcType=VARCHAR}, #{surveyNm,jdbcType=VARCHAR}, #{ansValue,jdbcType=VARCHAR}, #{ansTxt1,jdbcType=VARCHAR}, #{ansTxt2,jdbcType=VARCHAR}, #{qnCd,jdbcType=VARCHAR}, #{exCd,jdbcType=VARCHAR}, #{useAt,jdbcType=VARCHAR})
 		]]>
 	</insert>
 
 	<insert id="insertSurveyAnsMst" parameterType="hashmap" >
 		<![CDATA[
 			INSERT INTO SURVEY_ANS_MST(SURVEY_ANS_MST_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, HSPTL_ID, SUFRER_PIN, SUFRER_NM, SEXDSTN, BRTHDY, ANS_NM, SUFRER_RELATE, SURVEY_DT, USE_AT)
-			VALUES(#{surveyAnsMstSn}, '강북삼성', '강북삼성', '1', '건강영향(성인)' ,'【건강영향 설문조사】(성인용)', '111111', '11-1-0111', '설문작성테스트', '남', '9999-11-11', '설문작성테스트', '본인', '2019-01-01', 'Y')
+			VALUES(#{surveyAnsMstSn}, '강북삼성', '강북삼성', '1', '건강영향(성인)' ,'【건강영향 설문조사】(성인용)', '111111', '11-1-0111', '설문작성테스트', '남', '9999-11-11', '설문작성테스트', '본인', '2019-01-01', 'T')
 		]]>
 	</insert>
 	
+	<update id="updateSSurveyAnsMstUseAtY" parameterType="hashmap" >
+		<![CDATA[
+			UPDATE SURVEY_ANS_MST
+			SET USE_AT = 'Y'
+			WHERE SURVEY_ANS_MST_SN = #{surveyAnsMstSn}
+		]]>
+	</update>
 	
 
 </mapper>

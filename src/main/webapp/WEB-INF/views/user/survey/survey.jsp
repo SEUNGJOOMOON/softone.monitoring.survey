@@ -17,7 +17,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fullpage.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/JQuery3.4.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/sweetAlert.js"></script>
-<%-- <script src="${pageContext.request.contextPath}/resources/js/surveyCommonUtils2.js"></script> --%>
 
 	<script>
 
@@ -50,7 +49,15 @@
 						//이곳에 필수입력, 다음 문항 이동 등 로직 
 						//이곳에서 설문데이터 저장
 						
-						surveyCommonUtils.writeSurveyAns(origin.anchor, direction);
+						var writeResult = surveyCommonUtils.writeSurveyAns(origin.anchor, "one");
+						/* if(direction == "right"){
+							if(writeResult != "true"){
+								var writeResult = writeResult.split("/");
+								fullpage_api.moveTo(1, writeResult[1]);
+								return false;
+							}
+						} */
+						
 						
 						
 					},
@@ -95,6 +102,7 @@
 				$(".qest").hide();
 				$(".navigation").hide();
 				$(".qest_anwer_wrap").css("margin-top", "0px");
+				$(".section").css("padding-top", "120px");
 			},
 			"printSurvey" : function(printThis) {
 				/* if(!this.isMobile()){
@@ -122,7 +130,8 @@
 					}
 				}
 			},
-			"writeSurveyAns" : function(qestNo, direction){//설문작성내용 DB 인서트
+			"writeSurveyAns" : function(qestNo, type){//설문작성내용 DB 인서트
+				//type = "all" 전체문항 저장, type = "one" 해당 문항만 저장
 				var surveyAnsMstSn = $("#survey_form > #SURVEY_ANS_MST_SN").val();
 				var surferNm = $("#survey_form > #SUFRER_NM").val();
 				var sufrerPin = $("#survey_form > #SUFRER_PIN").val();
@@ -139,118 +148,119 @@
 				var exCd = "";
 				var exqnlink = "";//예/아니오에 따라 이동할 특정 문항
 				var surveyQnArray = new Array();
-		        
+		    
+				var targetObj = null;
 				
-				if(direction == "right"){//"다음"버튼 클릭시에만 저장
-					$("div[quest-no='"+qestNo + "']").find("textarea, input[type=checkbox], input[type=radio], input[type=text]").each(function(index, el){//현재 작성중인 설문지의 모든 textarea, input 태그를 가져와서 반복
-						extype = $(el).attr("extype");
-						qnCd = $(el).attr("qncd");
-						exCd = $(el).attr("excd");
-						switch(extype){
-							case "선택" :
-								ansValue = $(el).is(":checked")? "Y" : "N";
-								
-								if($(el).is(":checked")){
-									exqnlink = $(el).attr("exqnlink");	
-								}
-								break;
-							case "선택(텍스트)" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
-								ansValue = $(el).is(":checked")? "Y" : "N";
-								ansTxt1 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
-								if($(el).is(":checked")){
-									exqnlink = $(el).attr("exqnlink");	
-								}
-								break;
-							case "텍스트" :
-								ansTxt1 = $(el).val();
-								break;
-							case "텍스트(텍스트)" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
-								ansTxt1 = $(el).val();
-								ansTxt2 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
-								break;
-							//그외 survey_qn_ex.ex_type이 추가되면 이곳에 정의
+				if(type == "all"){
+					targetObj = $(".question");//전체저장
+				}else{
+					targetObj = $("div[quest-no='"+qestNo + "']");//해당 문항만 저장
+				}
+				
+				
+				$(targetObj).find("textarea, input[type=checkbox], input[type=radio], input[type=text]").each(function(index, el){//현재 작성중인 설문지의 모든 textarea, input 태그를 가져와서 반복
+					extype = $(el).attr("extype");
+					qnCd = $(el).attr("qncd");
+					exCd = $(el).attr("excd");
+					switch(extype){
+						case "선택" :
+							ansValue = $(el).is(":checked")? "Y" : "N";
 							
-						}
-						if(typeof extype != "undefined"){//해당 문항내 모든 input element를 대상으로 조회하므로, extype을 갖고 있지 않은 태그(ex : qntxtlink용 태그) 등은 답변목록에서 제외
-							var surveyQnObj = new Object();
-							surveyQnObj.surveyAnsMstSn = surveyAnsMstSn;
-							surveyQnObj.surferNm = surferNm;
-							surveyQnObj.sufrerPin = sufrerPin;
-							surveyQnObj.orgCd = orgCd;
-							surveyQnObj.operCd = operCd;
-							surveyQnObj.surveySn = surveySn;
-							surveyQnObj.surveyCd = surveyCd;
-							surveyQnObj.surveyNm = surveyNm;
-							surveyQnObj.ansValue = ansValue;
-							surveyQnObj.ansTxt1 = ansTxt1;
-							surveyQnObj.ansTxt2 = ansTxt2;
-							surveyQnObj.qnCd = qnCd;
-							surveyQnObj.exCd = exCd;
-							surveyQnArray.push(surveyQnObj);//현재 답변정보를 저장
-							
-						}
-						//해당 답변정보 초기화
-						extype = "";
-						ansValue = "";
-						ansTxt1 = "";
-						ansTxt2 = "";
-						qnCd = "";
-						exCd = "";
+							if($(el).is(":checked")){
+								exqnlink = $(el).attr("exqnlink");	
+							}
+							break;
+						case "선택(텍스트)" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
+							ansValue = $(el).is(":checked")? "Y" : "N";
+							ansTxt1 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
+							if($(el).is(":checked")){
+								exqnlink = $(el).attr("exqnlink");	
+							}
+							break;
+						case "텍스트" :
+							ansTxt1 = $(el).val();
+							break;
+						case "텍스트(텍스트)" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
+							ansTxt1 = $(el).val();
+							ansTxt2 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
+							break;
+						//그외 survey_qn_ex.ex_type이 추가되면 이곳에 정의
 						
+					}
+					if(typeof extype != "undefined"){//해당 문항내 모든 input element를 대상으로 조회하므로, extype을 갖고 있지 않은 태그(ex : qntxtlink용 태그) 등은 답변목록에서 제외
+						var surveyQnObj = new Object();
+						surveyQnObj.surveyAnsMstSn = surveyAnsMstSn;
+						surveyQnObj.surferNm = surferNm;
+						surveyQnObj.sufrerPin = sufrerPin;
+						surveyQnObj.orgCd = orgCd;
+						surveyQnObj.operCd = operCd;
+						surveyQnObj.surveySn = surveySn;
+						surveyQnObj.surveyCd = surveyCd;
+						surveyQnObj.surveyNm = surveyNm;
+						surveyQnObj.ansValue = ansValue;
+						surveyQnObj.ansTxt1 = ansTxt1;
+						surveyQnObj.ansTxt2 = ansTxt2;
+						surveyQnObj.qnCd = qnCd;
+						surveyQnObj.exCd = exCd;
 						
-					})
+						if(type=="all"){
+							surveyQnObj.useAt = "Y"	
+						}else{
+							surveyQnObj.useAt = "T"
+						}
+						 
+						surveyQnArray.push(surveyQnObj);//현재 답변정보를 저장
+						
+					}
+					//해당 답변정보 초기화
+					extype = "";
+					ansValue = "";
+					ansTxt1 = "";
+					ansTxt2 = "";
+					qnCd = "";
+					exCd = "";
 					
-					var surveyJson = JSON.stringify(surveyQnArray);//서버 전달용 JSON
-					$.ajax({
-				        type: "POST",
-				        url: "/user/survey/write",
-				        dataType: 'json',
-				        data: surveyJson,
-				        contentType:'application/json; charset=utf-8',
-				        success: function(data){
-				        	console.log(123);
-			            	location.href="#questionGroup/" + exqnlink;
-			            	if(!exqnlink){
-			            		console.log("#questionGroup/" + exqnlink);
-			            		
-			            	}
-				        }
-					});  
+					
+				})
+				
+				var surveyJson = JSON.stringify(surveyQnArray);//서버 전달용 JSON
+				$.ajax({
+			        type: "POST",
+			        url: "/user/survey/write",
+			        dataType: 'json',
+			        data: surveyJson,
+			        contentType:'application/json; charset=utf-8',
+			        success: function(data){
+			        	
+			        }
+				});
+				if(exqnlink != ""){
+					return "false/" + exqnlink; 
+				}else{
+					return "true";
 				}
 			}
+			
 		};
 	
-	
-	
+
 		$(document).ready(
 				function() {
 					var viewMode = value='<c:out value="${viewMode}"/>';
 					switch (viewMode) {
-					case "survey":
-						surveyCommonUtils.setLayoutToSurvey();
-						break;
-					case "view":
-						surveyCommonUtils.setLayoutToView();
-						break;
-					case "tempView":
-						surveyCommonUtils.setLayoutToView();
-						break;
-					case "print":
-						surveyCommonUtils.printSurvey();
-						break;
+						case "survey":
+							surveyCommonUtils.setLayoutToSurvey();
+							break;
+						case "view":
+							surveyCommonUtils.setLayoutToView();
+							break;
+						case "tempView":
+							surveyCommonUtils.setLayoutToView();
+							break;
+						case "print":
+							surveyCommonUtils.printSurvey();
+							break;
 					}
-
-					//서브항목 로딩
-					$("[hasSubQuest='Y']").change(
-							function() {
-								$("div[name='"+ $(this).attr("showQuest")+"']").show();
-								$("div[name='"+ $(this).attr("showQuest")+"'] > input").val("");
-								$("div[name='"+ $(this).attr("showQuest")+ "'] > input[type='radio']").removeAttr("checked");
-								$("div[name='"+ $(this).attr("hideQuest")+ "']").hide();
-								$("div[name='"+ $(this).attr("hideQuest")+ "'] > input").val("");
-								$("div[name='"+ $(this).attr("hideQuest")+ "'] > input[type='radio']").removeAttr("checked");
-								fullpage_api.reBuild();
-							});
 
 					$("#btn_close").click(function() {
 						if ($(".st_con").css("display") == "none") {
@@ -317,7 +327,7 @@
 					$("input[type='radio']").click(function(){
 						
 						//클릭시 서브질문 show/hide
-						var exsubdisplays = $(this).attr("exsubdisplay");
+						/* var exsubdisplays = $(this).attr("exsubdisplay");
 						if(exsubdisplays){
 							
 							var exsubdisplays = exsubdisplays.split('/');
@@ -332,7 +342,28 @@
 									$("form[name='" + exsubexno + "']")[0].reset();
 								}
 						    }
-						}
+						} */
+						
+						$("input[exsubdisplay='" + $(this).attr("exsubdisplay") + "']").each(function(){
+							if($(this).is(":checked")){
+								var exsubdisplays = $(this).attr("exsubdisplay");
+								if(exsubdisplays){
+									
+									var exsubdisplays = exsubdisplays.split('/');
+								    for ( var i in exsubdisplays ) {
+								    	var exsubdisplay = exsubdisplays[i].split(':');
+										var exsubtype = exsubdisplay[0];//SHOW OR HIDE
+										var exsubexno = exsubdisplay[1];//설문 번호
+										if(exsubtype == "SHOW"){
+											$("div[subquestno='" + exsubexno + "']").slideDown(300);
+										}else{
+											$("div[subquestno='" + exsubexno + "']").slideUp(300);
+											$("form[name='" + exsubexno + "']")[0].reset();
+										}
+								    }
+								}
+							}
+						});
 						
 						
 						
@@ -369,7 +400,7 @@
 					//설문완료
 					$(".btn_survey_end").click(function(){
 						swal({
-						  title: "설문조사 완료(개발중)",
+						  title: "설문조사 완료",
 						  text: "설문조사를 완료하시겠습니까?",
 						  icon: "info",
 						  buttons: true,
@@ -378,9 +409,22 @@
 						.then((surveyEnd) => {
 						  if (surveyEnd) {
 							//useAt => Y 로직 여기에
-						    swal("설문조사가 완료되었습니다.\r\n 오랜 시간 설문 조사에 응답해 주셔서 진심으로 감사드립니다.", {
+							surveyCommonUtils.writeSurveyAns("", "all");
+							$.ajax({
+						        type: "POST",
+						        url: "/user/survey/surveyMasterActive",
+						        dataType: 'json',
+						        data: "surveyAnsMstSn=" + $("#survey_form > #SURVEY_ANS_MST_SN").val(),
+						        success: function(data){}
+							});
+							
+							swal("설문조사가 완료되었습니다.\r\n 오랜 시간 설문 조사에 응답해 주셔서 진심으로 감사드립니다.", {
 						      icon: "success",
-						    });
+						    }).then((surveyEnd) => {
+							  if (surveyEnd) {
+							  	location.href="/user/test2.do";
+							  }
+							});
 						    
 						  }
 						});
@@ -493,7 +537,7 @@
 			<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
 				<div class="slide" data-anchor="<c:out value='${surveyQn.QN_CD}' />" >
 
-					<div class="fp-responsive" quest-no="<c:out value='${surveyQn.QN_CD}' />">
+					<div class="fp-responsive question" quest-no="<c:out value='${surveyQn.QN_CD}' />">
 						
 						<div class="qest_wrap">
 							<span class="qest_no"><c:out value="${surveyQn.QN_CD}"/> Question</span>
@@ -551,7 +595,7 @@
 		</div>
 		<!-- 설문지 네비게이션 끝-->
 		<c:if test="${viewMode eq 'tempView' }">
-			<div style="width:100%;text-align:center">
+			<div style="width:100%;text-align:center;margin-bottom:50px;">
 				<button type="button" class="btn_view_close" >닫기</button>
 			</div>
 		</c:if>
