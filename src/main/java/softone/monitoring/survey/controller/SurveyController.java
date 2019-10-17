@@ -37,7 +37,7 @@ public class SurveyController {
 		return "/user/survey_test";
 	}
 	
-//	테스트용
+//	테스트용2
 	@RequestMapping(value = "/user/survey/surveyprocess.do")
 	public ModelAndView surveyProcess(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass) throws Exception {
 		
