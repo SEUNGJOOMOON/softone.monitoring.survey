@@ -65,7 +65,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value = "/user/survey/surveyprocess2.do")
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
+	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
 		if(!confirmPass.equals("softone123!!@@")){
 			return new ModelAndView("/user/survey_test2");
 		}
@@ -73,6 +73,7 @@ public class SurveyController {
 
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
 		surveyParams.put("orgCd",orgCd);
+		surveyParams.put("surveySn",surveySn);
 		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 		
 		
@@ -84,7 +85,9 @@ public class SurveyController {
 			surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
 		}else{
 			Map<String, Object> surveyMasterMap = new HashMap<String, Object>();
+//			마스터 정보 셋팅
 			surveyMasterMap.put("surveyAnsMstSn", surveyAnsMstSn);
+			surveyMasterMap.put("surveySn", surveySn);
 			surveyService.insertSurveyAnsMst(surveyMasterMap);
 			surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 			surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
@@ -184,7 +187,7 @@ public class SurveyController {
 	  * @ date 2019.10.09
 	  */
 	@RequestMapping(value = "/user/survey/preview.do")
-	public ModelAndView preview(String surveyAnsMstSn, String orgCd, HttpServletRequest request) throws Exception {
+	public ModelAndView preview(String surveyAnsMstSn, String orgCd, String surveySn, HttpServletRequest request) throws Exception {
 		ModelAndView mv = null;
 		
 		HttpSession httpSession = request.getSession(true);
@@ -205,6 +208,7 @@ public class SurveyController {
 		Map<String, Object> surveyParams = new HashMap<String, Object>();
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
 		surveyParams.put("orgCd",orgCd);
+		surveyParams.put("surveySn",surveySn);
 		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 		
 		
@@ -221,7 +225,7 @@ public class SurveyController {
 		  List<Map<String, Object>> surveySubEx = new ArrayList<Map<String, Object>>();
 		  for (Map<String, Object> ex : surveyEx) {//질문보기 loop
 			  if(ex.get("QN_CD").toString().equals(qnCd)){
-				  surveySubEx.add(ex);
+				  surveySubEx.add(ex); 
 			  }
 		  }
 		  
@@ -246,5 +250,4 @@ public class SurveyController {
 		return mv;
 	}
 	
-
 }

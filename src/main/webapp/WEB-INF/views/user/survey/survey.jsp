@@ -184,6 +184,17 @@
 							ansTxt1 = $(el).val();
 							ansTxt2 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
 							break;
+						case "텍스트(텍스트)2" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
+							ansTxt1 = $(el).val();
+							ansTxt2 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
+							break;
+						case "선택(이미지)" :
+							ansValue = $(el).is(":checked")? "Y" : "N";
+							
+							if($(el).is(":checked")){
+								exqnlink = $(el).attr("exqnlink");	
+							}
+							break;
 						//그외 survey_qn_ex.ex_type이 추가되면 이곳에 정의
 						
 					}
@@ -392,7 +403,9 @@
 					
 					//미리보기 팝업
 					$("[name='btn_preview']").click(function(){
-						var url = "/user/survey/preview.do?orgCd=<c:out value='${surveyMaster.ORG_CD}'/>&surveyAnsMstSn=<c:out value='${surveyMaster.SURVEY_ANS_MST_SN}'/>";
+						
+						
+						var url = "/user/survey/preview.do?orgCd=<c:out value='${surveyMaster.ORG_CD}'/>&surveyAnsMstSn=<c:out value='${surveyMaster.SURVEY_ANS_MST_SN}'/>&surveySn=<c:out value='${surveyMaster.SURVEY_SN}'/>";
 						window.open(url,'Survey preview','width=800, height=1000, menubar=no, status=no, toolbar=no');
 						
 					});

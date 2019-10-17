@@ -68,6 +68,13 @@
 								<option value="순천향구미" >순천향구미병원</option> -->
 							</select>
 						</li>
+						<li class="qu">설문종류</li>
+						<li class="aw">
+							<select name="surveySn">
+								<option value="1" >성인(신규)</option>
+								<option value="4" >사춘기(남)신규</option>
+							</select>
+						</li>
 						<li class="qu">설문조회 마스터키</li>
 						<li class="aw"><input type="text" class="input_txt" name="surveyAnsMstSn" ></li>
 						<li class="qu">관리 비밀번호</li>

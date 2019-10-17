@@ -22,7 +22,7 @@
 		<![CDATA[
 			Select QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_TYPE, QN_CD, QN_SE, QN_GRP, QN_NM, P_QN_CD, EX_TYPE, EX_TYPE_TXT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, QN_EXPLN_TYPE, QN_EXPLN
 			From Survey_qn
-			Where Survey_sn = 1 And Survey_cd = '건강영향(성인)' AND USE_AT = 'Y'
+			Where Survey_sn = #{surveySn,jdbcType=VARCHAR} And USE_AT = 'Y'
 			Order By Qn_cd
 		]]>
 	</select>
@@ -32,7 +32,7 @@
 		<![CDATA[
 			Select QN_EX_SN, QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_CD, EX_CD, EX_TYPE, EX_QN_LINK, EX_NM, EX_TXT1_UNIT, EX_TXT2_UNIT, EX_IMG_LINK, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, EX_INNER_AT, EX_CLASS1, EX_CLASS2, EX_GROUP, EX_SUB_DISPLAY, IS_DISABLE, DISABLE_TARGET
 			From Survey_qn_ex
-			Where Survey_sn = 1 And Survey_cd = '건강영향(성인)' AND USE_AT = 'Y'
+			Where Survey_sn = #{surveySn,jdbcType=VARCHAR} AND USE_AT = 'Y'
 			Order By Qn_cd,Ex_cd
 		]]>
 	</select>
@@ -40,8 +40,8 @@
 	<select id="selectSurveyExWithAns" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT B.ANS_VALUE,B.ANS_TXT1, B.ANS_TXT2, A.*
-			FROM SURVEY_QN_EX A, (SELECT *  FROM SURVEY_ANS WHERE SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND USE_AT = 'Y' AND SURVEY_SN = 1) B
-			WHERE A.QN_CD = B.QN_CD(+) AND A.EX_CD = B.EX_CD(+) AND A.SURVEY_SN = 1 
+			FROM SURVEY_QN_EX A, (SELECT *  FROM SURVEY_ANS WHERE SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND USE_AT = 'Y' AND SURVEY_SN = #{surveySn,jdbcType=VARCHAR}) B
+			WHERE A.QN_CD = B.QN_CD(+) AND A.EX_CD = B.EX_CD(+) AND A.SURVEY_SN = #{surveySn,jdbcType=VARCHAR}
 			ORDER BY A.QN_CD, A.EX_CD
 		]]>
 	</select>
@@ -49,8 +49,8 @@
 	<select id="selectSurveyExWithAnsTemp" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT B.ANS_VALUE,B.ANS_TXT1, B.ANS_TXT2, A.*
-			FROM SURVEY_QN_EX A, (SELECT *  FROM SURVEY_ANS WHERE SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND USE_AT = 'T' AND SURVEY_SN = 1) B
-			WHERE A.QN_CD = B.QN_CD(+) AND A.EX_CD = B.EX_CD(+) AND A.SURVEY_SN = 1 
+			FROM SURVEY_QN_EX A, (SELECT *  FROM SURVEY_ANS WHERE SURVEY_ANS_MST_SN = #{surveyAnsMstSn} AND USE_AT = 'T' AND SURVEY_SN = #{surveySn,jdbcType=VARCHAR}) B
+			WHERE A.QN_CD = B.QN_CD(+) AND A.EX_CD = B.EX_CD(+) AND A.SURVEY_SN = #{surveySn,jdbcType=VARCHAR}
 			ORDER BY A.QN_CD, A.EX_CD
 		]]>
 	</select>
@@ -59,7 +59,7 @@
 		<![CDATA[
 			Select Qn.Qn_type, Qn.Qn_cd, Qn.Qn_nm, Qn.P_qn_cd, Qn.Ex_type, Ex.Ex_type As Ex_type2, Ex.Ex_cd, Ex_qn_link, Ex.Ex_nm, Ex.Ex_txt1_unit, Ex.Ex_txt2_unit, Ex.Ex_img_link
 			From Survey_qn Qn, Survey_qn_ex Ex
-			Where Qn.Survey_sn = 1 And Qn.Survey_cd = '건강영향(성인)' And Qn.Qn_cd = Ex.Qn_cd AND Qn.USE_AT = 'Y' AND Ex.USE_AT = 'Y'
+			Where Qn.Survey_sn = #{surveySn,jdbcType=VARCHAR} And Qn.Qn_cd = Ex.Qn_cd AND Qn.USE_AT = 'Y' AND Ex.USE_AT = 'Y'
 			Order By Qn.Qn_cd
 		]]>
 	</select>
@@ -86,7 +86,7 @@
 	<insert id="insertSurveyAnsMst" parameterType="hashmap" >
 		<![CDATA[
 			INSERT INTO SURVEY_ANS_MST(SURVEY_ANS_MST_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, HSPTL_ID, SUFRER_PIN, SUFRER_NM, SEXDSTN, BRTHDY, ANS_NM, SUFRER_RELATE, SURVEY_DT, USE_AT)
-			VALUES(#{surveyAnsMstSn}, '강북삼성', '강북삼성', '1', '건강영향(성인)' ,'【건강영향 설문조사】(성인용)', '111111', '11-1-0111', '설문작성테스트', '남', '9999-11-11', '설문작성테스트', '본인', '2019-01-01', 'T')
+			VALUES(#{surveyAnsMstSn}, '강북삼성', '강북삼성', #{surveySn,jdbcType=VARCHAR}, '건강영향(성인)' ,'【건강영향 설문조사】(성인용)', '111111', '11-1-0111', '설문작성테스트', '남', '9999-11-11', '설문작성테스트', '본인', '2019-01-01', 'T')
 		]]>
 	</insert>
 	
