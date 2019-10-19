@@ -20,7 +20,7 @@
 	
 	<select id="selectSurveyQn" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
-			Select QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_TYPE, QN_CD, QN_SE, QN_GRP, QN_NM, P_QN_CD, EX_TYPE, EX_TYPE_TXT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, QN_EXPLN_TYPE, QN_EXPLN
+			Select QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_TYPE, QN_CD, QN_SE, QN_GRP, QN_NM, P_QN_CD, EX_TYPE, EX_TYPE_TXT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, QN_EXPLN_TYPE, QN_EXPLN, INIT_DISPLAY_AT
 			From Survey_qn
 			Where Survey_sn = #{surveySn,jdbcType=VARCHAR} And USE_AT = 'Y'
 			Order By Qn_cd

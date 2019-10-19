@@ -141,7 +141,7 @@ public class SurveyController {
 	* @ date 2019.10.02
 	*/
 	@RequestMapping(value="/user/survey/write", method=RequestMethod.POST)
-    @ResponseBody
+	@ResponseBody
     public Object surveyWrite(@RequestBody List<Map<String, Object>> surveyAnsJson) {
 
 	for(Map<String, Object> surveyAns : surveyAnsJson){

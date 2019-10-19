@@ -25,7 +25,7 @@
 				var myFullpage = new fullpage('#fullpage', {
 					licenseKey : '2BD03B7C-BEE54D5A-AA0125A7-58B34D98',
 					scrollOverflow : true,
-					recordHistory: true,
+					recordHistory: false,
 					anchors:['questionGroup'],
 					afterLoad : function(origin, destination, direction) {
 						$(".btn_prev").bind("click", function() {
@@ -49,7 +49,7 @@
 						//이곳에 필수입력, 다음 문항 이동 등 로직 
 						//이곳에서 설문데이터 저장
 						
-						var writeResult = surveyCommonUtils.writeSurveyAns(origin.anchor, "one");
+						var writeResult = surveyCommonUtils.writeSurveyAns(origin.anchor, "one", "T");
 						/* if(direction == "right"){
 							if(writeResult != "true"){
 								var writeResult = writeResult.split("/");
@@ -130,7 +130,7 @@
 					}
 				}
 			},
-			"writeSurveyAns" : function(qestNo, type){//설문작성내용 DB 인서트
+			"writeSurveyAns" : function(qestNo, type, useAt, callback){//설문작성내용 DB 인서트, useAt = T(임시저장) , Y(실데이터)
 				//type = "all" 전체문항 저장, type = "one" 해당 문항만 저장
 				var surveyAnsMstSn = $("#survey_form > #SURVEY_ANS_MST_SN").val();
 				var surferNm = $("#survey_form > #SUFRER_NM").val();
@@ -146,6 +146,7 @@
 				var ansTxt2 = "";
 				var qnCd = "";
 				var exCd = "";
+				var useAt = useAt;
 				var exqnlink = "";//예/아니오에 따라 이동할 특정 문항
 				var surveyQnArray = new Array();
 		    
@@ -157,6 +158,7 @@
 					targetObj = $("div[quest-no='"+qestNo + "']");//해당 문항만 저장
 				}
 				
+				var _callback = callback;
 				
 				$(targetObj).find("textarea, input[type=checkbox], input[type=radio], input[type=text]").each(function(index, el){//현재 작성중인 설문지의 모든 textarea, input 태그를 가져와서 반복
 					extype = $(el).attr("extype");
@@ -213,12 +215,7 @@
 						surveyQnObj.ansTxt2 = ansTxt2;
 						surveyQnObj.qnCd = qnCd;
 						surveyQnObj.exCd = exCd;
-						
-						if(type=="all"){
-							surveyQnObj.useAt = "Y"	
-						}else{
-							surveyQnObj.useAt = "T"
-						}
+						surveyQnObj.useAt = useAt;
 						 
 						surveyQnArray.push(surveyQnObj);//현재 답변정보를 저장
 						
@@ -241,15 +238,27 @@
 			        dataType: 'json',
 			        data: surveyJson,
 			        contentType:'application/json; charset=utf-8',
+			        beforeSend: function(){
+			        	$('#loading').show();  
+			        },
 			        success: function(data){
 			        	
-			        }
+			        },
+			        complete : function(data) {
+			        	if(typeof _callback != "undefined"){
+			        		_callback();	
+			        	}
+			        	$('#loading').hide();
+		           	},
 				});
-				if(exqnlink != ""){
+				
+				/*if(exqnlink != ""){
 					return "false/" + exqnlink; 
 				}else{
 					return "true";
-				}
+				}*/
+				
+				
 			}
 			
 		};
@@ -312,6 +321,13 @@
 								}else{
 									$("div[subquestno='" + exsubexno + "']").slideUp(300);
 									$("form[name='" + exsubexno + "']")[0].reset();
+							
+									$("form[name='" + exsubexno + "']").find("input[type='checkbox'], input[type='radio']").each(function(index, el){//활성화된 text 비활성화 처리
+										var disabletarget = (typeof $(el).attr("disabletarget") != "undefined") ? $(el).attr("disabletarget").split('/') : null;
+									    for ( var i in disabletarget ) {
+											$("input[qntxtlink='" + disabletarget[i] + "']").prop("disabled", true);
+									    }
+									});
 								}
 						    }
 						}
@@ -355,6 +371,7 @@
 						    }
 						} */
 						
+						
 						$("input[exsubdisplay='" + $(this).attr("exsubdisplay") + "']").each(function(){
 							if($(this).is(":checked")){
 								var exsubdisplays = $(this).attr("exsubdisplay");
@@ -370,6 +387,14 @@
 										}else{
 											$("div[subquestno='" + exsubexno + "']").slideUp(300);
 											$("form[name='" + exsubexno + "']")[0].reset();
+											
+											$("form[name='" + exsubexno + "']").find("input[type='checkbox'], input[type='radio']").each(function(index, el){//활성화된 text 비활성화 처리
+												var disabletarget = (typeof $(el).attr("disabletarget") != "undefined") ? $(el).attr("disabletarget").split('/') : null;
+											    for ( var i in disabletarget ) {
+													$("input[qntxtlink='" + disabletarget[i] + "']").prop("disabled", true);
+											    }
+											});
+											
 										}
 								    }
 								}
@@ -404,9 +429,19 @@
 					//미리보기 팝업
 					$("[name='btn_preview']").click(function(){
 						
+						surveyCommonUtils.writeSurveyAns("", "all", "T", 
+						function(){
+							var url = "/user/survey/preview.do";
+							
+							var frmPreview= document.survey_preview_form;
+						    window.open('','preView','width=800, height=1000, menubar=no, status=no, toolbar=no, scrollbars=yes');  
+						     
+						    frmPreview.action = url;
+						    frmPreview.target = 'preView'; //window,open()의 두번째 인수와 같아야 하며 필수다.  
+						    frmPreview.submit();
+						});
 						
-						var url = "/user/survey/preview.do?orgCd=<c:out value='${surveyMaster.ORG_CD}'/>&surveyAnsMstSn=<c:out value='${surveyMaster.SURVEY_ANS_MST_SN}'/>&surveySn=<c:out value='${surveyMaster.SURVEY_SN}'/>";
-						window.open(url,'Survey preview','width=800, height=1000, menubar=no, status=no, toolbar=no');
+						
 						
 					});
 					
@@ -419,10 +454,10 @@
 						  buttons: true,
 						  dangerMode: false,
 						})
-						.then((surveyEnd) => {
+						.then(function(surveyEnd){
 						  if (surveyEnd) {
 							//useAt => Y 로직 여기에
-							surveyCommonUtils.writeSurveyAns("", "all");
+							surveyCommonUtils.writeSurveyAns("", "all", "Y");
 							$.ajax({
 						        type: "POST",
 						        url: "/user/survey/surveyMasterActive",
@@ -433,7 +468,7 @@
 							
 							swal("설문조사가 완료되었습니다.\r\n 오랜 시간 설문 조사에 응답해 주셔서 진심으로 감사드립니다.", {
 						      icon: "success",
-						    }).then((surveyEnd) => {
+						    }).then(function(surveyEnd){
 							  if (surveyEnd) {
 							  	location.href="/user/test2.do";
 							  }
@@ -452,11 +487,19 @@
 						  buttons: true,
 						  dangerMode: false,
 						})
-						.then((surveyTempEnd) => {
+						.then(function(surveyTempEnd){
 						  if (surveyTempEnd) {
 						    window.close();
 						  }
 						});
+					});
+					
+					//이미지 클릭시 선택처리(ex_type : 선택(이미지))
+					$(".survey_img_check").click(function(){
+						var imgGroup = $(this).attr("imggroup");//동일한 문항에 이미지에 대한 그룹관리
+						$("[imggroup='" + imgGroup + "']").addClass("uncheck");
+						console.log($("[imggroup='" + imgGroup + "']"));
+						$(this).removeClass("uncheck");
 					});
 
 				});
@@ -464,7 +507,7 @@
 </head>
 <body>
 	<!-- 설문지 인쇄용 표지영역 -->
-	
+	<div id="loading"><img id="loading-image" src="${pageContext.request.contextPath}/resources/img/ajax-loader.gif" alt="Loading..." /></div>
 	<div class="surveyTop">
 		<div class="st_con">
 			<div class="surveyLogo">
@@ -484,7 +527,12 @@
 	</div>
 	<!-- 설문지 인쇄용 표지영역 끝 -->
 	<!-- 설문지 작성영역 -->
-	<form id="survey_form">
+	<form id="survey_preview_form" name="survey_preview_form">
+		<input type="hidden" name="surveyAnsMstSn" value="<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>" />
+		<input type="hidden" name="orgCd" value="<c:out value="${surveyMaster.ORG_CD}"/>" />
+		<input type="hidden" name="surveySn" value="<c:out value="${surveyMaster.SURVEY_SN}"/>" />
+	</form>
+	<form id="survey_form" name="survey_form">
 		<input type="hidden" id="SURVEY_ANS_MST_SN" value="<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>" />
 		<input type="hidden" id="SUFRER_NM" value="<c:out value="${surveyMaster.SUFRER_NM}"/>" />
 		<input type="hidden" id="SUFRER_PIN" value="<c:out value="${surveyMaster.SUFRER_PIN}"/>" />
@@ -573,7 +621,7 @@
 								
 									<c:if test="${subQnEx.P_QN_CD eq surveyQn.QN_CD }">
 										<form name="<c:out value='${subQnEx.QN_CD}'/>">
-											<div subquestno="<c:out value='${subQnEx.QN_CD}'/>" class="subQuestWrap" >
+											<div subquestno="<c:out value='${subQnEx.QN_CD}'/>" class="subQuestWrap" <c:if test="${subQnEx.INIT_DISPLAY_AT eq 'N'}">style="display:none"</c:if> >
 												<div class="subQuest">
 													<c:out value="${subQnEx.QN_NM}" escapeXml="false" />
 												</div>
