@@ -18,6 +18,14 @@
 		]]>
 	</select>
 	
+	<select id="selectSurveyDefine" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, RELEASE_VER, SURVEY_SE1, SURVEY_SE2, SURVEY_SE3, SURVEY_SE4, CHARGER, TLPHON
+			FROM SURVEY
+			WHERE SURVEY_SN = #{surveySn} AND USE_AT = 'Y'
+		]]>
+	</select>
+	
 	<select id="selectSurveyQn" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			Select QN_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, QN_TYPE, QN_CD, QN_SE, QN_GRP, QN_NM, P_QN_CD, EX_TYPE, EX_TYPE_TXT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, QN_EXPLN_TYPE, QN_EXPLN, INIT_DISPLAY_AT
@@ -86,7 +94,7 @@
 	<insert id="insertSurveyAnsMst" parameterType="hashmap" >
 		<![CDATA[
 			INSERT INTO SURVEY_ANS_MST(SURVEY_ANS_MST_SN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, HSPTL_ID, SUFRER_PIN, SUFRER_NM, SEXDSTN, BRTHDY, ANS_NM, SUFRER_RELATE, SURVEY_DT, USE_AT)
-			VALUES(#{surveyAnsMstSn}, '강북삼성', '강북삼성', #{surveySn,jdbcType=VARCHAR}, '건강영향(성인)' ,'【건강영향 설문조사】(성인용)', '111111', '11-1-0111', '설문작성테스트', '남', '9999-11-11', '설문작성테스트', '본인', '2019-01-01', 'T')
+			VALUES(#{surveyAnsMstSn}, #{orgCd,jdbcType=VARCHAR}, #{operCd,jdbcType=VARCHAR}, #{surveySn,jdbcType=VARCHAR}, #{surveyCd} ,#{surveyNm}, '111111', '11-1-0111', '설문작성테스트', '남', '9999-11-11', '설문작성테스트', '본인', '2019-01-01', 'T')
 		]]>
 	</insert>
 	

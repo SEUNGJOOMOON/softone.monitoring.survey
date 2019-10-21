@@ -33,7 +33,7 @@
 				<br/>
 			</c:if>
 			<c:if test="${qnEx.EX_TYPE eq '텍스트'}">
-				<c:if test="${not empty qnEx.EX_NM}"><c:out value="${qnEx.EX_NM}"/></c:if>(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" qnTxtLink="<c:out value='${qnEx.QN_CD}-${qnEx.EX_CD}'/>" <c:if test="${qnEx.IS_DISABLE eq 'Y' }">disabled="disabled"</c:if> class="<c:out value='${qnEx.EX_CLASS1}'/> <c:out value='${qnEx.EX_CLASS2}'/> input_txt_100" value="<c:out value="${qnEx.ANS_TXT1}"/>" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" exType="<c:out value='${qnEx.EX_TYPE}'/>"  /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)
+				<span class="span_font13"><c:if test="${not empty qnEx.EX_NM}"><c:out value="${qnEx.EX_NM}"/></c:if>(<c:if test="${not empty qnEx.EX_TXT1_UNIT}"><c:out value="${qnEx.EX_TXT1_UNIT} : "/></c:if><input type="text" qnTxtLink="<c:out value='${qnEx.QN_CD}-${qnEx.EX_CD}'/>" <c:if test="${qnEx.IS_DISABLE eq 'Y' }">disabled="disabled"</c:if> class="<c:out value='${qnEx.EX_CLASS1}'/> <c:out value='${qnEx.EX_CLASS2}'/> input_txt_100" value="<c:out value="${qnEx.ANS_TXT1}"/>" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" exType="<c:out value='${qnEx.EX_TYPE}'/>"  /><c:if test="${not empty qnEx.EX_TXT2_UNIT}"><c:out value="${qnEx.EX_TXT2_UNIT}"/></c:if>)</span>
 				<br/>
 			</c:if>
 			<c:if test="${qnEx.EX_TYPE eq '텍스트(텍스트)'}">

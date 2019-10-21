@@ -74,6 +74,9 @@ public class SurveyController {
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
 		surveyParams.put("orgCd",orgCd);
 		surveyParams.put("surveySn",surveySn);
+		
+		
+		
 		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 		
 		
@@ -84,12 +87,17 @@ public class SurveyController {
 		if((viewMode.equals("view") || viewMode.equals("print"))){
 			surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
 		}else{
+			Map<String, Object> surveyDefine = surveyService.selectSurveyDefine(surveyParams);
 			Map<String, Object> surveyMasterMap = new HashMap<String, Object>();
 //			마스터 정보 셋팅
 			surveyMasterMap.put("surveyAnsMstSn", surveyAnsMstSn);
 			surveyMasterMap.put("surveySn", surveySn);
-			surveyService.insertSurveyAnsMst(surveyMasterMap);
-			surveyMaster = surveyService.selectSurveyMaster(surveyParams);
+			surveyMasterMap.put("orgCd", "강북삼성");//임시 하드코딩, surveyㅌ ㅔ이블에서 가져와야함
+			surveyMasterMap.put("operCd", "강북삼성");//임시 하드코딩, surveyㅌ ㅔ이블에서 가져와야함
+			surveyMasterMap.put("surveyNm", surveyDefine.get("SURVEY_NM"));
+			surveyMasterMap.put("surveyCd", surveyDefine.get("SURVEY_CD"));
+			surveyService.insertSurveyAnsMst(surveyMasterMap);//마스터정보 인서트
+			surveyMaster = surveyService.selectSurveyMaster(surveyParams);//인서트한 마스터정보 가져오기
 			surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
 		}
 	

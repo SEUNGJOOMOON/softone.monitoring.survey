@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=1.0,user-scalable=yes"/>
 <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common2.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_ex_class.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/fullpage.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scrolloverflow.js"></script>
@@ -103,6 +103,9 @@
 				$(".navigation").hide();
 				$(".qest_anwer_wrap").css("margin-top", "0px");
 				$(".section").css("padding-top", "120px");
+				$(".survey_img_check").css("cursor", "default");
+				$("div[quest-type='알림']").hide();
+				$("body").css("width", "100%");
 			},
 			"printSurvey" : function(printThis) {
 				/* if(!this.isMobile()){
@@ -184,7 +187,7 @@
 							break;
 						case "텍스트(텍스트)" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
 							ansTxt1 = $(el).val();
-							ansTxt2 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
+							ansTxt2 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").eq(1).val();//첫번째 텍스트 필드 외에 다른 필드
 							break;
 						case "텍스트(텍스트)2" ://qntxtlink => 현재 문항 컴포넌트에 연결되는 textbox를 명시(해당 textbox에 qntxtlink라는 어트리뷰트로 정의되어 있음)
 							ansTxt1 = $(el).val();
@@ -494,6 +497,11 @@
 						});
 					});
 					
+					
+					<c:if test="${viewMode eq 'survey'}">
+					//작성모드에서만 실행되는 함수
+					
+					
 					//이미지 클릭시 선택처리(ex_type : 선택(이미지))
 					$(".survey_img_check").click(function(){
 						var imgGroup = $(this).attr("imggroup");//동일한 문항에 이미지에 대한 그룹관리
@@ -501,6 +509,8 @@
 						console.log($("[imggroup='" + imgGroup + "']"));
 						$(this).removeClass("uncheck");
 					});
+					
+					</c:if>
 
 				});
 	</script>
@@ -596,12 +606,12 @@
 		<!-- 설문지 작성 -->
 		<div class="section" id="section1">
 			<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
-				<div class="slide" data-anchor="<c:out value='${surveyQn.QN_CD}' />" >
+				<div class="slide" data-anchor="<c:out value='${surveyQn.QN_CD}' />" quest-type="<c:out value='${surveyQn.QN_TYPE }' />" >
 
 					<div class="fp-responsive question" quest-no="<c:out value='${surveyQn.QN_CD}' />">
 						
 						<div class="qest_wrap">
-							<span class="qest_no"><c:out value="${surveyQn.QN_CD}"/> Question</span>
+							<span class="qest_no"><c:if test="${surveyQn.QN_TYPE eq '알림' }" >안내사항</c:if><c:if test="${surveyQn.QN_TYPE ne '알림' }" ><c:out value="${surveyQn.QN_CD}"/> Question</c:if> </span>
 							<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE1'}">
 								<div class="quest_red">
 									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
@@ -612,28 +622,34 @@
 									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
 								</div>
 							</c:if>
-							<div class="qest_title"><span class="view_quest_no">0<c:out value='${status.count}' />.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
-							<div class="qest_anwer_wrap" >
-								<c:set var="p_surveyDate" value="${surveyQn}" scope="request"/><!-- 보기 컴포넌트로 전달용 파라메터 -->
-								<jsp:include page="./components/survey_component.jsp"/>
-								<!-- 서브질문  -->
-								<c:forEach var="subQnEx" items="${surveySubQnEx}" varStatus="status3">
-								
-									<c:if test="${subQnEx.P_QN_CD eq surveyQn.QN_CD }">
-										<form name="<c:out value='${subQnEx.QN_CD}'/>">
-											<div subquestno="<c:out value='${subQnEx.QN_CD}'/>" class="subQuestWrap" <c:if test="${subQnEx.INIT_DISPLAY_AT eq 'N'}">style="display:none"</c:if> >
-												<div class="subQuest">
-													<c:out value="${subQnEx.QN_NM}" escapeXml="false" />
+							<c:if test="${surveyQn.QN_TYPE ne '알림' }" >
+								<div class="qest_title"><span class="view_quest_no">0<c:out value='${status.count}' />.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
+								<div class="qest_anwer_wrap" >
+									<c:set var="p_surveyDate" value="${surveyQn}" scope="request"/><!-- 보기 컴포넌트로 전달용 파라메터 -->
+									<jsp:include page="./components/survey_component.jsp"/>
+									<!-- 서브질문  -->
+									<c:forEach var="subQnEx" items="${surveySubQnEx}" varStatus="status3">
+									
+										<c:if test="${subQnEx.P_QN_CD eq surveyQn.QN_CD }">
+											<form name="<c:out value='${subQnEx.QN_CD}'/>">
+												<div subquestno="<c:out value='${subQnEx.QN_CD}'/>" class="subQuestWrap" <c:if test="${subQnEx.INIT_DISPLAY_AT eq 'N'}">style="display:none"</c:if> >
+													<div class="subQuest">
+														<c:out value="${subQnEx.QN_NM}" escapeXml="false" />
+													</div>
+													<div class="subAnwer">
+														<c:set var="p_surveyDate" value="${subQnEx}" scope="request"/><!-- 서브보기 컴포넌트로 전달용 파라메터 -->
+														<jsp:include page="./components/survey_component.jsp"/>
+													</div>
 												</div>
-												<div class="subAnwer">
-													<c:set var="p_surveyDate" value="${subQnEx}" scope="request"/><!-- 서브보기 컴포넌트로 전달용 파라메터 -->
-													<jsp:include page="./components/survey_component.jsp"/>
-												</div>
-											</div>
-										</form>
-									</c:if>
-								</c:forEach>
-							</div>
+											</form>
+										</c:if>
+									</c:forEach>
+								</div>
+							</c:if>
+							<c:if test="${surveyQn.QN_TYPE eq '알림' }" >
+								<br/>
+								<br/>
+							</c:if>
 							<div class="qest_btn_group">
 								<c:if test='${not status.first}'><input type="button" class="btn_prev" turn="<c:out value='${status.index}' />" value="이전" /></c:if>
 								&nbsp;&nbsp;<input type="button" name="btn_preview" class="btn_preview" value="미리보기" />&nbsp;&nbsp;

@@ -1,4 +1,24 @@
-/* 공통 CSS */
+/* 怨듯넻 CSS */
+
+#loading {
+ display:none;
+ width: 100%;  
+ height: 100%;  
+ top: 0px;
+ left: 0px;
+ position: fixed;  
+ opacity: 0.7;  
+ background-color: #fff;  
+ z-index: 99;  
+ text-align: center; } 
+  
+#loading-image {  
+ margin: 0 auto;
+ z-index: 100;
+ margin-top: 400px; 
+}
+
+
 .section {
 	background-color:#fff;
 }
@@ -34,8 +54,17 @@ ul, ol, li {
     color: #fff;
     right: 0px;
 }
+.font15{
+	font-size: 15px;
+}
+.font13{
+	font-size: 13px;
+}
 .span_font15{
 	font-size: 15px;
+}
+.span_font13{
+	font-size: 13px;
 }
 .btn_close2{
 	z-index: 1000;
@@ -80,8 +109,32 @@ ul, ol, li {
 	border: 3px solid #e8e5f2;
 }
 .surveyLogo {width:90%;margin:0 auto}
-
-
+.survey_img_check{
+	position: absolute;
+	width: 115px;
+	height: 71px;
+	background-image: url('/resources/img/img_checked.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	cursor: pointer;
+	opacity: 0.5;
+	-webkit-print-color-adjust: exact;
+	printer-colors: exact;
+	color-adjust: exact;
+}
+.uncheck{
+	opacity: 0;
+}
+.survey_img_cover{
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	width: 115px;
+	height: 71px;
+	-webkit-print-color-adjust: exact;
+	printer-colors: exact;
+	color-adjust: exact;
+}
 .align_center {
 	text-align: center;
 }
@@ -195,6 +248,7 @@ textarea {
 	overflow-y: auto;
 	width: 95%;
 	height: 60px;
+	border: 0px;
 }
 .txt_area_min_60{
 	min-height: 80px;
@@ -253,16 +307,58 @@ textarea {
 	border-radius: 5px;
 	background-color: #1c99d7;
 }
+.btn_survey_end {
+	position: relative;
+	display: inline-block;
+	width: 70px;
+	height: 28px;
+	padding: 6px 10px;
+	border-left: 0;
+	font-weight: 600;
+	text-align: center;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	background-color: #F361A6;
+}
+.btn_view_close{
+	position: relative;
+	display: inline-block;
+	width: 70px;
+	height: 28px;
+	padding: 6px 10px;
+	border-left: 0;
+	font-weight: 600;
+	text-align: center;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	background-color: #F361A6;
+}
+.btn_preview{
+	position: relative;
+	display: inline-block;
+	width: 70px;
+	height: 28px;
+	padding: 6px 10px;
+	border-left: 0;
+	font-weight: 600;
+	text-align: center;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	background-color: #54bba2;
+}
 .view_quest_no{
 	display:none;
 }
+
 .subQuest {
     margin-top:10px;
-	display: none;
 }
 
 .subAnwer {
-	display: none;
+	
 }
 
 #pp-nav {
@@ -278,7 +374,7 @@ textarea {
 	margin-top: 5px;
 	text-align: center;
 }
-/* 인쇄시 표지 */
+/* �씤�뇙�떆 �몴吏� */
 .survey_cover{
 	margin:0 auto;width:700px;display:none;
 }
@@ -440,7 +536,7 @@ textarea {
 	} */
 }
 
-/* 가로모드 */
+/* 媛�濡쒕え�뱶 */
 @media only screen and (orientation: landscape) {
     .navigation {
 		width:50px;height:100%;position:absolute;right:-15px;top:28%;z-index:9999;

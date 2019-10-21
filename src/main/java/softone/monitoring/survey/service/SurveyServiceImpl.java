@@ -26,6 +26,9 @@ public class SurveyServiceImpl implements SurveyService {
 	public Map<String, Object> selectSurveyMaster(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyMaster(map);
 	}
+	public Map<String, Object> selectSurveyDefine(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectSurveyDefine(map);
+	}
 	@Override
 	public Map<String, Object> selectSurveyQnAdultNew() throws Exception {
 		return surveyDAO.selectSurveyQnAdultNew();

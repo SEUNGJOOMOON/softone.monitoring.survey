@@ -25,6 +25,11 @@ public class SurveyDao extends AbstractDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public Map<String, Object> selectSurveyDefine(Map<String, Object> map) throws Exception {
+		return (Map<String, Object>) selectOne("survey.selectSurveyDefine", map);
+	}
+	
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> selectSurveyQnAdultNew() throws Exception {
 		return (Map<String, Object>) selectOne("survey.selectSurveyQnAdultNew");
 	}
