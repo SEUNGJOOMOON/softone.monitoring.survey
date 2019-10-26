@@ -12,9 +12,9 @@
 	
 	<select id="selectSurveyMaster" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
-			SELECT SURVEY_ANS_MST_SN, SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, HSPTL_ID, REGEXP_REPLACE(SUFRER_PIN, '.', '*', 8) AS SUFRER_PIN, REGEXP_REPLACE(SUFRER_NM, '.', '*', 3) AS SUFRER_NM, SEXDSTN, BRTHDY, SUFRER_RELATE, SURVEY_DT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, ANS_NM
+			SELECT SURVEY_ANS_MST_SN, SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, HSPTL_ID, SUFRER_PIN, SUFRER_NM, SEXDSTN, BRTHDY, SUFRER_RELATE, SURVEY_DT, RM, USE_AT, REG_DT, REGUSR, UPD_DT, UPDUSR, ANS_NM
 			FROM SURVEY.SURVEY_ANS_MST
-			where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd}
+			where SURVEY_ANS_MST_SN=#{surveyAnsMstSn} and ORG_CD=#{orgCd} and OPER_CD=#{operCd}
 		]]>
 	</select>
 	
@@ -106,5 +106,55 @@
 		]]>
 	</update>
 	
+	<select id="selectOrgCode" resultType="hashmap">
+		<![CDATA[
+			SELECT ORG_CD
+			FROM CODE_OPER
+			WHERE USE_AT = 'Y'
+			GROUP BY ORG_CD
+		]]>
+	</select>
+	
+	<select id="selectOperCode" resultType="hashmap">
+		<![CDATA[
+			SELECT OPER_CD
+			FROM CODE_OPER
+			WHERE USE_AT = 'Y'
+			GROUP BY OPER_CD
+		]]>
+	</select>
+	
+	<select id="selectSurveyDefineAll" resultType="hashmap">
+		<![CDATA[
+			SELECT SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM
+			FROM SURVEY
+			WHERE USE_AT = 'Y'
+			ORDER BY SORT_ORDR
+		]]>
+	</select>
+	
+	<select id="selectSurveyAnsMstAll" parameterType="hashmap" resultType="hashmap">
+			SELECT SURVEY_SN, SURVEY_ANS_MST_SN, ORG_CD, OPER_CD, SURVEY_NM, ORG_CD, OPER_CD, HSPTL_ID, SUFRER_PIN, SUFRER_NM, BRTHDY, SEXDSTN
+			FROM SURVEY_ANS_MST
+			WHERE USE_AT = 'Y'
+			<if test="surveySn != null and surveySn != ''">
+		    	AND SURVEY_SN = #{surveySn,jdbcType=VARCHAR}
+		    </if>
+			<if test="orgCd != null and orgCd != ''">
+		    	AND ORG_CD = #{orgCd,jdbcType=VARCHAR} 
+		    </if>
+			<if test="operCd != null and operCd != ''">
+		    	AND OPER_CD = #{operCd,jdbcType=VARCHAR}
+		    </if>
+		    <if test="sufrerNm != null and sufrerNm != ''">
+		    	AND SUFRER_NM LIKE '%'||#{sufrerNm,jdbcType=VARCHAR}||'%' 
+		    </if>
+			<if test="sufrerPin != null and sufrerPin != ''">
+		    	AND SUFRER_PIN LIKE '%'||#{sufrerPin,jdbcType=VARCHAR}||'%' 
+		    </if>
+		    <if test="hsptlId != null and hsptlId != ''">
+		    	AND HSPTL_ID LIKE '%'||#{hsptlId,jdbcType=VARCHAR}||'%' 
+		    </if>
+	</select>
 
 </mapper>

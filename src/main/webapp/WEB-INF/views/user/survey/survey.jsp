@@ -529,7 +529,7 @@
 			<div class="surveyInfo">
 				<ul>
 					<li>설문대상자 :<c:out value="${surveyMaster.SUFRER_NM}"/>(<c:out value="${surveyMaster.SEXDSTN}"/>) / 생년월일 : <c:out value="${surveyMaster.BRTHDY}"/></li>
-					<li>식별번호 : <c:out value="${surveyMaster.SUFRER_PIN}"/>(길병원 20199999)</li>
+					<li>식별번호 : <c:out value="${surveyMaster.SUFRER_PIN}"/>(<c:out value="${surveyMaster.HSPTL_ID}"/>)</li>
 				</ul>
 			</div>
 		</div>

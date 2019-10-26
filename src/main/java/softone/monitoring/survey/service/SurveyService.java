@@ -33,4 +33,12 @@ public interface SurveyService {
 	void updateSurveyAnsUseAtN(Map<String, Object> map) throws Exception;
 	
 	void updateSSurveyAnsMstUseAtY(Map<String, Object> map) throws Exception;
+	
+	List<Map<String, Object>> selectOrgCode() throws Exception;
+	
+	List<Map<String, Object>> selectOperCode() throws Exception;
+	
+	List<Map<String, Object>> selectSurveyDefineAll() throws Exception;
+	
+	List<Map<String, Object>> selectSurveyAnsMstAll(Map<String, Object> map) throws Exception;
 }

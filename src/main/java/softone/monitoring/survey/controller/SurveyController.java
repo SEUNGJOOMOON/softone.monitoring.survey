@@ -32,47 +32,79 @@ public class SurveyController {
 		return "/user/survey_index";
 	}
 	
-	@RequestMapping(value = "/user/test.do")
-	public String test() throws Exception {
-		return "/user/survey_test";
-	}
-	
-//	테스트용2
-	@RequestMapping(value = "/user/survey/surveyprocess.do")
-	public ModelAndView surveyProcess(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, @RequestParam String confirmPass) throws Exception {
-		
-		if(!confirmPass.equals("softone123!!@@")){
-			return new ModelAndView("/user/survey_test");
-		}
-		ModelAndView mv = new ModelAndView("/user/survey/adultNew");
-		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
-		surveyParams.put("orgCd",orgCd);
-		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
-		Map<String, Object> surveyQn = surveyService.selectSurveyQnAdultNew();
-		Map<String, Object> result = surveyService.selectSurveyResultAdultNew(surveyParams);
-		
-		
-		mv.addObject("viewMode", viewMode);
-		mv.addObject("surveyQn", surveyQn);
-		mv.addObject("result", result);
-		mv.addObject("surveyMaster", surveyMaster);
-		return mv;
-	} 
 //	실사용
 	@RequestMapping(value = "/user/test2.do")
-	public String test2() throws Exception {
-		return "/user/survey_test2";
+	public ModelAndView test2() throws Exception {
+		
+		ModelAndView mv = new ModelAndView("/user/survey_test2");
+		
+		List<Map<String, Object>> orgCode = surveyService.selectOrgCode();//담당기관코드
+		List<Map<String, Object>> operCode = surveyService.selectOperCode();//운영기관코드
+		List<Map<String, Object>> surveyList = surveyService.selectSurveyDefineAll();//설문종류
+		
+		mv.addObject("orgCode", orgCode);
+		mv.addObject("operCode", operCode);
+		mv.addObject("surveyList", surveyList);
+		
+		return mv;
+	}
+	
+	//테스트용 리스트(2019-10-26)
+	@RequestMapping(value = "/user/survey_list.do")
+	public ModelAndView surveyList() throws Exception {
+		
+		ModelAndView mv = new ModelAndView("/user/survey_comfirm_list");
+		
+		List<Map<String, Object>> orgCode = surveyService.selectOrgCode();//담당기관코드
+		List<Map<String, Object>> operCode = surveyService.selectOperCode();//운영기관코드
+		List<Map<String, Object>> surveyList = surveyService.selectSurveyDefineAll();//설문종류
+		
+		mv.addObject("orgCode", orgCode);
+		mv.addObject("operCode", operCode);
+		mv.addObject("surveyList", surveyList);
+		
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/user/survey_list_json.do")
+	public List<Map<String, Object>> surveyListJson(@RequestParam String confirmPass2, @RequestParam String surveySn, @RequestParam String orgCd, @RequestParam String operCd , @RequestParam String sufrerNm , @RequestParam String sufrerPin,  @RequestParam String hsptlId) {
+		List<Map<String, Object>> surveyMstList = null;
+		if(!confirmPass2.equals("1357")){
+			return surveyMstList;
+		}
+		
+		//검색용 맵 셋팅
+		Map<String, Object> surveyListSearchMap = new HashMap<String, Object>();
+		System.out.println("surveySn : " + hsptlId);
+		surveyListSearchMap.put("surveySn", surveySn);
+		surveyListSearchMap.put("orgCd", orgCd);
+		surveyListSearchMap.put("operCd", operCd);
+		surveyListSearchMap.put("sufrerNm", sufrerNm);
+		surveyListSearchMap.put("sufrerPin", sufrerPin);
+		surveyListSearchMap.put("hsptlId", hsptlId);
+		try {
+			surveyMstList = surveyService.selectSurveyAnsMstAll(surveyListSearchMap);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return surveyMstList;
+
 	}
 	
 	@RequestMapping(value = "/user/survey/surveyprocess2.do")
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
-		if(!confirmPass.equals("softone123!!@@")){
+	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
+		if(!confirmPass.equals("1357")){
 			return new ModelAndView("/user/survey_test2");
 		}
 		ModelAndView mv = new ModelAndView("/user/survey/survey");
 
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
 		surveyParams.put("orgCd",orgCd);
+		surveyParams.put("operCd",operCd);
 		surveyParams.put("surveySn",surveySn);
 		
 		
@@ -92,8 +124,8 @@ public class SurveyController {
 //			마스터 정보 셋팅
 			surveyMasterMap.put("surveyAnsMstSn", surveyAnsMstSn);
 			surveyMasterMap.put("surveySn", surveySn);
-			surveyMasterMap.put("orgCd", "강북삼성");//임시 하드코딩, surveyㅌ ㅔ이블에서 가져와야함
-			surveyMasterMap.put("operCd", "강북삼성");//임시 하드코딩, surveyㅌ ㅔ이블에서 가져와야함
+			surveyMasterMap.put("orgCd", orgCd);//임시 하드코딩, surveyㅌ ㅔ이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
+			surveyMasterMap.put("operCd", operCd);//임시 하드코딩, surveyㅌ ㅔ이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
 			surveyMasterMap.put("surveyNm", surveyDefine.get("SURVEY_NM"));
 			surveyMasterMap.put("surveyCd", surveyDefine.get("SURVEY_CD"));
 			surveyService.insertSurveyAnsMst(surveyMasterMap);//마스터정보 인서트

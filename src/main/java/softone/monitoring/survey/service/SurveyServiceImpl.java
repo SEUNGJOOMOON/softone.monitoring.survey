@@ -17,50 +17,76 @@ public class SurveyServiceImpl implements SurveyService {
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectBoardList(map);
 	}
+
 	public Map<String, Object> selectVictimInfo(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectVictimInfo(map);
 	}
+
 	public Map<String, Object> selectSurveyResultAdultNew(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyResultAdultNew(map);
 	}
+
 	public Map<String, Object> selectSurveyMaster(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyMaster(map);
 	}
+
 	public Map<String, Object> selectSurveyDefine(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyDefine(map);
 	}
+
 	@Override
 	public Map<String, Object> selectSurveyQnAdultNew() throws Exception {
 		return surveyDAO.selectSurveyQnAdultNew();
 	}
+
 	@Override
 	public List<Map<String, Object>> selectSurveyQnEx(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyQnEx(map);
 	}
+
 	@Override
 	public List<Map<String, Object>> selectSurveyQn(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyQn(map);
 	}
+
 	@Override
 	public List<Map<String, Object>> selectSurveyEx(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyEx(map);
 	}
+
 	public List<Map<String, Object>> selectSurveyExWithAns(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyExWithAns(map);
 	}
+
 	public List<Map<String, Object>> selectSurveyExWithAnsTemp(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyExWithAnsTemp(map);
 	}
+
 	public void insertSurveyAns(Map<String, Object> map) throws Exception {
 		surveyDAO.insertSurveyAns(map);
 	}
+
 	public void insertSurveyAnsMst(Map<String, Object> map) throws Exception {
 		surveyDAO.insertSurveyAnsMst(map);
 	}
+
 	public void updateSurveyAnsUseAtN(Map<String, Object> map) throws Exception {
 		surveyDAO.updateSurveyAnsUseAtN(map);
 	}
+
 	public void updateSSurveyAnsMstUseAtY(Map<String, Object> map) throws Exception {
 		surveyDAO.updateSSurveyAnsMstUseAtY(map);
+	}
+	public List<Map<String, Object>> selectOrgCode() throws Exception {
+		return surveyDAO.selectOrgCode();
+	}
+	public List<Map<String, Object>> selectOperCode() throws Exception {
+		return surveyDAO.selectOperCode();
+	}
+	public List<Map<String, Object>> selectSurveyDefineAll() throws Exception {
+		return surveyDAO.selectSurveyDefineAll();
+	}
+	public List<Map<String, Object>> selectSurveyAnsMstAll(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectSurveyAnsMstAll(map);
 	}
 }

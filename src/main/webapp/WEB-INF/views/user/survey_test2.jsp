@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <head>
 <title>Document</title>
@@ -57,34 +59,36 @@
 	
 				<div class="surv_box">
 					<ul>
-						<li class="qu">담당병원</li>
-						<li class="aw">
-							<select name="orgCd">
-								<!-- <option value="국립중앙">국립중앙병원</option>
-								<option value="충남대" >충남대병원</option> -->
-								<option value="강북삼성" >강북삼성병원</option>
-								<!-- <option value="전북대">전북대병원</option>
-								<option value="서울아산" >서울아산병원</option>
-								<option value="순천향구미" >순천향구미병원</option> -->
-							</select>
-						</li>
-						<li class="qu">설문종류</li>
+						<li class="qu" style="width: 100px;">담당기관(org)</li>
+						<li class="aw"><select name="orgCd">
+								<c:forEach var="orgCd" items="${orgCode}" varStatus="status">
+									<option value="<c:out value="${orgCd.ORG_CD }" />"><c:out
+											value="${orgCd.ORG_CD }" /></option>
+								</c:forEach>
+						</select></li>
+						<li class="qu" style="width: 100px;">운영기관(oper)</li>
+						<li class="aw"><select name="operCd">
+								<c:forEach var="operCd" items="${operCode}" varStatus="status">
+									<option value="<c:out value="${operCd.OPER_CD }" />"><c:out
+											value="${operCd.OPER_CD }" /></option>
+								</c:forEach>
+						</select></li>
+						<li class="qu" style="width: 100px;">설문종류</li>
 						<li class="aw">
 							<select name="surveySn">
-								<option value="1" >성인(신규)</option>
-								<option value="4" >사춘기(남)신규</option>
-							</select>
-						</li>
-						<li class="qu">설문조회 마스터키</li>
+								<c:forEach var="survey" items="${surveyList}" varStatus="status">
+									<option value="<c:out value="${survey.SURVEY_SN }" />">
+									<c:out value="${survey.SURVEY_NM }" /></option>
+								</c:forEach>
+						</select></li>
+						<li class="qu" style="width: 100px;">설문조회 마스터키</li>
 						<li class="aw"><input type="text" class="input_txt" name="surveyAnsMstSn" ></li>
-						<li class="qu">관리 비밀번호</li>
+						<li class="qu" style="width: 100px;">관리 비밀번호</li>
 						<li class="aw"><input type="password" class="input_txt" name="confirmPass"></li>
-						<li class="qu">조회 모드</li>
+						<li class="qu" style="width: 100px;">조회 모드</li>
 						<li class="aw" style="width:500px">
 							<ul>
-							<li style="float:left"><label><input type="radio" name="viewMode" value="survey"></input>설문작성</label></li>
-							<li style="float:left"><label><input type="radio" name="viewMode" value="view"></input>설문조회</label></li>
-							<li style="float:left"><label><input type="radio" name="viewMode" value="print"></input>프린트(PC)</label></li>
+								<li style="float:left"><label><input type="radio" name="viewMode" value="survey"></input>설문작성</label></li>
 							</ul>
 						</li>
 					</ul>
