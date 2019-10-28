@@ -87,7 +87,7 @@
 	        		drawTableHtml += "</tr>";
 	        	}else{
 	        		for(i = 0; i < retrnJson.length; i++){
-		        		drawTableHtml += "<tr>";
+		        		drawTableHtml += "<tr id='tr" + i + "'>";
 		        		drawTableHtml += "<td>" + (i+1) + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].ORG_CD + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].OPER_CD + "</td>";
@@ -95,7 +95,7 @@
 		        		drawTableHtml += "<td>" + retrnJson[i].SURVEY_NM + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].SUFRER_NM + "<br/>(" + retrnJson[i].SEXDSTN + "/" + retrnJson[i].BRTHDY + ")" + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].SUFRER_PIN + "</td>";
-		        		drawTableHtml += '<td><input type="button" value="조회" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'view\')" /><input type="button" value="인쇄" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'print\')" /></td>';
+		        		drawTableHtml += '<td><input type="button" value="조회" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'view\', ' + i + ')" /><input type="button" value="인쇄" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'print\')" /></td>';
 		        		drawTableHtml += "</tr>";
 		        	}
 	        	}
@@ -106,12 +106,16 @@
 		});
 	}
 	
-	function openSurveyView(surveyAnsMstSn, orgCd, operCd, surveySn, viewMode){
+	function openSurveyView(surveyAnsMstSn, orgCd, operCd, surveySn, viewMode, index){
+		
+		console.log($("#tr" + index).find("td").css("color", "blue"));
+		
 		var frmPop= document.frmPopup;
 	    var url = '/user/survey/surveyprocess2.do';
 	    window.open('','surveyView');  
-	     
+	    
 	    frmPop.action = url;
+	    frmPop.method = "post";
 	    frmPop.target = 'surveyView'; //window,open()의 두번째 인수와 같아야 하며 필수다.  
 	    frmPop.surveyAnsMstSn.value = surveyAnsMstSn;
 	    frmPop.viewMode.value = viewMode;
@@ -121,6 +125,8 @@
 	    frmPop.confirmPass.value = $("input[name='confirmPass2']").val();
 	    frmPop.submit();   
 
+	    
+	    
 	}
 </script>
 </head>

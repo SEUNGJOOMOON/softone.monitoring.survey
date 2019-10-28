@@ -54,6 +54,9 @@ ul, ol, li {
     color: #fff;
     right: 0px;
 }
+.align_center{
+	text-align:center;
+}
 .font15{
 	font-size: 15px;
 }

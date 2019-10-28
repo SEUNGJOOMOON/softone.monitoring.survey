@@ -440,6 +440,7 @@
 						    window.open('','preView','width=800, height=1000, menubar=no, status=no, toolbar=no, scrollbars=yes');  
 						     
 						    frmPreview.action = url;
+						    frmPreview.method = "post";
 						    frmPreview.target = 'preView'; //window,open()의 두번째 인수와 같아야 하며 필수다.  
 						    frmPreview.submit();
 						});
@@ -540,6 +541,7 @@
 	<form id="survey_preview_form" name="survey_preview_form">
 		<input type="hidden" name="surveyAnsMstSn" value="<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>" />
 		<input type="hidden" name="orgCd" value="<c:out value="${surveyMaster.ORG_CD}"/>" />
+		<input type="hidden" name="operCd" value="<c:out value="${surveyMaster.OPER_CD}"/>" />
 		<input type="hidden" name="surveySn" value="<c:out value="${surveyMaster.SURVEY_SN}"/>" />
 	</form>
 	<form id="survey_form" name="survey_form">

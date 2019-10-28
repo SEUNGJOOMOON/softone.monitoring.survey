@@ -95,7 +95,7 @@ public class SurveyController {
 
 	}
 	
-	@RequestMapping(value = "/user/survey/surveyprocess2.do")
+	@RequestMapping(value = "/user/survey/surveyprocess2.do", method=RequestMethod.POST)
 	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
 		if(!confirmPass.equals("1357")){
 			return new ModelAndView("/user/survey_test2");
@@ -226,8 +226,8 @@ public class SurveyController {
 	  * @ author sjmoon
 	  * @ date 2019.10.09
 	  */
-	@RequestMapping(value = "/user/survey/preview.do")
-	public ModelAndView preview(String surveyAnsMstSn, String orgCd, String surveySn, HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/user/survey/preview.do", method=RequestMethod.POST)
+	public ModelAndView preview(String surveyAnsMstSn, String orgCd, String operCd, String surveySn, HttpServletRequest request) throws Exception {
 		ModelAndView mv = null;
 		
 		HttpSession httpSession = request.getSession(true);
@@ -247,6 +247,7 @@ public class SurveyController {
 		mv = new ModelAndView("/user/survey/survey");
 		Map<String, Object> surveyParams = new HashMap<String, Object>();
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
+		surveyParams.put("operCd", operCd);
 		surveyParams.put("orgCd",orgCd);
 		surveyParams.put("surveySn",surveySn);
 		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
