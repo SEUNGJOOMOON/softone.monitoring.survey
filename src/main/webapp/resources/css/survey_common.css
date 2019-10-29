@@ -241,6 +241,31 @@ ul, ol, li {
 	background-color: #f0f9fe;
 }
 
+.ques_table2 {
+	width: 100%;
+	font-size: 1.0em;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.ques_table2 th {
+	background-color: #d6f1fe;
+	text-align: center;
+	color: #1f678a;
+	height: 20px;
+	border: 1px solid #d6d6d6;
+}
+
+.ques_table2 td {
+	height: 20px;
+	border: 1px solid #d6d6d6;
+	font-size: 1.0em;
+}
+
+.ques_table2 .colored {
+	background-color: #f0f9fe;
+}
+
 .qest_btn_group {
 	text-align: center;
 	padding-bottom: 20px
