@@ -219,7 +219,6 @@
 						surveyQnObj.qnCd = qnCd;
 						surveyQnObj.exCd = exCd;
 						surveyQnObj.useAt = useAt;
-						 
 						surveyQnArray.push(surveyQnObj);//현재 답변정보를 저장
 						
 					}
@@ -613,7 +612,7 @@
 					<div class="fp-responsive question" quest-no="<c:out value='${surveyQn.QN_CD}' />">
 						
 						<div class="qest_wrap">
-							<span class="qest_no"><c:if test="${surveyQn.QN_TYPE eq '알림' }" >안내사항</c:if><c:if test="${surveyQn.QN_TYPE ne '알림' }" ><c:out value="${surveyQn.QN_CD}"/> Question</c:if> </span>
+							<span class="qest_no"><c:if test="${surveyQn.QN_TYPE eq '알림' }" >안내사항</c:if><c:if test="${surveyQn.QN_TYPE ne '알림' }" >Q<c:out value="${status.index+1}"/> Question</c:if> </span>
 							<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE1'}">
 								<div class="quest_red">
 									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
