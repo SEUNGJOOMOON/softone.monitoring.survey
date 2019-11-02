@@ -62,5 +62,16 @@
 	</c:forEach>
 </c:if>
 <c:if test="${surveyQn.EX_TYPE eq '표'}"><!-- 표 항목 -->
-	<jsp:include page="./survey_table.jsp" />
+	<!-- 성인 신규 -->
+	<c:if test="${surveyQn.SURVEY_SN eq '1' }">
+		<jsp:include page="./survey_table_adult_new.jsp" />
+	</c:if>
+	<!-- 성인 재방문 -->
+	<c:if test="${surveyQn.SURVEY_SN eq '8' }">
+		<jsp:include page="./survey_table_adult_re.jsp" />
+	</c:if>
+	<!-- 여아사춘기 신규 -->
+	<c:if test="${surveyQn.SURVEY_SN eq '5' }">
+		<jsp:include page="./survey_table_girl_new.jsp" />
+	</c:if>
 </c:if>
