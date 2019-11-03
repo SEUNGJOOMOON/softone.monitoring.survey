@@ -241,7 +241,7 @@
 			        data: surveyJson,
 			        contentType:'application/json; charset=utf-8',
 			        beforeSend: function(){
-			        	/* $('#loading').show(); */  
+			        	$('#loading').show(); 
 			        },
 			        success: function(data){
 			        	
@@ -250,7 +250,7 @@
 			        	if(typeof _callback != "undefined"){
 			        		_callback();	
 			        	}
-			        	/* $('#loading').hide(); */
+			        	$('#loading').hide();
 		           	},
 				});
 				
