@@ -517,6 +517,202 @@
 			<td>위 질환 이외의 질환</td>
 			<td colspan="2">
 				<input type="text" value="<c:out value='${ansTxt14 }' />" extype="<c:out value='${exType14 }' />" excd="<c:out value='${exCd14 }' />"  qncd="<c:out value='${qnCd14 }' />"  qntype="<c:out value='${exType14 }' />" class="input_txt <c:out value="${exClass14 }" />" />
+				<br/> (모두 써 주세요)
+			</td>
+		</tr>
+	</table>
+</c:if>
+<c:if test="${(surveyQn.QN_CD eq 'Q06_01') && (surveyQn.SURVEY_SN eq '8') }">
+	<c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status">
+		<c:if test="${(qnEx.QN_CD eq 'Q06_01') && (qnEx.EX_CD eq '01')}">
+			<c:set var="ansTxt01" value="${qnEx.ANS_TXT1 }" />
+			<c:set var="exNm01" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup01" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd01" value="${qnEx.QN_CD }" />
+			<c:set var="exCd01" value="${qnEx.EX_CD }" />
+			<c:set var="exType01" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass01" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q06_01') && (qnEx.EX_CD eq '02')}">
+			<c:set var="ansTxt02" value="${qnEx.ANS_TXT1 }" />
+			<c:set var="exNm02" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup02" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd02" value="${qnEx.QN_CD }" />
+			<c:set var="exCd02" value="${qnEx.EX_CD }" />
+			<c:set var="exType02" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass02" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q06_01') && (qnEx.EX_CD eq '03')}">
+			<c:set var="ansTxt03" value="${qnEx.ANS_TXT1 }" />
+			<c:set var="exNm03" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup03" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd03" value="${qnEx.QN_CD }" />
+			<c:set var="exCd03" value="${qnEx.EX_CD }" />
+			<c:set var="exType03" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass03" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q06_01') && (qnEx.EX_CD eq '04')}">
+			<c:set var="ansTxt04" value="${qnEx.ANS_TXT1 }" />
+			<c:set var="exNm04" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup04" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd04" value="${qnEx.QN_CD }" />
+			<c:set var="exCd04" value="${qnEx.EX_CD }" />
+			<c:set var="exType04" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass04" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+	</c:forEach>
+	<table class="ques_table">
+		<colgroup>
+			<col style="width:*" />
+			<col style="width:22%" />
+			<col style="width:22%" />
+			<col style="width:22%" />
+			<col style="width:22%" />
+		</colgroup>
+		<tr>
+			<th></th>
+			<th>처방 약 복용</th>
+			<th>흡입기 치료</th>
+			<th>보약 또는 건강식품</th>
+			<th>기타</th>
+		</tr>
+		<tr>
+			<td class="align-center">약 이름을 써주세요</td>
+			<td>
+				<textarea extype="<c:out value='${exType01 }' />" excd="<c:out value='${exCd01 }' />"  qncd="<c:out value='${qnCd01 }' />"  qntype="<c:out value='${exType01 }' />" class="txt_area_s <c:out value="${exClass01 }" />"><c:out value="${ansTxt01 }" /></textarea>
+			</td>
+			<td>
+				<textarea extype="<c:out value='${exType02 }' />" excd="<c:out value='${exCd02 }' />"  qncd="<c:out value='${qnCd02 }' />"  qntype="<c:out value='${exType02 }' />" class="txt_area_s <c:out value="${exClass02 }" />"><c:out value="${ansTxt02 }" /></textarea>
+			</td>
+			<td>
+				<textarea extype="<c:out value='${exType03 }' />" excd="<c:out value='${exCd03 }' />"  qncd="<c:out value='${qnCd03 }' />"  qntype="<c:out value='${exType03 }' />" class="txt_area_s <c:out value="${exClass03 }" />"><c:out value="${ansTxt03 }" /></textarea>
+			</td>
+			<td>
+				<textarea extype="<c:out value='${exType04 }' />" excd="<c:out value='${exCd04 }' />"  qncd="<c:out value='${qnCd04 }' />"  qntype="<c:out value='${exType04 }' />" class="txt_area_s <c:out value="${exClass04 }" />"><c:out value="${ansTxt04 }" /></textarea>
+			</td>
+		</tr>
+	</table>
+</c:if>
+<c:if test="${(surveyQn.QN_CD eq 'Q08_01') && (surveyQn.SURVEY_SN eq '8') }">
+	<c:forEach var="qnEx" items="${surveyQnEx}" varStatus="status">
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '01_01')}">
+			<c:set var="ansValue08_01_01_01" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_01_01" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_01_01" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_01_01" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_01_01" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_01_01" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_01_01" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '01_02')}">
+			<c:set var="ansValue08_01_01_02" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_01_02" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_01_02" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_01_02" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_01_02" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_01_02" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_01_02" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '01_03')}">
+			<c:set var="ansValue08_01_01_03" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_01_03" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_01_03" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_01_03" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_01_03" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_01_03" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_01_03" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '01_04')}">
+			<c:set var="ansValue08_01_01_04" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_01_04" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_01_04" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_01_04" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_01_04" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_01_04" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_01_04" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '01_05')}">
+			<c:set var="ansValue08_01_01_05" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_01_05" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_01_05" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_01_05" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_01_05" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_01_05" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_01_05" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '02_01')}">
+			<c:set var="ansValue08_01_02_01" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_02_01" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_02_01" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_02_01" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_02_01" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_02_01" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_02_01" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '02_02')}">
+			<c:set var="ansValue08_01_02_02" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_02_02" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_02_02" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_02_02" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_02_02" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_02_02" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_02_02" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '02_03')}">
+			<c:set var="ansValue08_01_02_03" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_02_03" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_02_03" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_02_03" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_02_03" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_02_03" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_02_03" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '02_04')}">
+			<c:set var="ansValue08_01_02_04" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_02_04" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_02_04" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_02_04" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_02_04" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_02_04" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_02_04" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+		<c:if test="${(qnEx.QN_CD eq 'Q08_01') && (qnEx.EX_CD eq '02_05')}">
+			<c:set var="ansValue08_01_02_05" value="${qnEx.ANS_VALUE }" />
+			<c:set var="exNm08_01_02_05" value="${qnEx.EX_NM }" />
+			<c:set var="exGroup08_01_02_05" value="${qnEx.EX_GROUP }" />
+			<c:set var="qnCd08_01_02_05" value="${qnEx.QN_CD }" />
+			<c:set var="exCd08_01_02_05" value="${qnEx.EX_CD }" />
+			<c:set var="exType08_01_02_05" value="${qnEx.EX_TYPE }" />
+			<c:set var="exClass08_01_02_05" value="${qnEx.EX_CLASS1 }" />
+		</c:if>
+	</c:forEach>
+	<table class="ques_table">
+		<colgroup>
+			<col style="width:50%" />
+			<col style="width:50%" />
+		</colgroup>
+		<tr>
+			<th>
+				응급실 방문 횟수
+			</th>
+			<th>
+				입원 횟수
+			</th>
+		</tr>
+		<tr>
+			<td>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_01_01 }' />" extype="<c:out value='${exType08_01_01_01 }' />" excd="<c:out value='${exCd08_01_01_01 }' />"  qncd="<c:out value='${qnCd08_01_01_01 }' />"  qntype="<c:out value='${exType08_01_01_01 }' />" <c:if test="${ansValue08_01_01_01 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_01_01 }" />" /><c:out value='${exNm08_01_01_01 }' /></label><br/>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_01_02 }' />" extype="<c:out value='${exType08_01_01_02 }' />" excd="<c:out value='${exCd08_01_01_02 }' />"  qncd="<c:out value='${qnCd08_01_01_02 }' />"  qntype="<c:out value='${exType08_01_01_02 }' />" <c:if test="${ansValue08_01_01_02 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_01_02 }" />" /><c:out value='${exNm08_01_01_02 }' /></label><br/>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_01_03 }' />" extype="<c:out value='${exType08_01_01_03 }' />" excd="<c:out value='${exCd08_01_01_03 }' />"  qncd="<c:out value='${qnCd08_01_01_03 }' />"  qntype="<c:out value='${exType08_01_01_03 }' />" <c:if test="${ansValue08_01_01_03 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_01_03 }" />" /><c:out value='${exNm08_01_01_03 }' /></label><br/>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_01_04 }' />" extype="<c:out value='${exType08_01_01_04 }' />" excd="<c:out value='${exCd08_01_01_04 }' />"  qncd="<c:out value='${qnCd08_01_01_04 }' />"  qntype="<c:out value='${exType08_01_01_04 }' />" <c:if test="${ansValue08_01_01_04 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_01_04 }" />" /><c:out value='${exNm08_01_01_04 }' /></label><br/>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_01_05 }' />" extype="<c:out value='${exType08_01_01_05 }' />" excd="<c:out value='${exCd08_01_01_05 }' />"  qncd="<c:out value='${qnCd08_01_01_05 }' />"  qntype="<c:out value='${exType08_01_01_05 }' />" <c:if test="${ansValue08_01_01_05 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_01_05 }" />" /><c:out value='${exNm08_01_01_05 }' /></label><br/>
+			</td>
+			<td>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_02_01 }' />" extype="<c:out value='${exType08_01_02_01 }' />" excd="<c:out value='${exCd08_01_02_01 }' />"  qncd="<c:out value='${qnCd08_01_02_01 }' />"  qntype="<c:out value='${exType08_01_02_01 }' />" <c:if test="${ansValue08_01_02_01 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_02_01 }" />" /><c:out value='${exNm08_01_02_01 }' /></label><br/>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_02_02 }' />" extype="<c:out value='${exType08_01_02_02 }' />" excd="<c:out value='${exCd08_01_02_02 }' />"  qncd="<c:out value='${qnCd08_01_02_02 }' />"  qntype="<c:out value='${exType08_01_02_02 }' />" <c:if test="${ansValue08_01_02_02 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_02_02 }" />" /><c:out value='${exNm08_01_02_02 }' /></label><br/>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_02_03 }' />" extype="<c:out value='${exType08_01_02_03 }' />" excd="<c:out value='${exCd08_01_02_03 }' />"  qncd="<c:out value='${qnCd08_01_02_03 }' />"  qntype="<c:out value='${exType08_01_02_03 }' />" <c:if test="${ansValue08_01_02_03 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_02_03 }" />" /><c:out value='${exNm08_01_02_03 }' /></label><br/>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_02_04 }' />" extype="<c:out value='${exType08_01_02_04 }' />" excd="<c:out value='${exCd08_01_02_04 }' />"  qncd="<c:out value='${qnCd08_01_02_04 }' />"  qntype="<c:out value='${exType08_01_02_04 }' />" <c:if test="${ansValue08_01_02_04 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_02_04 }" />" /><c:out value='${exNm08_01_02_04 }' /></label><br/>
+				<label><input type="radio" name="<c:out value='${exGroup08_01_02_05 }' />" extype="<c:out value='${exType08_01_02_05 }' />" excd="<c:out value='${exCd08_01_02_05 }' />"  qncd="<c:out value='${qnCd08_01_02_05 }' />"  qntype="<c:out value='${exType08_01_02_05 }' />" <c:if test="${ansValue08_01_02_05 eq 'Y'}">checked='checked'</c:if> class="input_radio <c:out value="${exClass08_01_02_05 }" />" /><c:out value='${exNm08_01_02_05 }' /></label><br/>
 			</td>
 		</tr>
 	</table>
