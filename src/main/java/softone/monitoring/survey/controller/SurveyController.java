@@ -39,15 +39,33 @@ public class SurveyController {
 		ModelAndView mv = new ModelAndView("/user/survey_test2");
 		
 		List<Map<String, Object>> orgCode = surveyService.selectOrgCode();//담당기관코드
-		List<Map<String, Object>> operCode = surveyService.selectOperCode();//운영기관코드
+		//List<Map<String, Object>> operCode = surveyService.selectOperCode();//운영기관코드
 		List<Map<String, Object>> surveyList = surveyService.selectSurveyDefineAll();//설문종류
 		
 		mv.addObject("orgCode", orgCode);
-		mv.addObject("operCode", operCode);
+		//mv.addObject("operCode", operCode);
 		mv.addObject("surveyList", surveyList);
 		
 		return mv;
 	}
+	
+	
+	@RequestMapping(value = "/user/getOperCode.do", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String getOperCode(@RequestParam String orgCd) throws Exception {
+
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		searchMap.put("orgCd", orgCd);
+		List<Map<String, Object>> operCode = surveyService.selectOperCode(searchMap);
+		String rtnString = "";
+		for (int i = 0; i < operCode.size(); i++) {
+			rtnString += operCode.get(i).get("OPER_CD") + "/";//향후 JSON 으로 떨궈서... 그려주는걸로 바꿔야함...
+		}
+		return rtnString;
+	}
+	
+	
+	
 	
 	//테스트용 리스트(2019-10-26)
 	@RequestMapping(value = "/user/survey_list.do")
@@ -56,11 +74,11 @@ public class SurveyController {
 		ModelAndView mv = new ModelAndView("/user/survey_comfirm_list");
 		
 		List<Map<String, Object>> orgCode = surveyService.selectOrgCode();//담당기관코드
-		List<Map<String, Object>> operCode = surveyService.selectOperCode();//운영기관코드
+		//List<Map<String, Object>> operCode = surveyService.selectOperCode();//운영기관코드
 		List<Map<String, Object>> surveyList = surveyService.selectSurveyDefineAll();//설문종류
 		
 		mv.addObject("orgCode", orgCode);
-		mv.addObject("operCode", operCode);
+		//mv.addObject("operCode", operCode);
 		mv.addObject("surveyList", surveyList);
 		
 		return mv;
@@ -68,7 +86,7 @@ public class SurveyController {
 	
 	@ResponseBody
 	@RequestMapping("/user/survey_list_json.do")
-	public List<Map<String, Object>> surveyListJson(@RequestParam String confirmPass2, @RequestParam String surveySn, @RequestParam String orgCd, @RequestParam String operCd , @RequestParam String sufrerNm , @RequestParam String sufrerPin,  @RequestParam String hsptlId) {
+	public List<Map<String, Object>> surveyListJson(@RequestParam String confirmPass2, @RequestParam String surveySn, @RequestParam String withoutNoSufrerPin, @RequestParam String orgCd, @RequestParam String operCd , @RequestParam String sufrerNm , @RequestParam String sufrerPin,  @RequestParam String hsptlId, @RequestParam String orderby) {
 		List<Map<String, Object>> surveyMstList = null;
 		if(!confirmPass2.equals("1357")){
 			return surveyMstList;
@@ -76,13 +94,14 @@ public class SurveyController {
 		
 		//검색용 맵 셋팅
 		Map<String, Object> surveyListSearchMap = new HashMap<String, Object>();
-		System.out.println("surveySn : " + hsptlId);
 		surveyListSearchMap.put("surveySn", surveySn);
 		surveyListSearchMap.put("orgCd", orgCd);
 		surveyListSearchMap.put("operCd", operCd);
 		surveyListSearchMap.put("sufrerNm", sufrerNm);
 		surveyListSearchMap.put("sufrerPin", sufrerPin);
 		surveyListSearchMap.put("hsptlId", hsptlId);
+		surveyListSearchMap.put("orderby", orderby);
+		surveyListSearchMap.put("withoutNoSufrerPin", withoutNoSufrerPin);
 		try {
 			surveyMstList = surveyService.selectSurveyAnsMstAll(surveyListSearchMap);
 			

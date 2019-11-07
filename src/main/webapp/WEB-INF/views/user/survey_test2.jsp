@@ -33,6 +33,42 @@
 				return true;
 				
 			}
+			
+			
+			function getOperCode(obj){
+				
+				if(!$(obj).val()){
+					var allHtml = "<select id='operCd' name='operCd'><option value=''>전체</option></select>"
+					$("#selectOperCd").html(allHtml);
+					return;
+				}
+				
+				
+				$.ajax({
+			        type: "get",
+			        url: "/user/getOperCode.do",
+			        data: "orgCd="+$(obj).val(),
+			        dataType: 'text',
+			        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			        complete: function(data){
+			        	var operCdsText = data.responseText;
+			        	var operCds = operCdsText.split('/');
+			        	var selectHtml = "<select name='operCd'>";
+			            for ( var i in operCds ) {
+			            	if(operCds[i]){
+			            		selectHtml += "<option value='" + operCds[i] + "'>" + operCds[i] + "</option>";
+			            	}
+			            }
+			            selectHtml += "</select>";
+			            $("#selectOperCd").html(selectHtml);
+			            
+			            
+			        }
+				});
+				
+				
+			}
+			
 		</script>
 </head>
 <body>
@@ -45,7 +81,7 @@
 					src="${pageContext.request.contextPath}/resources/img/logo_kor.gif"
 					alt="" class="kor_logo">
 			</div>
-			<div class="surveyTitle">[건강영향 설문조사] 성인용(테스트 조회)</div>
+			<div class="surveyTitle">[건강영향 설문조사] 작성용</div>
 			<!--<img src="../resource/img/logo_kor.gif" alt="" class="kor_logo">-->
 		</div>
 		<div class="surveyInfo">
@@ -60,19 +96,18 @@
 				<div class="surv_box">
 					<ul>
 						<li class="qu" style="width: 100px;">담당기관(org)</li>
-						<li class="aw"><select name="orgCd">
+						<li class="aw"><select name="orgCd" onchange="getOperCode(this);">
 								<c:forEach var="orgCd" items="${orgCode}" varStatus="status">
 									<option value="<c:out value="${orgCd.ORG_CD }" />"><c:out
 											value="${orgCd.ORG_CD }" /></option>
 								</c:forEach>
 						</select></li>
 						<li class="qu" style="width: 100px;">운영기관(oper)</li>
-						<li class="aw"><select name="operCd">
-								<c:forEach var="operCd" items="${operCode}" varStatus="status">
-									<option value="<c:out value="${operCd.OPER_CD }" />"><c:out
-											value="${operCd.OPER_CD }" /></option>
-								</c:forEach>
-						</select></li>
+						<li class="aw" id="selectOperCd">
+							<select id="operCd" name="operCd">
+								<option value="국립중앙">국립중앙</option>
+							</select>
+						</li>
 						<li class="qu" style="width: 100px;">설문종류</li>
 						<li class="aw">
 							<select name="surveySn">
@@ -81,7 +116,7 @@
 									<c:out value="${survey.SURVEY_NM }" /></option>
 								</c:forEach>
 						</select></li>
-						<li class="qu" style="width: 100px;">설문조회 마스터키</li>
+						<li class="qu" style="width: 100px;">설문작성 마스터키</li>
 						<li class="aw"><input type="text" class="input_txt" name="surveyAnsMstSn" ></li>
 						<li class="qu" style="width: 100px;">관리 비밀번호</li>
 						<li class="aw"><input type="password" class="input_txt" name="confirmPass"></li>

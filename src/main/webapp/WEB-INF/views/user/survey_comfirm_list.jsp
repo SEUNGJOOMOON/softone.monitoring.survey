@@ -35,7 +35,40 @@
 		return true;
 
 	}
-	
+
+	function getOperCode(obj){
+		
+		if(!$(obj).val()){
+			var allHtml = "<select id='operCd' name='operCd'><option value=''>전체</option></select>"
+			$("#selectOperCd").html(allHtml);
+			return;
+		}
+		
+		
+		$.ajax({
+	        type: "get",
+	        url: "/user/getOperCode.do",
+	        data: "orgCd="+$(obj).val(),
+	        dataType: 'text',
+	        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	        complete: function(data){
+	        	var operCdsText = data.responseText;
+	        	var operCds = operCdsText.split('/');
+	        	var selectHtml = "<select name='operCd'><option value=''>전체</option>";
+	            for ( var i in operCds ) {
+	            	if(operCds[i]){
+	            		selectHtml += "<option value='" + operCds[i] + "'>" + operCds[i] + "</option>";
+	            	}
+	            }
+	            selectHtml += "</select>";
+	            $("#selectOperCd").html(selectHtml);
+	            
+	            
+	        }
+		});
+		
+		
+	}
 	
 	function renderSurveyAnsMstList(){
 		
@@ -47,6 +80,8 @@
 				"sufrerNm": $("input[name='sufrerNm']").val(),
 				"sufrerPin": $("input[name='sufrerPin']").val(),
 				"hsptlId": $("input[name='hsptlId']").val(),
+				"orderby": $("select[name='orderby']").val(),
+				"withoutNoSufrerPin": $("input[name='withoutNoSufrerPin']").is(":checked")? 'Y' : 'N' ,
 				};
 		
 		$.ajax({
@@ -94,7 +129,7 @@
 		        		drawTableHtml += "<td>" + (retrnJson[i].HSPTL_ID? retrnJson[i].HSPTL_ID : "") + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].SURVEY_NM + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].SUFRER_NM + "<br/>(" + retrnJson[i].SEXDSTN + "/" + retrnJson[i].BRTHDY + ")" + "</td>";
-		        		drawTableHtml += "<td>" + (retrnJson[i].SURFRER_PIN? retrnJson[i].SURFRER_PIN : "") + "</td>";
+		        		drawTableHtml += "<td>" + (retrnJson[i].SUFRER_PIN? retrnJson[i].SUFRER_PIN : "") + "</td>";
 		        		drawTableHtml += '<td><input type="button" value="조회" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'view\', ' + i + ')" /><input type="button" value="인쇄" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'print\')" /></td>';
 		        		drawTableHtml += "</tr>";
 		        	}
@@ -148,7 +183,7 @@
 					src="${pageContext.request.contextPath}/resources/img/logo_kor.gif"
 					alt="" class="kor_logo" />
 			</div>
-			<div class="surveyTitle">[건강영향 설문조사] 리스트(테스트 조회)</div>
+			<div class="surveyTitle">[건강영향 설문조사] 조회용</div>
 		</div>
 		<div class="surveyInfo">
 			안녕하십니까? <br />본 설문지는 진료 전 일반건강상태에 대한 설문입니다. <br /> 본 설문지는 진료나 연구목적
@@ -162,7 +197,7 @@
 				<div class="surv_box">
 					<ul>
 						<li class="qu" style="width: 100px;">담당기관(org)</li>
-						<li class="aw"><select name="orgCd">
+						<li class="aw"><select name="orgCd" onchange="getOperCode(this);">
 								<option value="">전체</option>
 								<c:forEach var="orgCd" items="${orgCode}" varStatus="status">
 									<option value="<c:out value="${orgCd.ORG_CD }" />"><c:out
@@ -170,13 +205,11 @@
 								</c:forEach>
 						</select></li>
 						<li class="qu" style="width: 100px;">운영기관(oper)</li>
-						<li class="aw"><select name="operCd">
+						<li class="aw" id="selectOperCd">
+							<select id="operCd" name="operCd">
 								<option value="">전체</option>
-								<c:forEach var="operCd" items="${operCode}" varStatus="status">
-									<option value="<c:out value="${operCd.OPER_CD }" />"><c:out
-											value="${operCd.OPER_CD }" /></option>
-								</c:forEach>
-						</select></li>
+							</select>
+						</li>
 						<li class="qu" style="width: 100px;">설문종류</li>
 						<li class="aw">
 							<select name="surveySn">
@@ -198,6 +231,14 @@
 						<li class="qu" style="width: 100px;">관리 비밀번호</li>
 						<li class="aw"><input type="password" class="input_txt"
 							name="confirmPass2" /></li>
+						<li class="qu" style="width: 100px;">정렬조건</li>
+						<li class="aw">
+							<select id="orderby" name="orderby" >
+								<option value="SUFRER_PIN">식별번호</option>
+								<option value="REG_DT">등록일자</option>
+							</select>
+							<label><input type="checkbox" name="withoutNoSufrerPin" value="Y">식별번호 항목 제외</input></label>
+						</li>
 					</ul>
 				</div>
 			</div>

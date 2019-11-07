@@ -36,7 +36,7 @@ public interface SurveyService {
 	
 	List<Map<String, Object>> selectOrgCode() throws Exception;
 	
-	List<Map<String, Object>> selectOperCode() throws Exception;
+	List<Map<String, Object>> selectOperCode(Map<String, Object> map) throws Exception;
 	
 	List<Map<String, Object>> selectSurveyDefineAll() throws Exception;
 	

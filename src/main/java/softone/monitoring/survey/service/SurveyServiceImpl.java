@@ -80,8 +80,8 @@ public class SurveyServiceImpl implements SurveyService {
 	public List<Map<String, Object>> selectOrgCode() throws Exception {
 		return surveyDAO.selectOrgCode();
 	}
-	public List<Map<String, Object>> selectOperCode() throws Exception {
-		return surveyDAO.selectOperCode();
+	public List<Map<String, Object>> selectOperCode(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectOperCode(map);
 	}
 	public List<Map<String, Object>> selectSurveyDefineAll() throws Exception {
 		return surveyDAO.selectSurveyDefineAll();

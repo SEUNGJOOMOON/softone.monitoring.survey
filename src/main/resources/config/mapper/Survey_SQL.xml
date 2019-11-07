@@ -115,12 +115,11 @@
 		]]>
 	</select>
 	
-	<select id="selectOperCode" resultType="hashmap">
+	<select id="selectOperCode" resultType="hashmap" parameterType="hashmap">
 		<![CDATA[
 			SELECT OPER_CD
 			FROM CODE_OPER
-			WHERE USE_AT = 'Y'
-			GROUP BY OPER_CD
+			WHERE USE_AT = 'Y' AND ORG_CD = #{orgCd,jdbcType=VARCHAR} 
 		]]>
 	</select>
 	
@@ -155,6 +154,15 @@
 		    <if test="hsptlId != null and hsptlId != ''">
 		    	AND HSPTL_ID LIKE '%'||#{hsptlId,jdbcType=VARCHAR}||'%' 
 		    </if>
+		    <if test="withoutNoSufrerPin != null and withoutNoSufrerPin != ''">
+		    	<if test='withoutNoSufrerPin == "Y"'>
+		    		AND SUFRER_PIN IS NOT NULL
+		    	</if>
+		    </if>
+		    <trim prefix="ORDER BY"> 
+		         <if test="orderby == 'SUFRER_PIN'">  SUFRER_PIN DESC </if>
+		         <if test="orderby == 'REG_DT'">  REG_DT DESC </if>
+			</trim> 
 	</select>
 
 </mapper>

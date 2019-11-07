@@ -74,4 +74,8 @@
 	<c:if test="${surveyQn.SURVEY_SN eq '5' }">
 		<jsp:include page="./survey_table_girl_new.jsp" />
 	</c:if>
+	<!-- 여아사춘기 재방문 -->
+	<c:if test="${surveyQn.SURVEY_SN eq '7' }">
+		<jsp:include page="./survey_table_girl_re.jsp" />
+	</c:if>
 </c:if>
