@@ -2,6 +2,7 @@ package softone.monitoring.survey.controller;
 
 
 import java.util.ArrayList;
+import softone.monitoring.survey.vo.Pagination;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -86,12 +87,17 @@ public class SurveyController {
 	
 	@ResponseBody
 	@RequestMapping("/user/survey_list_json.do")
-	public List<Map<String, Object>> surveyListJson(@RequestParam String confirmPass2, @RequestParam String surveySn, @RequestParam String withoutNoSufrerPin, @RequestParam String orgCd, @RequestParam String operCd , @RequestParam String sufrerNm , @RequestParam String sufrerPin,  @RequestParam String hsptlId, @RequestParam String orderby) {
+	public Map<String, Object> surveyListJson(Pagination paging, @RequestParam String confirmPass2, @RequestParam String surveySn, @RequestParam String withoutNoSufrerPin, @RequestParam String orgCd, @RequestParam String operCd , @RequestParam String sufrerNm , @RequestParam String sufrerPin,  @RequestParam String hsptlId, @RequestParam String orderby) {
 		List<Map<String, Object>> surveyMstList = null;
 		if(!confirmPass2.equals("1357")){
-			return surveyMstList;
+			return new HashMap<String, Object>();
 		}
 		
+		paging.setStart(((paging.getPage() - 1) / 10) * 10 + 1);
+		paging.setEnd((paging.getStart() + 10) - 1);
+		
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		//검색용 맵 셋팅
 		Map<String, Object> surveyListSearchMap = new HashMap<String, Object>();
 		surveyListSearchMap.put("surveySn", surveySn);
@@ -101,16 +107,31 @@ public class SurveyController {
 		surveyListSearchMap.put("sufrerPin", sufrerPin);
 		surveyListSearchMap.put("hsptlId", hsptlId);
 		surveyListSearchMap.put("orderby", orderby);
+		surveyListSearchMap.put("rowStart", ((paging.getPage() * 10) - 9));
+		surveyListSearchMap.put("rowEnd", (paging.getPage() * 10));
 		surveyListSearchMap.put("withoutNoSufrerPin", withoutNoSufrerPin);
 		try {
 			surveyMstList = surveyService.selectSurveyAnsMstAll(surveyListSearchMap);
+			try {
+				paging.setTotalCnt(Long.parseLong(surveyMstList.get(0).get("TOTCNT").toString()));
+			}catch(java.lang.IndexOutOfBoundsException e) {
+				return resultMap;
+			}
 			
+			paging.setTotalPages((int)paging.getTotalCnt() / 10);
+			paging.setPageSize(10);
+			
+			resultMap.put("totalCnt", paging.getTotalCnt());
+			resultMap.put("page", paging.getPage());
+			resultMap.put("totalPages", paging.getTotalPages());
+			resultMap.put("pageSize", paging.getPageSize());
+			resultMap.put("surveyMstList", surveyMstList);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return surveyMstList;
+		return resultMap;
 
 	}
 	

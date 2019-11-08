@@ -17,7 +17,16 @@
 	rel="stylesheet" />
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/survey_index.css" />
+<style>
 
+#paging-span > a{
+	margin-left: 10px;
+}
+.first, .last, .prev, .next{
+	margin-left: 10px;
+}
+
+</style>
 <script
 	src="${pageContext.request.contextPath}/resources/js/JQuery3.4.1.js"></script>
 <script
@@ -70,9 +79,15 @@
 		
 	}
 	
-	function renderSurveyAnsMstList(){
-		
+	function renderSurveyAnsMstList(page){
+		if(!page){
+			page = 1;
+		}
 		var allData = {
+				"page": Number(page),
+				"totalPages": Number($("#totalPages").val()),
+				"pageSize": Number($("#pageSize").val()),
+				"totalCnt": Number($("#totalCnt").val()),
 				"confirmPass2": $("input[name='confirmPass2']").val(),
 				"surveySn": $("select[name='surveySn']").val(),
 				"orgCd": $("select[name='orgCd']").val(),
@@ -93,7 +108,8 @@
 	        	
 	        },
 	        complete : function(data) {
-	        	var retrnJson = data.responseJSON;
+	        	var retrnJson = data.responseJSON.surveyMstList;
+	        	var retrnJson2 = data.responseJSON;
 	        	
 	        	var drawTableHtml = "<table class='ques_table'>";
 	        	drawTableHtml += "<colgroup>";
@@ -123,7 +139,7 @@
 	        	}else{
 	        		for(i = 0; i < retrnJson.length; i++){
 		        		drawTableHtml += "<tr id='tr" + i + "'>";
-		        		drawTableHtml += "<td>" + (i+1) + "</td>";
+		        		drawTableHtml += "<td>" + retrnJson[i].RNUM + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].ORG_CD + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].OPER_CD + "</td>";
 		        		drawTableHtml += "<td>" + (retrnJson[i].HSPTL_ID? retrnJson[i].HSPTL_ID : "") + "</td>";
@@ -137,9 +153,70 @@
 	        	
 	        	drawTableHtml += "</table>";
 	        	$("#listDiv").html(drawTableHtml);
+	        	
+	        	/* 임시페이징 */
+	        	$("#page").val(retrnJson2.page);
+	        	$("#totalPages").val(retrnJson2.totalPages);
+	        	$("#pageSize").val(retrnJson2.pageSize);
+	        	$("#totalCnt").val(retrnJson2.totalCnt);
+
+	        	fn_createPaging();
            	},
 		});
 	}
+	
+	
+	function fn_createPaging() {
+		  try {
+		   var page   = eval($("#page").val());
+		   var totalPages  = eval($("#totalPages").val());
+		   var pageSize  = eval($("#pageSize").val());
+		   $("#pagingDiv").children().remove();
+
+		   var pagingHtml = '';
+		   
+		   var pagingIndex = parseInt((page-1)/pageSize);
+		   var pagingStart = (pagingIndex*pageSize)+1;
+		   var pagingEnd  = (pagingIndex+1)*pageSize;
+		   
+		   if (pagingEnd > totalPages) pagingEnd = totalPages;
+
+		   var before = pagingStart - 1;
+		   if (page > pageSize) {
+		    pagingHtml += ' <a href=\"javascript:renderSurveyAnsMstList(1);\" class="first">맨 처음으로</a><a class="prev" href=\"javascript:renderSurveyAnsMstList(' + before + ');\">이전</a>';
+		   }
+		   
+		   pagingHtml += '<span id="paging-span">';
+		   for (var i = pagingStart; i <= pagingEnd; i++) {
+		    if(i == pagingStart){
+		     //pagingHtml += '<a href="#" class="first-num">'+ i +'</a>';
+		     if (page == i) {
+		      pagingHtml += '<a href="#" class="on">'+ i +'</a>';
+		     } else {
+		      pagingHtml += '<a href=\"javascript:renderSurveyAnsMstList(' + i + ');">'+ i +'</a>';
+		     }
+		     
+		    }else{
+		     if (page == i) {
+		      pagingHtml += '<a href="#" class="on">'+ i +'</a>';
+		     } else {
+		      pagingHtml += '<a href=\"javascript:renderSurveyAnsMstList(' + i + ');">'+ i +'</a>';
+		     }
+		    }
+		   }
+		   pagingHtml += '</span>';
+		   
+		   var after = pagingEnd + 1;
+		   if (pagingEnd < totalPages) {
+		    pagingHtml += ' <a href=\"javascript:renderSurveyAnsMstList(' + after + ');\" class="next">다음</a><a class="last" href=\"javascript:renderSurveyAnsMstList(' + totalPages + ');\">맨 끝으로</a>';
+		   }
+		   
+		   $("#pagingDiv").append(pagingHtml);
+
+		  } catch(e) {
+		   alert(e.Message);
+		  }
+		 }
 	
 	function openSurveyView(surveyAnsMstSn, orgCd, operCd, surveySn, viewMode, index){
 		
@@ -249,6 +326,13 @@
 	</div>
 	<div class="surveyIndexWrap">
 		<div id="listDiv"></div>
+		<div id="pagingDiv" style="text-align:center"></div>
+		<form id="pagination">
+			<input type="hidden" id="totalPages" />
+			<input type="hidden" id="pageSize" />
+			<input type="hidden" id="totalCnt" />
+			<input type="hidden" id="page" />
+		</form>
 	</div>
 
 

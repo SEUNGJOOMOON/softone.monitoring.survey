@@ -133,36 +133,40 @@
 	</select>
 	
 	<select id="selectSurveyAnsMstAll" parameterType="hashmap" resultType="hashmap">
-			SELECT SURVEY_SN, SURVEY_ANS_MST_SN, ORG_CD, OPER_CD, SURVEY_NM, ORG_CD, OPER_CD, HSPTL_ID, SUFRER_PIN, SUFRER_NM, BRTHDY, SEXDSTN
-			FROM SURVEY_ANS_MST
-			WHERE USE_AT = 'Y'
-			<if test="surveySn != null and surveySn != ''">
-		    	AND SURVEY_SN = #{surveySn,jdbcType=VARCHAR}
-		    </if>
-			<if test="orgCd != null and orgCd != ''">
-		    	AND ORG_CD = #{orgCd,jdbcType=VARCHAR} 
-		    </if>
-			<if test="operCd != null and operCd != ''">
-		    	AND OPER_CD = #{operCd,jdbcType=VARCHAR}
-		    </if>
-		    <if test="sufrerNm != null and sufrerNm != ''">
-		    	AND SUFRER_NM LIKE '%'||#{sufrerNm,jdbcType=VARCHAR}||'%' 
-		    </if>
-			<if test="sufrerPin != null and sufrerPin != ''">
-		    	AND SUFRER_PIN LIKE '%'||#{sufrerPin,jdbcType=VARCHAR}||'%' 
-		    </if>
-		    <if test="hsptlId != null and hsptlId != ''">
-		    	AND HSPTL_ID LIKE '%'||#{hsptlId,jdbcType=VARCHAR}||'%' 
-		    </if>
-		    <if test="withoutNoSufrerPin != null and withoutNoSufrerPin != ''">
-		    	<if test='withoutNoSufrerPin == "Y"'>
-		    		AND SUFRER_PIN IS NOT NULL
-		    	</if>
-		    </if>
-		    <trim prefix="ORDER BY"> 
-		         <if test="orderby == 'SUFRER_PIN'">  SUFRER_PIN DESC </if>
-		         <if test="orderby == 'REG_DT'">  REG_DT DESC </if>
-			</trim> 
+			SELECT *
+  			FROM (SELECT A.*, ROWNUM AS RNUM, COUNT (*) OVER () AS TOTCNT
+          		  FROM (
+						SELECT *
+						FROM SURVEY_ANS_MST
+						WHERE USE_AT = 'Y'
+						<if test="surveySn != null and surveySn != ''">
+					    	AND SURVEY_SN = #{surveySn,jdbcType=VARCHAR}
+					    </if>
+						<if test="orgCd != null and orgCd != ''">
+					    	AND ORG_CD = #{orgCd,jdbcType=VARCHAR} 
+					    </if>
+						<if test="operCd != null and operCd != ''">
+					    	AND OPER_CD = #{operCd,jdbcType=VARCHAR}
+					    </if>
+					    <if test="sufrerNm != null and sufrerNm != ''">
+					    	AND SUFRER_NM LIKE '%'||#{sufrerNm,jdbcType=VARCHAR}||'%' 
+					    </if>
+						<if test="sufrerPin != null and sufrerPin != ''">
+					    	AND SUFRER_PIN LIKE '%'||#{sufrerPin,jdbcType=VARCHAR}||'%' 
+					    </if>
+					    <if test="hsptlId != null and hsptlId != ''">
+					    	AND HSPTL_ID LIKE '%'||#{hsptlId,jdbcType=VARCHAR}||'%' 
+					    </if>
+					    <if test="withoutNoSufrerPin != null and withoutNoSufrerPin != ''">
+					    	<if test='withoutNoSufrerPin == "Y"'>
+					    		AND SUFRER_PIN IS NOT NULL
+					    	</if>
+					    </if>
+					    <trim prefix="ORDER BY"> 
+					         <if test="orderby == 'SUFRER_PIN'">  SUFRER_PIN DESC </if>
+					         <if test="orderby == 'REG_DT'">  REG_DT DESC </if>
+						</trim>) A)
+ 			WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}	
 	</select>
 
 </mapper>
