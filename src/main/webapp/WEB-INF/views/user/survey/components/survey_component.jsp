@@ -66,6 +66,10 @@
 	<c:if test="${surveyQn.SURVEY_SN eq '1' }">
 		<jsp:include page="./survey_table_adult_new.jsp" />
 	</c:if>
+	<!-- 소아 재방문 -->
+	<c:if test="${surveyQn.SURVEY_SN eq '3' }">
+		<jsp:include page="./survey_table_child_re.jsp" />
+	</c:if>
 	<!-- 성인 재방문 -->
 	<c:if test="${surveyQn.SURVEY_SN eq '8' }">
 		<jsp:include page="./survey_table_adult_re.jsp" />

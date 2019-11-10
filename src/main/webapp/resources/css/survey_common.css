@@ -69,6 +69,9 @@ ul, ol, li {
 .span_font13{
 	font-size: 13px;
 }
+.input_txt_hybrid{
+	width: 3rem;
+}
 .btn_close2{
 	z-index: 1000;
     width: 80px;
