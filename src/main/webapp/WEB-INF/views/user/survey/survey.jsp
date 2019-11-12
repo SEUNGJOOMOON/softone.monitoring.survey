@@ -319,9 +319,9 @@
 								var exsubtype = exsubdisplay[0];//SHOW OR HIDE
 								var exsubexno = exsubdisplay[1];//설문 번호
 								if(exsubtype == "SHOW"){
-									$("div[subquestno='" + exsubexno + "']").slideDown(300);
+									$("div[subquestno='" + exsubexno + "']").show();
 								}else{
-									$("div[subquestno='" + exsubexno + "']").slideUp(300);
+									$("div[subquestno='" + exsubexno + "']").hide();
 									$("form[name='" + exsubexno + "']")[0].reset();
 							
 									$("form[name='" + exsubexno + "']").find("input[type='checkbox'], input[type='radio']").each(function(index, el){//활성화된 text 비활성화 처리
@@ -331,6 +331,7 @@
 									    }
 									});
 								}
+								fullpage_api.reBuild();
 						    }
 						}
 						
@@ -385,9 +386,9 @@
 										var exsubtype = exsubdisplay[0];//SHOW OR HIDE
 										var exsubexno = exsubdisplay[1];//설문 번호
 										if(exsubtype == "SHOW"){
-											$("div[subquestno='" + exsubexno + "']").slideDown(300);
+											$("div[subquestno='" + exsubexno + "']").show();
 										}else{
-											$("div[subquestno='" + exsubexno + "']").slideUp(300);
+											$("div[subquestno='" + exsubexno + "']").hide();
 											$("form[name='" + exsubexno + "']")[0].reset();
 											
 											$("form[name='" + exsubexno + "']").find("input[type='checkbox'], input[type='radio']").each(function(index, el){//활성화된 text 비활성화 처리
@@ -398,6 +399,7 @@
 											});
 											
 										}
+										fullpage_api.reBuild();
 								    }
 								}
 							}
