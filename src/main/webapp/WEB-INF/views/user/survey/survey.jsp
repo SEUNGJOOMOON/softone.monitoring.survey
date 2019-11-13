@@ -88,10 +88,11 @@
 				$(".qest_wrap").css("border", "0px").css("min-height", "100px");
 				$(".slide").css("margin-top", "-150px");
 				if(this.isMobile()){
-						
+					$("#slide1").css("margin-top", "40px");	
 				}else{
 					$("#slide1").css("margin-top", "0px");
 				}
+				//$(".surveyTop").hide();
 				$(".quest_end").hide();
 				$(".quest_red").hide();
 				$(".btn_close").hide();
@@ -434,26 +435,20 @@
 						
 						surveyCommonUtils.writeSurveyAns("", "all", "T", 
 						function(){
+							var url = "/user/survey/preview.do";
 							
-							var popup;
-							function pop() {
-								var settings = 'width=800, height=1000, menubar=no, status=no, toolbar=no, scrollbars=yes';
-								var target = '/user/survey/preview.do';
-								popup = window.open('about:blank', 'preView', settings);
-
-								$.load("url", function() {
-									popup.location = target;
-								});
-							}
-							
+							var frmPreview= document.survey_preview_form;
+						    window.open('','preView','width=800, height=1000, menubar=no, status=no, toolbar=no, scrollbars=yes');  
+						     
+						    frmPreview.action = url;
+						    frmPreview.method = "post";
+						    frmPreview.target = 'preView'; //window,open()의 두번째 인수와 같아야 하며 필수다.  
+						    frmPreview.submit();
 						});
 						
 						
 						
 					});
-					
-					
-					
 					
 					//설문완료
 					$(".btn_survey_end").click(function(){
