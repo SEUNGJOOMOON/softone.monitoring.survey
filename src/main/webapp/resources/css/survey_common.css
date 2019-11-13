@@ -94,7 +94,7 @@ ul, ol, li {
 .surveyTitle {
 	margin: 0 auto;
 	width: 90%;
-	font-size: 1.2em;
+	font-size: 1.0em;
 	background-color: #6f42c1;
 	border-radius: 5px;
 	color: #fff;
@@ -532,7 +532,7 @@ textarea {
 	}
 	
 	.qest_wrap {
-		margin-top: 80%;
+		margin-top: 55%;
 	}
 	.navigation {
 		right:-25px;

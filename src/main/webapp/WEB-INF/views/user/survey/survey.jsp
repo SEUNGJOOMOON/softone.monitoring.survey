@@ -88,11 +88,10 @@
 				$(".qest_wrap").css("border", "0px").css("min-height", "100px");
 				$(".slide").css("margin-top", "-150px");
 				if(this.isMobile()){
-					$("#slide1").css("margin-top", "40px");	
+						
 				}else{
 					$("#slide1").css("margin-top", "0px");
 				}
-				//$(".surveyTop").hide();
 				$(".quest_end").hide();
 				$(".quest_red").hide();
 				$(".btn_close").hide();
@@ -435,20 +434,26 @@
 						
 						surveyCommonUtils.writeSurveyAns("", "all", "T", 
 						function(){
-							var url = "/user/survey/preview.do";
 							
-							var frmPreview= document.survey_preview_form;
-						    window.open('','preView','width=800, height=1000, menubar=no, status=no, toolbar=no, scrollbars=yes');  
-						     
-						    frmPreview.action = url;
-						    frmPreview.method = "post";
-						    frmPreview.target = 'preView'; //window,open()의 두번째 인수와 같아야 하며 필수다.  
-						    frmPreview.submit();
+							var popup;
+							function pop() {
+								var settings = 'width=800, height=1000, menubar=no, status=no, toolbar=no, scrollbars=yes';
+								var target = '/user/survey/preview.do';
+								popup = window.open('about:blank', 'preView', settings);
+
+								$.load("url", function() {
+									popup.location = target;
+								});
+							}
+							
 						});
 						
 						
 						
 					});
+					
+					
+					
 					
 					//설문완료
 					$(".btn_survey_end").click(function(){
@@ -524,7 +529,7 @@
 		<div class="st_con">
 			<div class="surveyLogo">
 				<img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo" />
-				<img src="${pageContext.request.contextPath}/resources/img/logo_kor.gif" alt="" class="kor_logo" />
+				<img src="${pageContext.request.contextPath}/resources/img/logo_kor.jpg" alt="" class="kor_logo" />
 			</div>
 			<div class="surveyTitle"><c:out value="${surveyMaster.SURVEY_NM}"/></div>
 
@@ -626,7 +631,7 @@
 								</div>
 							</c:if>
 							<c:if test="${surveyQn.QN_TYPE ne '알림' }" >
-								<div class="qest_title"><span class="view_quest_no">0<c:out value='${status.count}' />.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
+								<div class="qest_title"><span class="view_quest_no"><c:out value='${surveyQn.QN_CD}' />.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
 								<div class="qest_anwer_wrap" >
 									<c:set var="p_surveyDate" value="${surveyQn}" scope="request"/><!-- 보기 컴포넌트로 전달용 파라메터 -->
 									<jsp:include page="./components/survey_component.jsp"/>

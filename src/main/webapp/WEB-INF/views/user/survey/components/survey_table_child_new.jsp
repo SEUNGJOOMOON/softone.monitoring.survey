@@ -2812,56 +2812,56 @@
 			<th>식품 알레르기</th>
 		</tr>
 		<tr>
-			<td>어머니</td>
-			<td>
+			<td class="align_center">어머니</td>
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_01_01 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_01_01 }' />" qncd="<c:out value='${qnCd17_01_01 }' />" extype="<c:out value='${exType17_01_01 }' />" class="input_check <c:out value='${exClass17_01_01 }' />" name="<c:out value='${exGroup17_01_01 }' />" /></label>
 			</td>
-			<td>
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_01_02 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_01_02 }' />" qncd="<c:out value='${qnCd17_01_02 }' />" extype="<c:out value='${exType17_01_02 }' />" class="input_check <c:out value='${exClass17_01_02 }' />" name="<c:out value='${exGroup17_01_02 }' />" /></label>
 			</td>
-			<td>
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_01_03 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_01_03 }' />" qncd="<c:out value='${qnCd17_01_03 }' />" extype="<c:out value='${exType17_01_03 }' />" class="input_check <c:out value='${exClass17_01_03 }' />" name="<c:out value='${exGroup17_01_03 }' />" /></label>
 			</td>
-			<td>
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_01_04 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_01_04 }' />" qncd="<c:out value='${qnCd17_01_04 }' />" extype="<c:out value='${exType17_01_04 }' />" class="input_check <c:out value='${exClass17_01_04 }' />" name="<c:out value='${exGroup17_01_03 }' />" /></label>
 			</td>
-			<td>
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_01_05 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_01_05 }' />" qncd="<c:out value='${qnCd17_01_05 }' />" extype="<c:out value='${exType17_01_05 }' />" class="input_check <c:out value='${exClass17_01_05 }' />" name="<c:out value='${exGroup17_01_05 }' />" /></label>
 			</td>
 		</tr>
 		<tr>				
-			<td>아버지</td>	
-			<td>	
+			<td class="align_center">아버지</td>	
+			<td class="align_center">		
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_02_01 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_02_01 }' />" qncd="<c:out value='${qnCd17_02_01 }' />" extype="<c:out value='${exType17_02_01 }' />" class="input_check <c:out value='${exClass17_02_01 }' />" name="<c:out value='${exGroup17_02_01 }' />" /></label>
 			</td>	
-			<td>	
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_02_02 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_02_02 }' />" qncd="<c:out value='${qnCd17_02_02 }' />" extype="<c:out value='${exType17_02_02 }' />" class="input_check <c:out value='${exClass17_02_02 }' />" name="<c:out value='${exGroup17_02_02 }' />" /></label>
 			</td>	
-			<td>	
+			<td class="align_center">		
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_02_03 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_02_03 }' />" qncd="<c:out value='${qnCd17_02_03 }' />" extype="<c:out value='${exType17_02_03 }' />" class="input_check <c:out value='${exClass17_02_03 }' />" name="<c:out value='${exGroup17_02_03 }' />" /></label>
 			</td>	
-			<td>	
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_02_04 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_02_04 }' />" qncd="<c:out value='${qnCd17_02_04 }' />" extype="<c:out value='${exType17_02_04 }' />" class="input_check <c:out value='${exClass17_02_04 }' />" name="<c:out value='${exGroup17_02_03 }' />" /></label>
 			</td>	
-			<td>	
+			<td class="align_center">		
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_02_05 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_02_05 }' />" qncd="<c:out value='${qnCd17_02_05 }' />" extype="<c:out value='${exType17_02_05 }' />" class="input_check <c:out value='${exClass17_02_05 }' />" name="<c:out value='${exGroup17_02_05 }' />" /></label>
 			</td>	
 		</tr>		
 		<tr>				
-			<td>형제·자매<br/>(<input type="text" value="<c:out value='${ansTxt17_03_00 }' />" class="input_txt <c:out value='${exClass17_03_00 }' />" excd="<c:out value='${exCd17_03_00 }' />" qncd="<c:out value='${qnCd17_03_00 }' />" extype="<c:out value='${exType17_03_00 }' />"/>)</td>	
-			<td>	
+			<td class="align_center">형제·자매<br/>(<input type="text" value="<c:out value='${ansTxt17_03_00 }' />" class="input_txt <c:out value='${exClass17_03_00 }' />" excd="<c:out value='${exCd17_03_00 }' />" qncd="<c:out value='${qnCd17_03_00 }' />" extype="<c:out value='${exType17_03_00 }' />"/>)</td>	
+			<td class="align_center">		
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_03_01 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_03_01 }' />" qncd="<c:out value='${qnCd17_03_01 }' />" extype="<c:out value='${exType17_03_01 }' />" class="input_check <c:out value='${exClass17_03_01 }' />" name="<c:out value='${exGroup17_03_01 }' />" /></label>
 			</td>	
-			<td>	
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_03_02 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_03_02 }' />" qncd="<c:out value='${qnCd17_03_02 }' />" extype="<c:out value='${exType17_03_02 }' />" class="input_check <c:out value='${exClass17_03_02 }' />" name="<c:out value='${exGroup17_03_02 }' />" /></label>
 			</td>	
-			<td>	
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_03_03 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_03_03 }' />" qncd="<c:out value='${qnCd17_03_03 }' />" extype="<c:out value='${exType17_03_03 }' />" class="input_check <c:out value='${exClass17_03_03 }' />" name="<c:out value='${exGroup17_03_03 }' />" /></label>
 			</td>	
-			<td>	
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_03_04 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_03_04 }' />" qncd="<c:out value='${qnCd17_03_04 }' />" extype="<c:out value='${exType17_03_04 }' />" class="input_check <c:out value='${exClass17_03_04 }' />" name="<c:out value='${exGroup17_03_03 }' />" /></label>
 			</td>	
-			<td>	
+			<td class="align_center">	
 				<label class="label_txt"><input type="checkbox" <c:if test="${ansValue17_03_05 eq 'Y' }">checked='checked'</c:if> excd="<c:out value='${exCd17_03_05 }' />" qncd="<c:out value='${qnCd17_03_05 }' />" extype="<c:out value='${exType17_03_05 }' />" class="input_check <c:out value='${exClass17_03_05 }' />" name="<c:out value='${exGroup17_03_05 }' />" /></label>
 			</td>	
 		</tr>		
