@@ -252,14 +252,7 @@
 			        	}
 			        	$('#loading').hide();
 		           	},
-				});
-				
-				/*if(exqnlink != ""){
-					return "false/" + exqnlink; 
-				}else{
-					return "true";
-				}*/
-				
+				});				
 				
 			}
 			
@@ -555,6 +548,10 @@
 		<input type="hidden" id="SURVEY_CD" value="<c:out value="${surveyMaster.SURVEY_CD}"/>" />
 		<input type="hidden" id="SURVEY_NM" value="<c:out value="${surveyMaster.SURVEY_NM}"/>" />
 	</form>
+	<!-- 그룹설문시 사용되는 다음 설문지 정보 저장용 폼  -->
+	<form id="survey_turn_form" name="survey_turn_form">
+		<input type="hidden" id="NEXT_SURVEY_SN" value="<c:out value="${nextSurveySn}"/>" />
+	</form>
 	<div id="fullpage">
 		<!-- 설문지 상단 작성자 정보 -->
 		<div id="survey_cover" class="survey_cover">
@@ -614,7 +611,7 @@
 					<div class="fp-responsive question" quest-no="<c:out value='${surveyQn.QN_CD}' />">
 						
 						<div class="qest_wrap">
-							<span class="qest_no"><c:if test="${surveyQn.QN_TYPE eq '알림' }" >안내사항</c:if><c:if test="${surveyQn.QN_TYPE ne '알림' }" >Q<c:out value="${status.index+1}"/> Question</c:if> </span>
+							<span class="qest_no"><c:if test="${surveyQn.QN_TYPE eq '알림' }" >안내사항</c:if><c:if test="${surveyQn.QN_TYPE ne '알림' }" ><c:out value="${surveyQn.QN_CD}"/> Question</c:if> </span>
 							<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE1'}">
 								<div class="quest_red">
 									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
@@ -657,7 +654,14 @@
 								<c:if test='${not status.first}'><input type="button" class="btn_prev" turn="<c:out value='${status.index}' />" value="이전" /></c:if>
 								&nbsp;&nbsp;<input type="button" name="btn_preview" class="btn_preview" value="미리보기" />&nbsp;&nbsp;
 								<c:if test='${not status.last}'><input type="button" class="btn_next" turn="<c:out value='${status.index}' />" value="다음" /></c:if>
-								<c:if test='${status.last}'><input type="button" class="btn_survey_end" turn="<c:out value='${status.index}' />" value="설문완료" /></c:if>
+								<c:if test='${status.last}'>
+									<c:if test="${not empty nextSurveySn}">
+										<input type="button" class="btn_survey_end" turn="<c:out value='${status.index}' />" value="설문진행" />
+									</c:if>
+									<c:if test="${empty nextSurveySn}">
+										<input type="button" class="btn_survey_end" turn="<c:out value='${status.index}' />" value="설문완료" />
+									</c:if>
+								</c:if>
 							</div>
 						</div>
 					</div>

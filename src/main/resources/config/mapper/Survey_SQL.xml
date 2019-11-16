@@ -20,7 +20,7 @@
 	
 	<select id="selectSurveyDefine" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
-			SELECT SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, RELEASE_VER, SURVEY_SE1, SURVEY_SE2, SURVEY_SE3, SURVEY_SE4, CHARGER, TLPHON
+			SELECT SURVEY_SN, ORG_CD, OPER_CD, SURVEY_CD, SURVEY_NM, RELEASE_VER, SURVEY_SE1, SURVEY_SE2, SURVEY_SE3, SURVEY_SE4, CHARGER, TLPHON, GROUP_SURVEY_AT, GROUP_SURVEY_SN
 			FROM SURVEY
 			WHERE SURVEY_SN = #{surveySn} AND USE_AT = 'Y'
 		]]>
@@ -86,8 +86,8 @@
 		</selectKey> 
 		
 		<![CDATA[
-			INSERT INTO SURVEY_ANS(ANS_SN, SURVEY_ANS_MST_SN, SUFRER_NM, SUFRER_PIN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, ANS_VALUE, ANS_TXT1, ANS_TXT2, QN_CD, EX_CD, USE_AT)
-			VALUES(#{ansSn}, #{surveyAnsMstSn}, #{surferNm,jdbcType=VARCHAR}, #{sufrerPin,jdbcType=VARCHAR}, #{orgCd,jdbcType=VARCHAR}, #{operCd,jdbcType=VARCHAR}, #{surveySn,jdbcType=VARCHAR}, #{surveyCd,jdbcType=VARCHAR}, #{surveyNm,jdbcType=VARCHAR}, #{ansValue,jdbcType=VARCHAR}, #{ansTxt1,jdbcType=VARCHAR}, #{ansTxt2,jdbcType=VARCHAR}, #{qnCd,jdbcType=VARCHAR}, #{exCd,jdbcType=VARCHAR}, #{useAt,jdbcType=VARCHAR})
+			INSERT INTO SURVEY_ANS(ANS_SN, SURVEY_ANS_MST_SN, SUFRER_NM, SUFRER_PIN, ORG_CD, OPER_CD, SURVEY_SN, SURVEY_CD, SURVEY_NM, ANS_VALUE, ANS_TXT1, ANS_TXT2, QN_CD, EX_CD, USE_AT, GROUP_SURVEY_SN)
+			VALUES(#{ansSn}, #{surveyAnsMstSn}, #{surferNm,jdbcType=VARCHAR}, #{sufrerPin,jdbcType=VARCHAR}, #{orgCd,jdbcType=VARCHAR}, #{operCd,jdbcType=VARCHAR}, #{surveySn,jdbcType=VARCHAR}, #{surveyCd,jdbcType=VARCHAR}, #{surveyNm,jdbcType=VARCHAR}, #{ansValue,jdbcType=VARCHAR}, #{ansTxt1,jdbcType=VARCHAR}, #{ansTxt2,jdbcType=VARCHAR}, #{qnCd,jdbcType=VARCHAR}, #{exCd,jdbcType=VARCHAR}, #{useAt,jdbcType=VARCHAR}, #{groupSurveySn,jdbcType=VARCHAR})
 		]]>
 	</insert>
 

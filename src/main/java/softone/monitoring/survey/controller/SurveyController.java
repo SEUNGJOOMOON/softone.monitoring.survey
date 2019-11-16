@@ -149,33 +149,84 @@ public class SurveyController {
 		
 		
 		
-		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
-		
-		
-		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
+		Map<String, Object> surveyMaster = null;
 		List<Map<String, Object>> surveyEx = null;
 		
 		
-		if((viewMode.equals("view") || viewMode.equals("print"))){
-			surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기
+		if((viewMode.equals("view") || viewMode.equals("print"))){//조회/인쇄시 
+			surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기(작성값 포함)
+			surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 		}else{
 			Map<String, Object> surveyDefine = surveyService.selectSurveyDefine(surveyParams);
+			
+			//그룹설문의 경우 분기처리
 			Map<String, Object> surveyMasterMap = new HashMap<String, Object>();
-//			마스터 정보 셋팅
+			if(surveyDefine.get("GROUP_SURVEY_AT").toString().equals("Y")){
+			//그룹설문일경우
+				String groupSurveySn = surveyDefine.get("GROUP_SURVEY_SN").toString();
+				String[] surveySnGroup = groupSurveySn.split("/");// groupSurveySn은 "1/2/3" 등올 잡혀있기 때문에 반복문을 통해 순서제어
+				String nextSurveySn = "";
+				surveyParams.put("surveySn",surveySnGroup[0]);//첫번째 surveySn으로 셋팅
+				
+				for(int i = 1; i < surveySnGroup.length; i++){
+					if(!surveySnGroup[i].equals("")){
+						nextSurveySn += surveySnGroup[i];
+						if(i < surveySnGroup.length - 1){
+							nextSurveySn += "/";
+						}
+					}
+				}
+				
+				mv.addObject("nextSurveySn", nextSurveySn);//남은 설문지 정보 셋팅 
+			}else{
+			// 일반 설문일 경우
+				surveyMasterMap.put("surveySn", surveySn);
+			}
+			
+			//마스터 정보 셋팅
 			surveyMasterMap.put("surveyAnsMstSn", surveyAnsMstSn);
 			surveyMasterMap.put("surveySn", surveySn);
-			surveyMasterMap.put("orgCd", orgCd);//임시 하드코딩, surveyㅌ ㅔ이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
-			surveyMasterMap.put("operCd", operCd);//임시 하드코딩, surveyㅌ ㅔ이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
+			surveyMasterMap.put("orgCd", orgCd);//임시 하드코딩, survey 테이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
+			surveyMasterMap.put("operCd", operCd);//임시 하드코딩, survey 테이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
 			surveyMasterMap.put("surveyNm", surveyDefine.get("SURVEY_NM"));
 			surveyMasterMap.put("surveyCd", surveyDefine.get("SURVEY_CD"));
+			
+			
 			surveyService.insertSurveyAnsMst(surveyMasterMap);//마스터정보 인서트
 			surveyMaster = surveyService.selectSurveyMaster(surveyParams);//인서트한 마스터정보 가져오기
+			
+			
 			surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
 		}
 	
+		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
+		List<Map<String, Object>> surveyQnEx = connectSurveyQnAndEx(surveyQn, surveyEx);//설문 질문
+		List<Map<String, Object>> surveySubQnEx = connectSurveySubQnAndEx(surveyQnEx);//설문 서브질문
+
 		
+		mv.addObject("surveyQnEx", surveyQnEx);
+		mv.addObject("surveySubQnEx", surveySubQnEx);
+		mv.addObject("viewMode", viewMode);
+		mv.addObject("surveyMaster", surveyMaster);
+		
+		
+		HttpSession httpSession = request.getSession(true);
+        
+        // "USER"로 sessionVO를 세션에 바인딩한다.
+        httpSession.setAttribute("auth_key", surveyAnsMstSn);
+		
+		return mv;
+	}
+	
+	 /*
+	  * @param List surveyQn (해당 surveySn으로 조회해온 SURVEY_QN 데이터)
+	  * @param List surveyEx (해당 surveySn으로 조회해온 SURVEY_QN_EX 데이터)
+	  * @return List surveyQn에 해당하는 surveyEx 리스트를 포함하여 리턴
+	  * @ author sjmoon
+	  * @ date 2019.11.16
+	  */
+	public List<Map<String, Object>> connectSurveyQnAndEx(List<Map<String, Object>> surveyQn, List<Map<String, Object>> surveyEx){
 		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();//질문
-		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();//서브질문
 		
 		for (Map<String, Object> qn : surveyQn) {//질문 리스트에 해당 질문에 해당하는 보기를 넣음.
 		  String qnCd = qn.get("QN_CD").toString();
@@ -191,7 +242,17 @@ public class SurveyController {
 		  surveyQnEx.add(qn);
 		}
 		
-		//서브질문 분리
+		return surveyQnEx;
+	}
+	
+	/*
+	  * @param List surveyQnEx(surveyQn에 해당하는 surveyEx 리스트를 포함 connectSurveyQnAndEx에서 반환받은 리턴값임)
+	  * @return List surveyQnEx에서 P_QN_CD 갖고 있는 설문질문(서브질문)만 뽑아서 리턴
+	  * @ author sjmoon
+	  * @ date 2019.11.16
+	  */
+	public List<Map<String, Object>> connectSurveySubQnAndEx(List<Map<String, Object>> surveyQnEx){
+		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();
 		for(Iterator<Map<String, Object>> it = surveyQnEx.iterator() ; it.hasNext() ; ) {
 		  Map<String, Object> qnEx = it.next();
 		  if(qnEx.get("P_QN_CD") != null) {
@@ -200,17 +261,7 @@ public class SurveyController {
 		  }
 		}
 		
-		mv.addObject("surveySubQnEx", surveySubQnEx);
-		mv.addObject("surveyQnEx", surveyQnEx);
-		mv.addObject("viewMode", viewMode);
-		mv.addObject("surveyMaster", surveyMaster);
-		
-		HttpSession httpSession = request.getSession(true);
-        
-        // "USER"로 sessionVO를 세션에 바인딩한다.
-        httpSession.setAttribute("auth_key", surveyAnsMstSn);
-		
-		return mv;
+		return surveySubQnEx;
 	}
 	
 	
@@ -282,8 +333,6 @@ public class SurveyController {
 			return mv;
 		}
 
-		
-		
 		mv = new ModelAndView("/user/survey/survey");
 		Map<String, Object> surveyParams = new HashMap<String, Object>();
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
@@ -298,31 +347,8 @@ public class SurveyController {
 		
 		surveyEx = surveyService.selectSurveyExWithAnsTemp(surveyParams);//질문 보기
 
-		List<Map<String, Object>> surveyQnEx = new ArrayList<Map<String, Object>>();//질문
-		List<Map<String, Object>> surveySubQnEx = new ArrayList<Map<String, Object>>();//서브질문
-		
-		for (Map<String, Object> qn : surveyQn) {//질문 리스트에 해당 질문에 해당하는 보기를 넣음.
-		  String qnCd = qn.get("QN_CD").toString();
-		  List<Map<String, Object>> surveySubEx = new ArrayList<Map<String, Object>>();
-		  for (Map<String, Object> ex : surveyEx) {//질문보기 loop
-			  if(ex.get("QN_CD").toString().equals(qnCd)){
-				  surveySubEx.add(ex); 
-			  }
-		  }
-		  
-		  qn.put("QN_EX", surveySubEx);
-
-		  surveyQnEx.add(qn);
-		}
-		
-		//서브질문 분리
-		for(Iterator<Map<String, Object>> it = surveyQnEx.iterator() ; it.hasNext() ; ) {
-		  Map<String, Object> qnEx = it.next();
-		  if(qnEx.get("P_QN_CD") != null) {
-			 surveySubQnEx.add(qnEx);
-			 it.remove();
-		  }
-		}
+		List<Map<String, Object>> surveyQnEx = connectSurveyQnAndEx(surveyQn, surveyEx);//설문 질문
+		List<Map<String, Object>> surveySubQnEx = connectSurveySubQnAndEx(surveyQnEx);//설문 서브질문
 		
 		mv.addObject("surveySubQnEx", surveySubQnEx);
 		mv.addObject("surveyQnEx", surveyQnEx);
