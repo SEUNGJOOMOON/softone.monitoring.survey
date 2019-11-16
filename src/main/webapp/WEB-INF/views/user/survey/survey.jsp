@@ -550,7 +550,7 @@
 	</form>
 	<!-- 그룹설문시 사용되는 다음 설문지 정보 저장용 폼  -->
 	<form id="survey_turn_form" name="survey_turn_form">
-		<input type="hidden" id="NEXT_SURVEY_SN" value="<c:out value="${nextSurveySn}"/>" />
+		<input type="hidden" id="p_nextSurveySn" value="<c:out value="${nextSurveySn}"/>" />
 	</form>
 	<div id="fullpage">
 		<!-- 설문지 상단 작성자 정보 -->

@@ -136,7 +136,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value = "/user/survey/surveyprocess2.do", method=RequestMethod.POST)
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
+	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String p_nextSurveySn, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
 		if(!confirmPass.equals("1357")){
 			return new ModelAndView("/user/survey_test2");
 		}
