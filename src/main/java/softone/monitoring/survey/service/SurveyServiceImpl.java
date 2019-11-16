@@ -29,6 +29,10 @@ public class SurveyServiceImpl implements SurveyService {
 	public Map<String, Object> selectSurveyMaster(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyMaster(map);
 	}
+	
+	public Map<String, Object> selectSurveyMasterExist(Map<String, Object> map) throws Exception {
+		return surveyDAO.selectSurveyMasterExist(map);
+	}
 
 	public Map<String, Object> selectSurveyDefine(Map<String, Object> map) throws Exception {
 		return surveyDAO.selectSurveyDefine(map);

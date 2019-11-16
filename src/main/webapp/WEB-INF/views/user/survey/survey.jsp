@@ -143,6 +143,7 @@
 				var surveySn = $("#survey_form > #SURVEY_SN").val();
 				var surveyCd = $("#survey_form > #SURVEY_CD").val();
 				var surveyNm = $("#survey_form > #SURVEY_NM").val();
+				var groupSurveySn = $("#survey_form > #GROUP_SURVEY_SN").val();
 				var extype = "";
 				var ansValue = "";
 				var ansTxt1 = "";
@@ -219,6 +220,7 @@
 						surveyQnObj.qnCd = qnCd;
 						surveyQnObj.exCd = exCd;
 						surveyQnObj.useAt = useAt;
+						surveyQnObj.groupSurveySn = groupSurveySn;
 						surveyQnArray.push(surveyQnObj);//현재 답변정보를 저장
 						
 					}
@@ -505,6 +507,38 @@
 						$(this).removeClass("uncheck");
 					});
 					
+					//그룹설문 다음설문으로 이동
+					$(".btn_survey_move_next").click(function(){
+						
+						swal("남은 설문조사가 진행됩니다.", {
+						      icon: "success",
+						    }).then(function(surveyEnd){
+							  if (surveyEnd) {
+								  var $form = $('<form></form>');
+								  $form.attr('action', '/user/survey/surveyprocess2.do');
+								  $form.attr('method', 'post');
+								  $form.appendTo('body');
+								     
+								     
+								  var surveySn = $('<input type="hidden" value="' + $('#survey_turn_form > #p_nextSurveySn').val() + '" name="surveySn">');
+								  var surveyAnsMstSn = $('<input type="hidden" value="' + $('#survey_form > #SURVEY_ANS_MST_SN').val() + '" name="surveyAnsMstSn">');
+								  var orgCd = $('<input type="hidden" value="' + $('#survey_form > #ORG_CD').val() + '" name="orgCd">');
+								  var operCd = $('<input type="hidden" value="' + $('#survey_form > #OPER_CD').val() + '" name="operCd">');
+								  var confirmPass = $('<input type="hidden" value="1357" name="confirmPass">');
+								  var viewMode = $('<input type="hidden" value="survey" name="viewMode">');
+								  var p_nextSurveySn = $('<input type="hidden" value="' + $('#survey_turn_form > #p_nextSurveySn').val() + '" name="p_nextSurveySn">');
+								     
+								 
+								  $form.append(surveySn).append(surveyAnsMstSn).append(orgCd).append(operCd).append(confirmPass).append(viewMode).append(p_nextSurveySn);
+								     
+								  $form.submit();
+							  }
+							});
+						
+						
+						
+					});
+					
 					</c:if>
 
 				});
@@ -519,7 +553,7 @@
 				<img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo" />
 				<img src="${pageContext.request.contextPath}/resources/img/logo_kor.jpg" alt="" class="kor_logo" />
 			</div>
-			<div class="surveyTitle"><c:out value="${surveyMaster.SURVEY_NM}"/></div>
+			<div class="surveyTitle"><c:out value="${surveyDefine.SURVEY_NM}"/></div>
 
 			<div class="surveyInfo">
 				<ul>
@@ -536,7 +570,7 @@
 		<input type="hidden" name="surveyAnsMstSn" value="<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>" />
 		<input type="hidden" name="orgCd" value="<c:out value="${surveyMaster.ORG_CD}"/>" />
 		<input type="hidden" name="operCd" value="<c:out value="${surveyMaster.OPER_CD}"/>" />
-		<input type="hidden" name="surveySn" value="<c:out value="${surveyMaster.SURVEY_SN}"/>" />
+		<input type="hidden" name="surveySn" value="<c:out value="${surveyDefine.SURVEY_SN}"/>" />
 	</form>
 	<form id="survey_form" name="survey_form">
 		<input type="hidden" id="SURVEY_ANS_MST_SN" value="<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>" />
@@ -544,9 +578,10 @@
 		<input type="hidden" id="SUFRER_PIN" value="<c:out value="${surveyMaster.SUFRER_PIN}"/>" />
 		<input type="hidden" id="ORG_CD" value="<c:out value="${surveyMaster.ORG_CD}"/>" />
 		<input type="hidden" id="OPER_CD" value="<c:out value="${surveyMaster.OPER_CD}"/>" />
-		<input type="hidden" id="SURVEY_SN" value="<c:out value="${surveyMaster.SURVEY_SN}"/>" />
-		<input type="hidden" id="SURVEY_CD" value="<c:out value="${surveyMaster.SURVEY_CD}"/>" />
-		<input type="hidden" id="SURVEY_NM" value="<c:out value="${surveyMaster.SURVEY_NM}"/>" />
+		<input type="hidden" id="SURVEY_SN" value="<c:out value="${surveyDefine.SURVEY_SN}"/>" />
+		<input type="hidden" id="SURVEY_CD" value="<c:out value="${surveyDefine.SURVEY_CD}"/>" />
+		<input type="hidden" id="SURVEY_NM" value="<c:out value="${surveyDefine.SURVEY_NM}"/>" />
+		<input type="hidden" id="GROUP_SURVEY_SN" value="<c:out value="${groupSurveySnForInst}"/>" />
 	</form>
 	<!-- 그룹설문시 사용되는 다음 설문지 정보 저장용 폼  -->
 	<form id="survey_turn_form" name="survey_turn_form">
@@ -656,10 +691,10 @@
 								<c:if test='${not status.last}'><input type="button" class="btn_next" turn="<c:out value='${status.index}' />" value="다음" /></c:if>
 								<c:if test='${status.last}'>
 									<c:if test="${not empty nextSurveySn}">
-										<input type="button" class="btn_survey_end" turn="<c:out value='${status.index}' />" value="설문진행" />
+										<input type="button" class="btn_survey_move_next" turn="<c:out value='${status.index}' />" value="설문진행" />
 									</c:if>
 									<c:if test="${empty nextSurveySn}">
-										<input type="button" class="btn_survey_end" turn="<c:out value='${status.index}' />" value="설문완료" />
+										<input type="button" class="btn_survey_end" value="설문완료" />
 									</c:if>
 								</c:if>
 							</div>

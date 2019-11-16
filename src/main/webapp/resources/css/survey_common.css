@@ -352,6 +352,20 @@ textarea {
 	border-radius: 5px;
 	background-color: #F361A6;
 }
+.btn_survey_move_next {
+	position: relative;
+	display: inline-block;
+	width: 70px;
+	height: 28px;
+	padding: 6px 10px;
+	border-left: 0;
+	font-weight: 600;
+	text-align: center;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	background-color: #F361A6;
+}
 .btn_view_close{
 	position: relative;
 	display: inline-block;

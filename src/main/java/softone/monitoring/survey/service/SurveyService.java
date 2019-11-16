@@ -12,6 +12,8 @@ public interface SurveyService {
 	
 	Map<String, Object> selectSurveyMaster(Map<String, Object> map) throws Exception;
 	
+	Map<String, Object> selectSurveyMasterExist(Map<String, Object> map) throws Exception;
+	
 	Map<String, Object> selectSurveyDefine(Map<String, Object> map) throws Exception;
 	
 	Map<String, Object> selectSurveyQnAdultNew() throws Exception;

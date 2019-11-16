@@ -136,10 +136,12 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value = "/user/survey/surveyprocess2.do", method=RequestMethod.POST)
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String p_nextSurveySn, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
+	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String p_GroupSurveySn, String p_nextSurveySn, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
 		if(!confirmPass.equals("1357")){
 			return new ModelAndView("/user/survey_test2");
 		}
+		
+		
 		ModelAndView mv = new ModelAndView("/user/survey/survey");
 
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
@@ -148,9 +150,9 @@ public class SurveyController {
 		surveyParams.put("surveySn",surveySn);
 		
 		
-		
 		Map<String, Object> surveyMaster = null;
 		List<Map<String, Object>> surveyEx = null;
+		
 		
 		
 		if((viewMode.equals("view") || viewMode.equals("print"))){//조회/인쇄시 
@@ -161,13 +163,24 @@ public class SurveyController {
 			
 			//그룹설문의 경우 분기처리
 			Map<String, Object> surveyMasterMap = new HashMap<String, Object>();
-			if(surveyDefine.get("GROUP_SURVEY_AT").toString().equals("Y")){
+			if(surveyDefine.get("GROUP_SURVEY_AT").toString().equals("Y") || p_nextSurveySn != null){
 			//그룹설문일경우
-				String groupSurveySn = surveyDefine.get("GROUP_SURVEY_SN").toString();
+				String groupSurveySn = "";//그룹설문 survey_sn 묶음
+				String groupSurveySnForInst = "";//survey_ans.group_survey_sn
+				if(p_nextSurveySn == null) {
+					groupSurveySn = surveyDefine.get("GROUP_SURVEY_SN").toString();
+					groupSurveySnForInst = surveyDefine.get("SURVEY_SN").toString();
+				}else {
+					groupSurveySn = p_nextSurveySn;
+					groupSurveySnForInst = p_GroupSurveySn;
+				}
+				
+				
 				String[] surveySnGroup = groupSurveySn.split("/");// groupSurveySn은 "1/2/3" 등올 잡혀있기 때문에 반복문을 통해 순서제어
 				String nextSurveySn = "";
 				surveyParams.put("surveySn",surveySnGroup[0]);//첫번째 surveySn으로 셋팅
-				
+				//첫번째 surveySn으로 define정보를 새로 가져옴 
+				surveyDefine = surveyService.selectSurveyDefine(surveyParams);
 				for(int i = 1; i < surveySnGroup.length; i++){
 					if(!surveySnGroup[i].equals("")){
 						nextSurveySn += surveySnGroup[i];
@@ -178,10 +191,18 @@ public class SurveyController {
 				}
 				
 				mv.addObject("nextSurveySn", nextSurveySn);//남은 설문지 정보 셋팅 
+				mv.addObject("groupSurveySnForInst", groupSurveySnForInst);//SURVEY_ANS에 들어갈 GROUP_SURVEY_SN
 			}else{
 			// 일반 설문일 경우
-				surveyMasterMap.put("surveySn", surveySn);
+				surveyMasterMap.put("surveySn", surveyDefine.get("GROUP_SURVEY_SN").toString());
+				if(!p_GroupSurveySn.equals("")) {
+					//SURVEY_ANS에 들어갈 GROUP_SURVEY_SN
+					//해당 데이터가 넘어온 경우는, 그룹설문에서 두번째 이후 설문지 이므로 다음 설문지에서 GROUP_SURVEY_SN을 셋팅해주기 위해 한번 더 저장
+					mv.addObject("groupSurveySnForInst", p_GroupSurveySn);
+				}
 			}
+			System.out.println(surveyDefine);
+			mv.addObject("surveyDefine", surveyDefine);
 			
 			//마스터 정보 셋팅
 			surveyMasterMap.put("surveyAnsMstSn", surveyAnsMstSn);
@@ -192,7 +213,11 @@ public class SurveyController {
 			surveyMasterMap.put("surveyCd", surveyDefine.get("SURVEY_CD"));
 			
 			
-			surveyService.insertSurveyAnsMst(surveyMasterMap);//마스터정보 인서트
+			Map<String, Object> surveyMasterExist = surveyService.selectSurveyMasterExist(surveyParams);
+			
+			if(Integer.parseInt(surveyMasterExist.get("SURVEY_MASTER_COUNT").toString()) < 1) {//기존에 마스터코드가 없는 경우에만 인서트.. 그 외 경우는 수정
+				surveyService.insertSurveyAnsMst(surveyMasterMap);//마스터정보 인서트
+			};
 			surveyMaster = surveyService.selectSurveyMaster(surveyParams);//인서트한 마스터정보 가져오기
 			
 			
@@ -208,6 +233,7 @@ public class SurveyController {
 		mv.addObject("surveySubQnEx", surveySubQnEx);
 		mv.addObject("viewMode", viewMode);
 		mv.addObject("surveyMaster", surveyMaster);
+		mv.addObject("surveySn", surveyMaster);
 		
 		
 		HttpSession httpSession = request.getSession(true);
