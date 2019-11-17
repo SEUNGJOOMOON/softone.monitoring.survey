@@ -102,7 +102,7 @@
 				$(".qest").hide();
 				$(".navigation").hide();
 				$(".qest_anwer_wrap").css("margin-top", "0px");
-				$(".section").css("padding-top", "120px");
+				$(".section").css("padding-top", "148px");
 				$(".survey_img_check").css("cursor", "default");
 				$("div[quest-type='알림']").hide();
 				$("body").css("width", "100%");
@@ -482,7 +482,7 @@
 					$(".btn_view_close").click(function(){
 						swal({
 						  title: "",
-						  text: "미리보기를 종료하시겠습니까?",
+						  text: "조회 페이지를 종료하시겠습니까?",
 						  icon: "warning",
 						  buttons: true,
 						  dangerMode: false,
@@ -514,6 +514,7 @@
 						      icon: "success",
 						    }).then(function(surveyEnd){
 							  if (surveyEnd) {
+								  surveyCommonUtils.writeSurveyAns("", "all", "Y");
 								  var $form = $('<form></form>');
 								  $form.attr('action', '/user/survey/surveyprocess2.do');
 								  $form.attr('method', 'post');
@@ -534,14 +535,36 @@
 								  $form.submit();
 							  }
 							});
-						
-						
-						
 					});
 					
 					</c:if>
 
 				});
+		
+		function openSurveyView(surveyAnsMstSn, orgCd, operCd, surveySn, groupSurveySn){
+			
+		  var $form = $('<form></form>');
+		  $form.attr('action', '/user/survey/surveyprocess2.do');
+		  $form.attr('method', 'post');
+		  $form.appendTo('body');
+		     
+		     
+		  var surveySn = $('<input type="hidden" value="' + surveySn + '" name="p_viewSurveySn">');
+		  var surveyAnsMstSn = $('<input type="hidden" value="' + surveyAnsMstSn + '" name="surveyAnsMstSn">');
+		  var orgCd = $('<input type="hidden" value="' + orgCd + '" name="orgCd">');
+		  var operCd = $('<input type="hidden" value="' + operCd + '" name="operCd">');
+		  var confirmPass = $('<input type="hidden" value="1357" name="confirmPass">');
+		  var viewMode = $('<input type="hidden" value="view" name="viewMode">');
+		  var groupSurveySn = $('<input type="hidden" value="' + groupSurveySn + '" name="p_GroupSurveySn">');
+		     
+		 
+		  $form.append(surveySn).append(surveyAnsMstSn).append(orgCd).append(operCd).append(confirmPass).append(viewMode).append(groupSurveySn);
+		     
+		  $form.submit();
+
+		    
+		    
+		}
 	</script>
 </head>
 <body>
@@ -640,6 +663,15 @@
 		<!-- 설문지 상단 작성자 정보 끝-->
 		<!-- 설문지 작성 -->
 		<div class="section" id="section1">
+			<!-- 그룹설문 조회시  -->
+			<c:if test="${groupSurveyView eq 'Y' }">
+				<c:set var="viewSurveySns" value="${fn:split(groupSurveySn,'/')}" />
+				<c:forEach var="viewSurveySn" items="${viewSurveySns}" varStatus="index">
+				     <c:if test="${viewSurveySn ne '' }">
+				     	<button onclick="openSurveyView('<c:out value="${groupSurveyViewInfo.groupSurveyMstSn}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${viewSurveySn}"/>', '<c:out value="${groupSurveySn}"/>')" >버튼</button>
+				     </c:if>
+				</c:forEach> 
+			</c:if>
 			<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
 				<div class="slide" data-anchor="<c:out value='${surveyQn.QN_CD}' />" quest-type="<c:out value='${surveyQn.QN_TYPE }' />" >
 
@@ -713,7 +745,7 @@
 			</ul>
 		</div>
 		<!-- 설문지 네비게이션 끝-->
-		<c:if test="${viewMode eq 'tempView' }">
+		<c:if test="${viewMode eq 'tempView' || viewMode eq 'view' }">
 			<div style="width:100%;text-align:center;margin-bottom:50px;">
 				<button type="button" class="btn_view_close" >닫기</button>
 			</div>

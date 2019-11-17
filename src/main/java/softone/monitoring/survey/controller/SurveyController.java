@@ -135,8 +135,20 @@ public class SurveyController {
 
 	}
 	
+	/*
+	 * @param String viewMode survey : 설문작성, view : 조회, print : 인쇄
+	 * @param String p_GroupSurveySn 그룹설문시 다음페이지로 이동시에 해당값을 다시 서버로 넘겨주기 위한 파라메터(SURVEY.GROUP_SURVEY_SN)
+	 * @param String p_nextSurveySn 그룹설문작성시 다음 진행할 설문지의 surveySn
+	 * @param String p_viewSurveySn 그룹설문조회시 조회할 설문지의 surveySn
+	 * @param String surveyAnsMstSn 현재는 테스트를 위해 사용(향후 자동셋팅으로 변경)
+	 * @param String orgCd 현재는 테스트를 위해 사용(향후 자동셋팅으로 변경)
+	 * @param String operCd 현재는 테스트를 위해 사용(향후 자동셋팅으로 변경)
+	 * @param String surveySn 그룹설문을 제외한 나머지 설문(작성, 조회)등을 위해 사용하는 surveySn
+	 * @ author sjmoon
+	 * @ date 2019.11.16
+	 */
 	@RequestMapping(value = "/user/survey/surveyprocess2.do", method=RequestMethod.POST)
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String p_GroupSurveySn, String p_nextSurveySn, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
+	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String p_GroupSurveySn, String p_nextSurveySn, String p_viewSurveySn, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
 		if(!confirmPass.equals("1357")){
 			return new ModelAndView("/user/survey_test2");
 		}
@@ -151,20 +163,61 @@ public class SurveyController {
 		
 		
 		Map<String, Object> surveyMaster = null;
+		Map<String, Object> groupSurveyMaster = null;
 		List<Map<String, Object>> surveyEx = null;
+		Map<String, Object> surveyDefine = null;
 		
 		
-		
-		if((viewMode.equals("view") || viewMode.equals("print"))){//조회/인쇄시 
-			surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기(작성값 포함)
+		if((viewMode.equals("view") || viewMode.equals("print"))){//조회/인쇄시
+			//p_viewSurveySn가 넘어온 경우 -> 그룹설문조회시 버튼을 통해서 설문지 이동을 한경우(최초 로딩시에는 surveySn으로 들어오며 두번째 이동부터)
+			
+			if(p_viewSurveySn != null) {
+				surveyParams.put("surveySn",p_viewSurveySn);
+			}
+			surveyDefine = surveyService.selectSurveyDefine(surveyParams);
 			surveyMaster = surveyService.selectSurveyMaster(surveyParams);
-		}else{
-			Map<String, Object> surveyDefine = surveyService.selectSurveyDefine(surveyParams);
+			
+			if(surveyDefine.get("GROUP_SURVEY_AT").toString().equals("Y") || p_viewSurveySn != null){
+				String viewGroupSurveySn = null;
+				if(p_viewSurveySn != null) {
+					viewGroupSurveySn = p_GroupSurveySn;
+					surveyParams.put("surveySn",p_viewSurveySn);
+					mv.addObject("groupSurveySn", viewGroupSurveySn);//p_GroupSurveySn -> 그룹설문지 초반에 로딩되고, 해당 페이지 내에서 버튼으로 페이지 이동이 일어날 경우(두번째 설문조회시부터), 해당 파라메터를 통해 그룹내 어떤 설문이 있는지 구분하므로, 해당값으로셋팅
+				}else {
+					viewGroupSurveySn = surveyDefine.get("GROUP_SURVEY_SN").toString();
+					mv.addObject("groupSurveySn", viewGroupSurveySn);//현재 surveySn이 가지고 있는 서브 surveySn 그룹 데이터
+					String[] viewSurveySnGroup = viewGroupSurveySn.split("/");// groupSurveySn은 "1/2/3" 등올 잡혀있기 때문에 반복문을 통해 순서제어
+					
+					surveyParams.put("surveySn",viewSurveySnGroup[0]);//첫번째 surveySn으로 셋팅
+					//셋팅된 surveySn으로 define정보를 새로 가져옴 
+					surveyDefine = surveyService.selectSurveyDefine(surveyParams);
+				}
+				
+				surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기(작성값 포함)
+			
+				
+				mv.addObject("groupSurveyView", "Y");//뷰 화면에서 그룹설문인지, 1개짜리 설문인지 구분하는 키값
+				
+				
+				Map<String, Object> groupSurveyViewInfo = new HashMap<String, Object>();
+				groupSurveyViewInfo.put("groupSurveyMstSn", surveyAnsMstSn);
+				groupSurveyViewInfo.put("groupOperCd", operCd);
+				groupSurveyViewInfo.put("groupOrgCd", orgCd);
+				mv.addObject("groupSurveyViewInfo", groupSurveyViewInfo);//그룹설문 뷰에서 링크를 통해 다음 설문지로 접근하기 위한 정보를 저장
+				
+				System.out.println(viewGroupSurveySn);
+				
+			}else {
+				surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기(작성값 포함)
+			}
+		}else{//설문 작성시
+			surveyDefine = surveyService.selectSurveyDefine(surveyParams);
 			
 			//그룹설문의 경우 분기처리
 			Map<String, Object> surveyMasterMap = new HashMap<String, Object>();
 			if(surveyDefine.get("GROUP_SURVEY_AT").toString().equals("Y") || p_nextSurveySn != null){
 			//그룹설문일경우
+				groupSurveyMaster = surveyService.selectSurveyDefine(surveyParams);//그룹설문 마스터정보
 				String groupSurveySn = "";//그룹설문 survey_sn 묶음
 				String groupSurveySnForInst = "";//survey_ans.group_survey_sn
 				if(p_nextSurveySn == null) {
@@ -194,23 +247,23 @@ public class SurveyController {
 				mv.addObject("groupSurveySnForInst", groupSurveySnForInst);//SURVEY_ANS에 들어갈 GROUP_SURVEY_SN
 			}else{
 			// 일반 설문일 경우
-				surveyMasterMap.put("surveySn", surveyDefine.get("GROUP_SURVEY_SN").toString());
-				if(!p_GroupSurveySn.equals("")) {
+				surveyMasterMap.put("surveySn", surveyDefine.get("SURVEY_SN").toString());
+				if(p_GroupSurveySn!=null) {
 					//SURVEY_ANS에 들어갈 GROUP_SURVEY_SN
 					//해당 데이터가 넘어온 경우는, 그룹설문에서 두번째 이후 설문지 이므로 다음 설문지에서 GROUP_SURVEY_SN을 셋팅해주기 위해 한번 더 저장
 					mv.addObject("groupSurveySnForInst", p_GroupSurveySn);
 				}
 			}
-			System.out.println(surveyDefine);
-			mv.addObject("surveyDefine", surveyDefine);
+			
+			
 			
 			//마스터 정보 셋팅
 			surveyMasterMap.put("surveyAnsMstSn", surveyAnsMstSn);
 			surveyMasterMap.put("surveySn", surveySn);
 			surveyMasterMap.put("orgCd", orgCd);//임시 하드코딩, survey 테이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
 			surveyMasterMap.put("operCd", operCd);//임시 하드코딩, survey 테이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
-			surveyMasterMap.put("surveyNm", surveyDefine.get("SURVEY_NM"));
-			surveyMasterMap.put("surveyCd", surveyDefine.get("SURVEY_CD"));
+			surveyMasterMap.put("surveyNm", groupSurveyMaster.get("SURVEY_NM"));
+			surveyMasterMap.put("surveyCd", groupSurveyMaster.get("SURVEY_CD"));
 			
 			
 			Map<String, Object> surveyMasterExist = surveyService.selectSurveyMasterExist(surveyParams);
@@ -234,7 +287,7 @@ public class SurveyController {
 		mv.addObject("viewMode", viewMode);
 		mv.addObject("surveyMaster", surveyMaster);
 		mv.addObject("surveySn", surveyMaster);
-		
+		mv.addObject("surveyDefine", surveyDefine);
 		
 		HttpSession httpSession = request.getSession(true);
         
@@ -365,6 +418,7 @@ public class SurveyController {
 		surveyParams.put("operCd", operCd);
 		surveyParams.put("orgCd",orgCd);
 		surveyParams.put("surveySn",surveySn);
+		Map<String, Object> surveyDefine = surveyService.selectSurveyDefine(surveyParams);
 		Map<String, Object> surveyMaster = surveyService.selectSurveyMaster(surveyParams);
 		
 		
@@ -380,6 +434,8 @@ public class SurveyController {
 		mv.addObject("surveyQnEx", surveyQnEx);
 		mv.addObject("viewMode", "tempView");
 		mv.addObject("surveyMaster", surveyMaster);
+		mv.addObject("surveyDefine", surveyDefine);
+		
 		return mv;
 	}
 	
