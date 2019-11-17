@@ -262,8 +262,14 @@ public class SurveyController {
 			surveyMasterMap.put("surveySn", surveySn);
 			surveyMasterMap.put("orgCd", orgCd);//임시 하드코딩, survey 테이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
 			surveyMasterMap.put("operCd", operCd);//임시 하드코딩, survey 테이블에서 가져와야함(현재 index에서 받아온값셋팅/공통일경우 비어있는데 어케할지..)
-			surveyMasterMap.put("surveyNm", groupSurveyMaster.get("SURVEY_NM"));
-			surveyMasterMap.put("surveyCd", groupSurveyMaster.get("SURVEY_CD"));
+
+			if(groupSurveyMaster!=null) {//null이 아닐경우, 그룹설문이므로 그룹설문값 셋팅
+				surveyMasterMap.put("surveyNm", groupSurveyMaster.get("SURVEY_NM"));
+				surveyMasterMap.put("surveyCd", groupSurveyMaster.get("SURVEY_CD"));
+			}else {
+				surveyMasterMap.put("surveyNm", surveyDefine.get("SURVEY_NM"));
+				surveyMasterMap.put("surveyCd", surveyDefine.get("SURVEY_CD"));
+			}
 			
 			
 			Map<String, Object> surveyMasterExist = surveyService.selectSurveyMasterExist(surveyParams);
