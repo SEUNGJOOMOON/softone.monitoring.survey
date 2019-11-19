@@ -183,12 +183,43 @@ public class SurveyController {
 					viewGroupSurveySn = p_GroupSurveySn;
 					surveyParams.put("surveySn",p_viewSurveySn);
 					mv.addObject("groupSurveySn", viewGroupSurveySn);//p_GroupSurveySn -> 그룹설문지 초반에 로딩되고, 해당 페이지 내에서 버튼으로 페이지 이동이 일어날 경우(두번째 설문조회시부터), 해당 파라메터를 통해 그룹내 어떤 설문이 있는지 구분하므로, 해당값으로셋팅
+				
+					String[] viewSurveySnGroup = viewGroupSurveySn.split("/");
+					
+					List<Map<String, Object>> viewSurveySnDefines = new ArrayList<Map<String, Object>>();
+					for(int i = 0; i < viewSurveySnGroup.length; i++){
+						if(!viewSurveySnGroup[i].equals("")){//GroupSurveySn의 모든 surveySn으로 surveyDefine을 검색하여 저장
+							Map<String, Object> viewSurveyParams = new HashMap<String, Object>();
+							viewSurveyParams.put("surveySn", viewSurveySnGroup[i]);
+							Map<String, Object> viewSurveyDefine = surveyService.selectSurveyDefine(viewSurveyParams);
+							viewSurveySnDefines.add(viewSurveyDefine);	
+						}
+					}
+					
+					
+					mv.addObject("viewSurveySnDefines", viewSurveySnDefines);
+					
+					
 				}else {
 					viewGroupSurveySn = surveyDefine.get("GROUP_SURVEY_SN").toString();
 					mv.addObject("groupSurveySn", viewGroupSurveySn);//현재 surveySn이 가지고 있는 서브 surveySn 그룹 데이터
 					String[] viewSurveySnGroup = viewGroupSurveySn.split("/");// groupSurveySn은 "1/2/3" 등올 잡혀있기 때문에 반복문을 통해 순서제어
 					
 					surveyParams.put("surveySn",viewSurveySnGroup[0]);//첫번째 surveySn으로 셋팅
+					
+					List<Map<String, Object>> viewSurveySnDefines = new ArrayList<Map<String, Object>>();
+					for(int i = 0; i < viewSurveySnGroup.length; i++){
+						if(!viewSurveySnGroup[i].equals("")){//GroupSurveySn의 모든 surveySn으로 surveyDefine을 검색하여 저장
+							Map<String, Object> viewSurveyParams = new HashMap<String, Object>();
+							viewSurveyParams.put("surveySn", viewSurveySnGroup[i]);
+							Map<String, Object> viewSurveyDefine = surveyService.selectSurveyDefine(viewSurveyParams);
+							viewSurveySnDefines.add(viewSurveyDefine);	
+						}
+					}
+					
+					
+					mv.addObject("viewSurveySnDefines", viewSurveySnDefines);
+					System.out.println(viewSurveySnDefines);
 					//셋팅된 surveySn으로 define정보를 새로 가져옴 
 					surveyDefine = surveyService.selectSurveyDefine(surveyParams);
 				}
@@ -204,8 +235,7 @@ public class SurveyController {
 				groupSurveyViewInfo.put("groupOperCd", operCd);
 				groupSurveyViewInfo.put("groupOrgCd", orgCd);
 				mv.addObject("groupSurveyViewInfo", groupSurveyViewInfo);//그룹설문 뷰에서 링크를 통해 다음 설문지로 접근하기 위한 정보를 저장
-				
-				System.out.println(viewGroupSurveySn);
+
 				
 			}else {
 				surveyEx = surveyService.selectSurveyExWithAns(surveyParams);//질문 보기(작성값 포함)

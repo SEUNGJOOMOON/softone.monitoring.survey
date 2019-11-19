@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=1.0,user-scalable=yes"/>
 <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common.css?ver=2" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_ex_class.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/fullpage.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scrolloverflow.js"></script>
@@ -70,6 +70,8 @@
 				});
 			},
 			"setLayoutToView" : function() {
+				$("body").hide();
+				$(".qest_wrap").css("border", "0px").css("min-height", "100px");
 				$("html, body").css("overflow", "visible");
 				$(".qest_title").css("margin-top", "0px");
 				$(".qest_title, .label_txt, label, td, th").css("font-size","15px");
@@ -85,7 +87,7 @@
 				$(".qest_btn_group").hide();
 				$(".surveyTop").css("top", "0px");
 				$("#btn_close").hide();
-				$(".qest_wrap").css("border", "0px").css("min-height", "100px");
+				
 				$(".slide").css("margin-top", "-150px");
 				if(this.isMobile()){
 					$("#slide1").css("margin-top", "40px");	
@@ -106,6 +108,7 @@
 				$(".survey_img_check").css("cursor", "default");
 				$("div[quest-type='알림']").hide();
 				$("body").css("width", "100%");
+				$("body").show();
 			},
 			"printSurvey" : function(printThis) {
 				/* if(!this.isMobile()){
@@ -665,12 +668,11 @@
 		<div class="section" id="section1">
 			<!-- 그룹설문 조회시  -->
 			<c:if test="${groupSurveyView eq 'Y' }">
-				<c:set var="viewSurveySns" value="${fn:split(groupSurveySn,'/')}" />
-				<c:forEach var="viewSurveySn" items="${viewSurveySns}" varStatus="index">
-				     <c:if test="${viewSurveySn ne '' }">
-				     	<button onclick="openSurveyView('<c:out value="${groupSurveyViewInfo.groupSurveyMstSn}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${viewSurveySn}"/>', '<c:out value="${groupSurveySn}"/>')" >버튼</button>
-				     </c:if>
-				</c:forEach> 
+				<div style="width:100%;text-align:center;height:0px">
+					<c:forEach var="viewSurveySnDefine" items="${viewSurveySnDefines}" varStatus="index">
+					     <button class="view-survey-menu-btn <c:if test='${surveyDefine.SURVEY_SN eq viewSurveySnDefine.SURVEY_SN}'>active</c:if>" onclick="openSurveyView('<c:out value="${groupSurveyViewInfo.groupSurveyMstSn}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${viewSurveySnDefine.SURVEY_SN}"/>', '<c:out value="${groupSurveySn}"/>')" ><c:out value="${viewSurveySnDefine.SURVEY_NM}"/></button>
+					</c:forEach> 
+				</div>
 			</c:if>
 			<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
 				<div class="slide" data-anchor="<c:out value='${surveyQn.QN_CD}' />" quest-type="<c:out value='${surveyQn.QN_TYPE }' />" >
@@ -690,7 +692,20 @@
 								</div>
 							</c:if>
 							<c:if test="${surveyQn.QN_TYPE ne '알림' }" >
-								<div class="qest_title"><span class="view_quest_no"><c:out value='${surveyQn.QN_CD}' />.&nbsp;&nbsp;</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
+								<div class="qest_title">
+								<span class="view_quest_no">
+									<c:choose>
+									    <c:when test="${fn:contains(surveyQn.QN_CD, 'M_')}">
+									        <c:out value="${fn:replace(surveyQn.QN_CD, 'M_', '')}" />
+									    </c:when>
+									    <c:when test="${fn:contains(surveyQn.QN_CD, 'F_')}">
+									        <c:out value="${fn:replace(surveyQn.QN_CD, 'F_', '')}" />
+									    </c:when>
+									    <c:otherwise>
+									        <c:out value='${surveyQn.QN_CD}' />
+									    </c:otherwise>
+									</c:choose>.&nbsp;&nbsp;
+								</span><c:out value="${surveyQn.QN_NM}" escapeXml="false" /></div>
 								<div class="qest_anwer_wrap" >
 									<c:set var="p_surveyDate" value="${surveyQn}" scope="request"/><!-- 보기 컴포넌트로 전달용 파라메터 -->
 									<jsp:include page="./components/survey_component.jsp"/>
