@@ -255,6 +255,7 @@ public class SurveyController {
 					groupSurveySnForInst = surveyDefine.get("SURVEY_SN").toString();
 				}else {
 					groupSurveySn = p_nextSurveySn;
+					System.out.println(p_GroupSurveySn);
 					groupSurveySnForInst = p_GroupSurveySn;
 				}
 				

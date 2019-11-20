@@ -531,9 +531,9 @@
 								  var confirmPass = $('<input type="hidden" value="1357" name="confirmPass">');
 								  var viewMode = $('<input type="hidden" value="survey" name="viewMode">');
 								  var p_nextSurveySn = $('<input type="hidden" value="' + $('#survey_turn_form > #p_nextSurveySn').val() + '" name="p_nextSurveySn">');
-								     
+								  var p_GroupSurveySn = $('<input type="hidden" value="' + $('#GROUP_SURVEY_SN').val() + '" name="p_GroupSurveySn">');   
 								 
-								  $form.append(surveySn).append(surveyAnsMstSn).append(orgCd).append(operCd).append(confirmPass).append(viewMode).append(p_nextSurveySn);
+								  $form.append(surveySn).append(surveyAnsMstSn).append(orgCd).append(operCd).append(confirmPass).append(viewMode).append(p_nextSurveySn).append(p_GroupSurveySn);
 								     
 								  $form.submit();
 							  }
@@ -680,7 +680,19 @@
 					<div class="fp-responsive question" quest-no="<c:out value='${surveyQn.QN_CD}' />">
 						
 						<div class="qest_wrap">
-							<span class="qest_no"><c:if test="${surveyQn.QN_TYPE eq '알림' }" >안내사항</c:if><c:if test="${surveyQn.QN_TYPE ne '알림' }" ><c:out value="${surveyQn.QN_CD}"/> Question</c:if> </span>
+							<span class="qest_no"><c:if test="${surveyQn.QN_TYPE eq '알림' }" >안내사항</c:if><c:if test="${surveyQn.QN_TYPE ne '알림' }" >
+							<c:choose>
+							    <c:when test="${fn:contains(surveyQn.QN_CD, 'M_')}">
+							        <c:out value="${fn:replace(surveyQn.QN_CD, 'M_', '')}" />
+							    </c:when>
+							    <c:when test="${fn:contains(surveyQn.QN_CD, 'F_')}">
+							        <c:out value="${fn:replace(surveyQn.QN_CD, 'F_', '')}" />
+							    </c:when>
+							    <c:otherwise>
+							        <c:out value='${surveyQn.QN_CD}' />
+							    </c:otherwise>
+							</c:choose>
+							 Question</c:if> </span>
 							<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE1'}">
 								<div class="quest_red">
 									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
