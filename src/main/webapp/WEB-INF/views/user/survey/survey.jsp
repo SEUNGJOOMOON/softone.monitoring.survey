@@ -588,7 +588,9 @@
 				</ul>
 			</div>
 		</div>
-		<div id="btn_close" class="btn_close2">정보닫기</div>
+		<c:if test="${viewMode eq 'survey'}">
+			<div id="btn_close" class="btn_close2">정보닫기</div>
+		</c:if>
 	</div>
 	<!-- 설문지 인쇄용 표지영역 끝 -->
 	<!-- 설문지 작성영역 -->
@@ -693,15 +695,17 @@
 							    </c:otherwise>
 							</c:choose>
 							 Question</c:if> </span>
-							<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE1'}">
-								<div class="quest_red">
-									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
-								</div>
-							</c:if>
-							<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE2'}">
-								<div class="quest_end">
-									<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
-								</div>
+							 <c:if test="${viewMode eq 'survey'}">
+								<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE1'}">
+									<div class="quest_red">
+										<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
+									</div>
+								</c:if>
+								<c:if test="${surveyQn.QN_EXPLN_TYPE eq 'TYPE2'}">
+									<div class="quest_end">
+										<c:out value="${surveyQn.QN_EXPLN}" escapeXml="false" />
+									</div>
+								</c:if>
 							</c:if>
 							<c:if test="${surveyQn.QN_TYPE ne '알림' }" >
 								<div class="qest_title">
@@ -744,19 +748,21 @@
 								<br/>
 								<br/>
 							</c:if>
-							<div class="qest_btn_group">
-								<c:if test='${not status.first}'><input type="button" class="btn_prev" turn="<c:out value='${status.index}' />" value="이전" /></c:if>
-								&nbsp;&nbsp;<input type="button" name="btn_preview" class="btn_preview" value="미리보기" />&nbsp;&nbsp;
-								<c:if test='${not status.last}'><input type="button" class="btn_next" turn="<c:out value='${status.index}' />" value="다음" /></c:if>
-								<c:if test='${status.last}'>
-									<c:if test="${not empty nextSurveySn}">
-										<input type="button" class="btn_survey_move_next" turn="<c:out value='${status.index}' />" value="설문진행" />
+							<c:if test="${viewMode eq 'survey'}">
+								<div class="qest_btn_group">
+									<c:if test='${not status.first}'><input type="button" class="btn_prev" turn="<c:out value='${status.index}' />" value="이전" /></c:if>
+									&nbsp;&nbsp;<input type="button" name="btn_preview" class="btn_preview" value="미리보기" />&nbsp;&nbsp;
+									<c:if test='${not status.last}'><input type="button" class="btn_next" turn="<c:out value='${status.index}' />" value="다음" /></c:if>
+									<c:if test='${status.last}'>
+										<c:if test="${not empty nextSurveySn}">
+											<input type="button" class="btn_survey_move_next" turn="<c:out value='${status.index}' />" value="설문진행" />
+										</c:if>
+										<c:if test="${empty nextSurveySn}">
+											<input type="button" class="btn_survey_end" value="설문완료" />
+										</c:if>
 									</c:if>
-									<c:if test="${empty nextSurveySn}">
-										<input type="button" class="btn_survey_end" value="설문완료" />
-									</c:if>
-								</c:if>
-							</div>
+								</div>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -764,13 +770,15 @@
 		</div>
 		<!-- 설문지 작성 끝 -->
 		<!-- 설문지 네비게이션 -->
-		<div class="navigation">
-			<ul>
-				<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
-					<li><a href="#questionGroup/<c:out value='${surveyQn.QN_CD}' />" class="navi-dot <c:if test='${status.first }'>active-dot</c:if>" id="slide<c:out value='${status.count}'/>_dot" ></a></li>
-				</c:forEach>
-			</ul>
-		</div>
+		<c:if test="${viewMode eq 'survey'}">
+			<div class="navigation">
+				<ul>
+					<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
+						<li><a href="#questionGroup/<c:out value='${surveyQn.QN_CD}' />" class="navi-dot <c:if test='${status.first }'>active-dot</c:if>" id="slide<c:out value='${status.count}'/>_dot" ></a></li>
+					</c:forEach>
+				</ul>
+			</div>
+		</c:if>
 		<!-- 설문지 네비게이션 끝-->
 		<c:if test="${viewMode eq 'tempView' || viewMode eq 'view' }">
 			<div style="width:100%;text-align:center;margin-bottom:50px;">
