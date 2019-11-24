@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=1.0,user-scalable=yes"/>
 <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common.css?ver=2" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common.css?ver=7" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_ex_class.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/fullpage.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scrolloverflow.js"></script>
@@ -44,6 +44,9 @@
 							
 						});
 						fullpage_api.setAllowScrolling(false, 'left, right');
+						
+						//정보닫기 버튼과 문항사이 간격을 동적으로 조절해줌
+						$(".qest_wrap").css("margin-top", getSurveyTopHeight());
 					},
 					onSlideLeave: function(section, origin, destination, direction){
 						//이곳에 필수입력, 다음 문항 이동 등 로직 
@@ -208,24 +211,27 @@
 						
 					}
 					if(typeof extype != "undefined"){//해당 문항내 모든 input element를 대상으로 조회하므로, extype을 갖고 있지 않은 태그(ex : qntxtlink용 태그) 등은 답변목록에서 제외
-						var surveyQnObj = new Object();
-						surveyQnObj.surveyAnsMstSn = surveyAnsMstSn;
-						surveyQnObj.surferNm = surferNm;
-						surveyQnObj.sufrerPin = sufrerPin;
-						surveyQnObj.orgCd = orgCd;
-						surveyQnObj.operCd = operCd;
-						surveyQnObj.surveySn = surveySn;
-						surveyQnObj.surveyCd = surveyCd;
-						surveyQnObj.surveyNm = surveyNm;
-						surveyQnObj.ansValue = ansValue;
-						surveyQnObj.ansTxt1 = ansTxt1;
-						surveyQnObj.ansTxt2 = ansTxt2;
-						surveyQnObj.qnCd = qnCd;
-						surveyQnObj.exCd = exCd;
-						surveyQnObj.useAt = useAt;
-						surveyQnObj.groupSurveySn = groupSurveySn;
-						surveyQnArray.push(surveyQnObj);//현재 답변정보를 저장
 						
+						//if(ansValue === "Y" || ansTxt1 !== "" || ansTxt2 !== ""){
+							var surveyQnObj = new Object();
+							surveyQnObj.surveyAnsMstSn = surveyAnsMstSn;
+							surveyQnObj.surferNm = surferNm;
+							surveyQnObj.sufrerPin = sufrerPin;
+							surveyQnObj.orgCd = orgCd;
+							surveyQnObj.operCd = operCd;
+							surveyQnObj.surveySn = surveySn;
+							surveyQnObj.surveyCd = surveyCd;
+							surveyQnObj.surveyNm = surveyNm;
+							surveyQnObj.ansValue = ansValue;
+							surveyQnObj.ansTxt1 = ansTxt1;
+							surveyQnObj.ansTxt2 = ansTxt2;
+							surveyQnObj.qnCd = qnCd;
+							surveyQnObj.exCd = exCd;
+							surveyQnObj.useAt = useAt;
+							surveyQnObj.groupSurveySn = groupSurveySn;
+							surveyQnArray.push(surveyQnObj);//현재 답변정보를 저장
+							console.log(surveyQnObj);
+						//}
 					}
 					//해당 답변정보 초기화
 					extype = "";
@@ -284,17 +290,19 @@
 
 					$("#btn_close").click(function() {
 						if ($(".st_con").css("display") == "none") {
-							$(".st_con").slideDown(50);
-							$(".qest_wrap").css("margin-top", "210px");
+							$(".st_con").show();
+							$(".qest_wrap").css("margin-top", getSurveyTopHeight());
 							$("#btn_close").text("정보닫기");
 							$("#btn_close").removeClass("btn_close3");
 							$("#btn_close").addClass("btn_close2");
+							fullpage_api.reBuild();
 						} else {
-							$(".st_con").slideUp(50);
+							$(".st_con").hide();
 							$(".qest_wrap").css("margin-top", "50px");
 							$("#btn_close").text("정보열기");
 							$("#btn_close").removeClass("btn_close2");
 							$("#btn_close").addClass("btn_close3");
+							fullpage_api.reBuild();
 						}
 					});
 					
@@ -568,6 +576,11 @@
 		    
 		    
 		}
+		
+		//정보닫기와 설문지 작성 DIV 간격을 동적으로 셋팅하기 위해 surveyTop의 height값을 리턴
+		function getSurveyTopHeight(){
+			return (Number($(".surveyTop").css("height").replace("px", "")) + 10) + "px";
+		}
 	</script>
 </head>
 <body>
@@ -576,6 +589,41 @@
 	<div class="surveyTop">
 		<div class="st_con">
 			<div class="surveyLogo">
+				<%-- <c:choose>
+				    <c:when test="${surveyMaster.OPER_CD eq '국립중앙'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/nmc_logo.png" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '강북삼성'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/kbsmc_logo.png" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '가천길병원'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gcd.gif" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '서울아산'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/suas.png" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '충남대'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/cbd.gif" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '전북대'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/jbd.jpg" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '순천향구미'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/schgm.gif" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '울산대'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/usd.png" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '동아대'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/dad.jpg" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '대가대'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/dgd.gif" alt="" class="hospital_logo" />
+				    </c:when>
+				    <c:when test="${surveyMaster.OPER_CD eq '과학원'}">
+				        <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo" />
+				    </c:when>
+				</c:choose> --%>
 				<img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" alt="" class="hospital_logo" />
 				<img src="${pageContext.request.contextPath}/resources/img/logo_kor.jpg" alt="" class="kor_logo" />
 			</div>
