@@ -44,7 +44,7 @@
 				<span class="span_font15">(<input type="text"  <c:if test="${qnEx.IS_DISABLE eq 'Y' }">disabled="disabled"</c:if> class="<c:out value='${qnEx.EX_CLASS1}'/> input_txt_100" value="<c:out value="${qnEx.ANS_TXT1}"/>" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" exType="<c:out value='${qnEx.EX_TYPE}'/>"  /><c:out value="${qnEx.EX_TXT1_UNIT}"/>&nbsp;&nbsp;<input type="text" qnTxtLink="<c:out value='${qnEx.QN_CD}-${qnEx.EX_CD}'/>" <c:if test="${qnEx.IS_DISABLE eq 'Y' }">disabled="disabled"</c:if>  class="<c:out value='${qnEx.EX_CLASS2}'/> input_txt_100" value="<c:out value="${qnEx.ANS_TXT2}"/>" qnTxtLink="<c:out value='${qnEx.QN_CD}-${qnEx.EX_CD}'/>" qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" /><c:out value="${qnEx.EX_TXT2_UNIT}"/>)</span>
 				<br/>
 			</c:if>
-			<c:if test="${qnEx.EX_TYPE eq '선택(이미지)'}"><!-- 선택(이미지) 는 현재 소아(청소년 남) 5번 문항 기준으로 개발됨. 향후 다른 유형나오면.. 해당 컴포넌트를 수정하거나 새로운 ex_type 생성해야함.. -->
+			<%-- <c:if test="${qnEx.EX_TYPE eq '선택(이미지)'}"><!-- 선택(이미지) 는 현재 소아(청소년 남) 5번 문항 기준으로 개발됨. 향후 다른 유형나오면.. 해당 컴포넌트를 수정하거나 새로운 ex_type 생성해야함.. -->
 					<c:if test="${surveyQn.QN_TYPE eq '복수(체크)'}">
 						<input type="checkbox" id="<c:out value='${qnEx.QN_CD}'/>_<c:out value='${qnEx.EX_CD}'/>" class="<c:out value='${qnEx.EX_CLASS1}'/> <c:out value='${qnEx.EX_CLASS2}'/> input_check" <c:if test="${qnEx.ANS_VALUE eq 'Y' }">checked='checked'</c:if> <c:if test="${not empty qnEx.DISABLE_TARGET}">disableTarget="<c:out value='${qnEx.DISABLE_TARGET }'/>"</c:if> qnCd="<c:out value='${qnEx.QN_CD}'/>" exCd="<c:out value='${qnEx.EX_CD}'/>" qnType="<c:out value='${surveyQn.QN_TYPE}'/>" exType="<c:out value='${qnEx.EX_TYPE}'/>" exQnLink="<c:out value='${qnEx.EX_QN_LINK}'/>" exImgLink="<c:out value='${qnEx.EX_IMG_LINK}'/>" />
 					</c:if>
@@ -57,7 +57,7 @@
 						<div class="survey_img_check <c:if test="${(qnEx.ANS_VALUE eq 'N') or (empty qnEx.ANS_VALUE) }">uncheck</c:if>" imggroup="<c:out value='${qnEx.QN_CD}'/>"></div>
 					</label>
 				</div>
-			</c:if>
+			</c:if> --%>
 		</c:if>
 	</c:forEach>
 </c:if>
@@ -85,5 +85,13 @@
 	<!-- 여아사춘기 재방문 -->
 	<c:if test="${surveyQn.SURVEY_SN eq '7' }">
 		<jsp:include page="./survey_table_girl_re.jsp" />
+	</c:if>
+	<!-- 남아사춘기 신규 -->
+	<c:if test="${surveyQn.SURVEY_SN eq '4' }">
+		<jsp:include page="./survey_table_boy_new.jsp" />
+	</c:if>
+	<!-- 남아사춘기 재방문 -->
+	<c:if test="${surveyQn.SURVEY_SN eq '6' }">
+		<jsp:include page="./survey_table_boy_re.jsp" />
 	</c:if>
 </c:if>

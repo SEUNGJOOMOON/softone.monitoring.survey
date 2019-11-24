@@ -110,6 +110,7 @@
 				$(".section").css("padding-top", "148px");
 				$(".survey_img_check").css("cursor", "default");
 				$("div[quest-type='알림']").hide();
+				$(".qest_wrap").css("margin-top", "230px");
 				$("body").css("width", "100%");
 				$("body").show();
 			},
@@ -123,6 +124,9 @@
 				$("#survey_cover").show();
 				$(".qest_wrap").eq(0).css("margin-top", "0px");
 				$(".qest_title").css("border-bottom", "0px");
+				$(".qest_title").css('background-image', 'url("")');
+				$(".qest_anwer_wrap").css('background-image', 'url("")');
+				$(".qest_title").css("padding", "0");
 				window.onbeforeprint = function(ev) {
 					document.body.innerHTML = $("#fullpage").html();
 				};
@@ -200,13 +204,13 @@
 							ansTxt1 = $(el).val();
 							ansTxt2 = $("input[qntxtlink='" + qnCd + "-" + exCd + "']").val();
 							break;
-						case "선택(이미지)" :
+						/* case "선택(이미지)" :
 							ansValue = $(el).is(":checked")? "Y" : "N";
 							
 							if($(el).is(":checked")){
 								exqnlink = $(el).attr("exqnlink");	
 							}
-							break;
+							break; */
 						//그외 survey_qn_ex.ex_type이 추가되면 이곳에 정의
 						
 					}
@@ -552,7 +556,7 @@
 
 				});
 		
-		function openSurveyView(surveyAnsMstSn, orgCd, operCd, surveySn, groupSurveySn){
+		function openSurveyView(surveyAnsMstSn, orgCd, operCd, surveySn, groupSurveySn, viewMode){
 			
 		  var $form = $('<form></form>');
 		  $form.attr('action', '/user/survey/surveyprocess2.do');
@@ -565,7 +569,7 @@
 		  var orgCd = $('<input type="hidden" value="' + orgCd + '" name="orgCd">');
 		  var operCd = $('<input type="hidden" value="' + operCd + '" name="operCd">');
 		  var confirmPass = $('<input type="hidden" value="1357" name="confirmPass">');
-		  var viewMode = $('<input type="hidden" value="view" name="viewMode">');
+		  var viewMode = $('<input type="hidden" value="' + viewMode + '" name="viewMode">');
 		  var groupSurveySn = $('<input type="hidden" value="' + groupSurveySn + '" name="p_GroupSurveySn">');
 		     
 		 
@@ -573,9 +577,29 @@
 		     
 		  $form.submit();
 
-		    
-		    
 		}
+		
+		function openSurveyPrint(surveyAnsMstSn, orgCd, operCd, surveySn){
+			
+			  var $form = $('<form></form>');
+			  $form.attr('action', '/user/survey/surveyprocess2.do');
+			  $form.attr('method', 'post');
+			  $form.appendTo('body');
+			     
+			     
+			  var surveySn = $('<input type="hidden" value="' + surveySn + '" name="surveySn">');
+			  var surveyAnsMstSn = $('<input type="hidden" value="' + surveyAnsMstSn + '" name="surveyAnsMstSn">');
+			  var orgCd = $('<input type="hidden" value="' + orgCd + '" name="orgCd">');
+			  var operCd = $('<input type="hidden" value="' + operCd + '" name="operCd">');
+			  var confirmPass = $('<input type="hidden" value="1357" name="confirmPass">');
+			  var viewMode = $('<input type="hidden" value="print" name="viewMode">');
+			     
+			 
+			  $form.append(surveySn).append(surveyAnsMstSn).append(orgCd).append(operCd).append(confirmPass).append(viewMode);
+			     
+			  $form.submit();
+
+			}
 		
 		//정보닫기와 설문지 작성 DIV 간격을 동적으로 셋팅하기 위해 surveyTop의 height값을 리턴
 		function getSurveyTopHeight(){
@@ -717,10 +741,10 @@
 		<!-- 설문지 작성 -->
 		<div class="section" id="section1">
 			<!-- 그룹설문 조회시  -->
-			<c:if test="${groupSurveyView eq 'Y' }">
+			<c:if test="${groupSurveyView eq 'Y' && viewMode eq 'view' }">
 				<div style="width:100%;text-align:center;height:0px">
 					<c:forEach var="viewSurveySnDefine" items="${viewSurveySnDefines}" varStatus="index">
-					     <button class="view-survey-menu-btn <c:if test='${surveyDefine.SURVEY_SN eq viewSurveySnDefine.SURVEY_SN}'>active</c:if>" onclick="openSurveyView('<c:out value="${groupSurveyViewInfo.groupSurveyMstSn}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${viewSurveySnDefine.SURVEY_SN}"/>', '<c:out value="${groupSurveySn}"/>')" ><c:out value="${viewSurveySnDefine.SURVEY_NM}"/></button>
+					     <button class="view-survey-menu-btn <c:if test='${surveyDefine.SURVEY_SN eq viewSurveySnDefine.SURVEY_SN}'>active</c:if>" onclick="openSurveyView('<c:out value="${groupSurveyViewInfo.groupSurveyMstSn}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${groupSurveyViewInfo.groupOrgCd}"/>', '<c:out value="${viewSurveySnDefine.SURVEY_SN}"/>', '<c:out value="${groupSurveySn}"/>', 'view')" ><c:out value="${viewSurveySnDefine.SURVEY_NM}"/></button>
 					</c:forEach> 
 				</div>
 			</c:if>
@@ -831,6 +855,9 @@
 		<c:if test="${viewMode eq 'tempView' || viewMode eq 'view' }">
 			<div style="width:100%;text-align:center;margin-bottom:50px;">
 				<button type="button" class="btn_view_close" >닫기</button>
+				<c:if test="${viewMode eq 'view' }">
+					<button type="button" class="btn_view_print" onclick="openSurveyPrint(<c:out value="${surveyMaster.SURVEY_ANS_MST_SN}"/>, '<c:out value="${surveyMaster.ORG_CD}"/>', '<c:out value="${surveyMaster.OPER_CD}"/>', <c:out value="${surveyDefine.SURVEY_SN}"/>)" >인쇄</button>
+				</c:if>
 			</div>
 		</c:if>
 	</div>

@@ -146,7 +146,7 @@
 		        		drawTableHtml += "<td>" + retrnJson[i].SURVEY_NM + "</td>";
 		        		drawTableHtml += "<td>" + retrnJson[i].SUFRER_NM + "<br/>(" + retrnJson[i].SEXDSTN + "/" + retrnJson[i].BRTHDY + ")" + "</td>";
 		        		drawTableHtml += "<td>" + (retrnJson[i].SUFRER_PIN? retrnJson[i].SUFRER_PIN : "") + "</td>";
-		        		drawTableHtml += '<td><input type="button" value="조회" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'view\', ' + i + ')" /><input type="button" value="인쇄" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'print\')" /></td>';
+		        		drawTableHtml += '<td><input type="button" value="조회" onclick="openSurveyView(\'' + retrnJson[i].SURVEY_ANS_MST_SN + '\',\'' + retrnJson[i].ORG_CD + '\',\'' + retrnJson[i].OPER_CD + '\',\'' + retrnJson[i].SURVEY_SN + '\',\'view\', ' + i + ')" /></td>';
 		        		drawTableHtml += "</tr>";
 		        	}
 	        	}
