@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +15,41 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/surveyList.css" />
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/JQuery3.4.1.js"></script>
 </head>
+<script>
+function getOperCode(obj){
+	
+	if(!$(obj).val()){
+		var allHtml = "<select id='operCd' name='operCd'><option value=''>전체</option></select>"
+		$("#selectOperCd").html(allHtml);
+		return;
+	}
+	
+	
+	$.ajax({
+        type: "get",
+        url: "/admin/getOperCode.do",
+        data: "orgCd="+$(obj).val(),
+        dataType: 'text',
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        complete: function(data){
+        	var operCdsText = data.responseText;
+        	var operCds = operCdsText.split('/');
+        	var selectHtml = "<select name='operCd'><option value=''>전체</option>";
+            for ( var i in operCds ) {
+            	if(operCds[i]){
+            		selectHtml += "<option value='" + operCds[i] + "'>" + operCds[i] + "</option>";
+            	}
+            }
+            selectHtml += "</select>";
+            $("#selectOperCd").html(selectHtml);
+            
+            
+        }
+	});
+	
+	
+}
+</script>
 <body>
     <div class="surveyHeader">
         <img src="${pageContext.request.contextPath}/resources/img/hospital_logo/gbss.png" style="height:40px;margin-top:5px;margin-left:5px;"/>
@@ -34,33 +73,41 @@
                         </colgroup>
                         <tr>
                             <th>식별번호</th>
-                            <td><input type="text"></td>
+                            <td><input type="text" id="surveySn" name="surveySn" /></td>
                             <th>이름</th>
-                            <td><input type="text"></td>
+                            <td><input type="text" id="surveyNm" name="surveyNm" /></td>
                         </tr>
                         <tr>
                             <th>병원환자번호</th>
-                            <td><input type="text"></td>
-                            <th>담당기관</th>
+                            <td colspan="3"><input type="text" id="hsptlId" name="hsptlId" /></td>
+                           
+                        </tr>
+                        <tr>
+                        	<th>담당기관</th>
                             <td>
-                                <select name="" id="">
-                                    <option value="">강북삼성병원</option>
-                                    <option value="">강북삼성병원</option>
-                                    <option value="">강북삼성병원</option>
-                                    <option value="">강북삼성병원</option>
-                                    <option value="">강북삼성병원</option>
-                                </select>
+                            	<select name="orgCd" onchange="getOperCode(this);">
+									<option value="">전체</option>
+									<c:forEach var="orgCd" items="${orgCode}" varStatus="status">
+										<option value="<c:out value="${orgCd.ORG_CD }" />"><c:out
+												value="${orgCd.ORG_CD }" /></option>
+									</c:forEach>
+								</select>
+                            </td>
+                             <th>운영기관</th>
+                            <td id="selectOperCd">
+                                <select id="operCd" name="operCd">
+									<option value="">전체</option>
+								</select>
                             </td>
                         </tr>
                         <tr>
                             <th>설문종류</th>
                             <td colspan="3">
-                                <label for="chk1"><input type="checkbox" id="chk1">성인-신규</label>
-                                <label for="chk2"><input type="checkbox" id="chk2">성인-재방문</label>
-                                <label for="chk3"><input type="checkbox" id="chk3">소아-신규</label>
-                                <label for="chk4"><input type="checkbox" id="chk4">소아-재방문</label><br/>
-                                <label for="chk5"><input type="checkbox" id="chk5">소아 사춘기(남)</label>
-                                <label for="chk6"><input type="checkbox" id="chk6">소아 사춘기(여)</label>
+                            	<label for="survey_all"><input type="checkbox" id="survey_all">전체</label><br/>
+                            	<c:forEach var="survey" items="${surveyList}" varStatus="status">
+                            		<label for="<c:out value='${survey.SURVEY_NM }' />"><input type="checkbox" id="<c:out value='${survey.SURVEY_NM }' />"><c:out value='${survey.SURVEY_NM }' /></label>
+                            		<br/>
+								</c:forEach>
                             </td>
                         </tr>
                     </table>
@@ -85,76 +132,6 @@
                         <th>할당구분</th>
                         <th>주관</th>
                         <th>건강(건)</th>
-                    </tr>
-                    <tr>
-                        <td>강북삼성</td>
-                        <td>가천길병원</td>
-                        <td>11-1-0111</td>
-                        <td>홍길동</td>
-                        <td>길병원 123456789</td>
-                        <td>18년 대상자</td>
-                        <td></td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>강북삼성</td>
-                        <td>가천길병원</td>
-                        <td>11-1-0111</td>
-                        <td>홍길동</td>
-                        <td>길병원 123456789</td>
-                        <td>18년 대상자</td>
-                        <td></td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>강북삼성</td>
-                        <td>가천길병원</td>
-                        <td>11-1-0111</td>
-                        <td>홍길동</td>
-                        <td>길병원 123456789</td>
-                        <td>18년 대상자</td>
-                        <td></td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>강북삼성</td>
-                        <td>가천길병원</td>
-                        <td>11-1-0111</td>
-                        <td>홍길동</td>
-                        <td>길병원 123456789</td>
-                        <td>18년 대상자</td>
-                        <td></td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>강북삼성</td>
-                        <td>가천길병원</td>
-                        <td>11-1-0111</td>
-                        <td>홍길동</td>
-                        <td>길병원 123456789</td>
-                        <td>18년 대상자</td>
-                        <td></td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>강북삼성</td>
-                        <td>가천길병원</td>
-                        <td>11-1-0111</td>
-                        <td>홍길동</td>
-                        <td>길병원 123456789</td>
-                        <td>18년 대상자</td>
-                        <td></td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>강북삼성</td>
-                        <td>가천길병원</td>
-                        <td>11-1-0111</td>
-                        <td>홍길동</td>
-                        <td>길병원 123456789</td>
-                        <td>18년 대상자</td>
-                        <td></td>
-                        <td>1</td>
                     </tr>
                     <tr>
                         <td>강북삼성</td>

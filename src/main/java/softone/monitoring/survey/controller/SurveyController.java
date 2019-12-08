@@ -31,8 +31,7 @@ public class SurveyController {
 	@RequestMapping(value = "/user/index.do")
 	public String index() throws Exception {
 		return "/user/survey_index";
-	}
-	
+	}	
 //	실사용
 	@RequestMapping(value = "/user/test2.do")
 	public ModelAndView test2() throws Exception {
@@ -137,7 +136,7 @@ public class SurveyController {
 	
 	/*
 	 * @param String viewMode survey : 설문작성, view : 조회, print : 인쇄
-	 * @param String p_GroupSurveySn 그룹설문시 다음페이지로 이동시에 해당값을 다시 서버로 넘겨주기 위한 파라메터(SURVEY.GROUP_SURVEY_SN)
+	 * @param String p_GroupSurveySn 그룹설문시 작성시 다음페이지로 이동시에 group_survey_sn 값을 다시 서버로 넘겨주기 위한 파라메터/그룹설문 조회시에는 해당 파라메터로 전체 서브설문의 survey_sn을 다시 전달받음(ex: 1/2) => 해당 그룹설문 내에 어떤 설문지가 있는지 .. 확인 용도
 	 * @param String p_nextSurveySn 그룹설문작성시 다음 진행할 설문지의 surveySn
 	 * @param String p_viewSurveySn 그룹설문조회시 조회할 설문지의 surveySn
 	 * @param String surveyAnsMstSn 현재는 테스트를 위해 사용(향후 자동셋팅으로 변경)
@@ -148,14 +147,16 @@ public class SurveyController {
 	 * @ date 2019.11.16
 	 */
 	@RequestMapping(value = "/user/survey/surveyprocess2.do", method=RequestMethod.POST)
-	public ModelAndView surveyProcess2(Map<String, Object> surveyParams, String viewMode, String p_GroupSurveySn, String p_nextSurveySn, String p_viewSurveySn, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
+	public ModelAndView surveyProcess2(String viewMode, String p_GroupSurveySn, String p_nextSurveySn, String p_viewSurveySn, String surveyAnsMstSn, String orgCd, String operCd, String surveySn, @RequestParam String confirmPass, HttpServletRequest request) throws Exception {
 		if(!confirmPass.equals("1357")){
 			return new ModelAndView("/user/survey_test2");
 		}
 		
 		
 		ModelAndView mv = new ModelAndView("/user/survey/survey");
-
+		
+		Map<String, Object> surveyParams = new HashMap<String, Object>();
+		
 		surveyParams.put("surveyAnsMstSn",surveyAnsMstSn);
 		surveyParams.put("orgCd",orgCd);
 		surveyParams.put("operCd",operCd);
@@ -192,7 +193,8 @@ public class SurveyController {
 							Map<String, Object> viewSurveyParams = new HashMap<String, Object>();
 							viewSurveyParams.put("surveySn", viewSurveySnGroup[i]);
 							Map<String, Object> viewSurveyDefine = surveyService.selectSurveyDefine(viewSurveyParams);
-							viewSurveySnDefines.add(viewSurveyDefine);	
+							viewSurveySnDefines.add(viewSurveyDefine);
+							//viewSurveySnDefines 그룹설문 조회시 상단에 그룹내 속한 설문지에 대한 조회 link 생성에 사용
 						}
 					}
 					
@@ -247,6 +249,7 @@ public class SurveyController {
 			Map<String, Object> surveyMasterMap = new HashMap<String, Object>();
 			if(surveyDefine.get("GROUP_SURVEY_AT").toString().equals("Y") || p_nextSurveySn != null){
 			//그룹설문일경우
+			//p_nextSurveySn 값이 넘어온 경우에는 첫번째 설문지 작성 이후 다음 설문지에 대한 surveySn이 들어온 경우이므로, 그룹설문 진행으로 간주
 				groupSurveyMaster = surveyService.selectSurveyDefine(surveyParams);//그룹설문 마스터정보
 				String groupSurveySn = "";//그룹설문 survey_sn 묶음
 				String groupSurveySnForInst = "";//survey_ans.group_survey_sn
@@ -308,8 +311,12 @@ public class SurveyController {
 			if(Integer.parseInt(surveyMasterExist.get("SURVEY_MASTER_COUNT").toString()) < 1) {//기존에 마스터코드가 없는 경우에만 인서트.. 그 외 경우는 수정
 				surveyService.insertSurveyAnsMst(surveyMasterMap);//마스터정보 인서트
 			};
+			
 			surveyMaster = surveyService.selectSurveyMaster(surveyParams);//인서트한 마스터정보 가져오기
 			
+			if(surveyMaster == null){//기존에 작성되었던 survey_mst_sn으로 값 조회시 값이 없는 경우 index로 (주로 기존에 입력했던 설문지와 다른 설문지로다시 작성을 시도한 경우)
+				return new ModelAndView("/user/survey_test2");
+			}
 			
 			surveyEx = surveyService.selectSurveyEx(surveyParams);//질문 보기
 		}
@@ -317,18 +324,16 @@ public class SurveyController {
 		List<Map<String, Object>> surveyQn = surveyService.selectSurveyQn(surveyParams);//질문 리스트
 		List<Map<String, Object>> surveyQnEx = connectSurveyQnAndEx(surveyQn, surveyEx);//설문 질문
 		List<Map<String, Object>> surveySubQnEx = connectSurveySubQnAndEx(surveyQnEx);//설문 서브질문
-
+		
 		
 		mv.addObject("surveyQnEx", surveyQnEx);
 		mv.addObject("surveySubQnEx", surveySubQnEx);
 		mv.addObject("viewMode", viewMode);
 		mv.addObject("surveyMaster", surveyMaster);
-		mv.addObject("surveySn", surveyMaster);
 		mv.addObject("surveyDefine", surveyDefine);
 		
 		HttpSession httpSession = request.getSession(true);
         
-        // "USER"로 sessionVO를 세션에 바인딩한다.
         httpSession.setAttribute("auth_key", surveyAnsMstSn);
 		
 		return mv;

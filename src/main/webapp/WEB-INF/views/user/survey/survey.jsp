@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=1.0,user-scalable=yes"/>
 <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common.css?ver=7" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_common.css?ver=8" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/survey_ex_class.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/fullpage.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/scrolloverflow.js"></script>
@@ -34,6 +34,7 @@
 							$(".navi-dot").eq(Number(Number($(this).attr("turn"))-1)).addClass("active-dot");
 							
 							fullpage_api.moveSlideLeft();
+							fullpage_api.reBuild();
 						});
 						$(".btn_next").bind("click", function() {
 							//네비게이션 dot
@@ -41,7 +42,7 @@
 							$(".navi-dot").eq(Number(Number($(this).attr("turn"))+1)).addClass("active-dot");
 							
 							fullpage_api.moveSlideRight();
-							
+							fullpage_api.reBuild();
 						});
 						fullpage_api.setAllowScrolling(false, 'left, right');
 						
@@ -73,7 +74,8 @@
 				});
 			},
 			"setLayoutToView" : function() {
-				$("body").hide();
+				//작성하기 모드로 로드 후 조회모드로 CSS로 변경처리
+				//태그 등을 작성/조회 모드로 별도로 관리하지 않기 위해.. CSS만 변경하여.. 처리함
 				$(".qest_wrap").css("border", "0px").css("min-height", "100px");
 				$("html, body").css("overflow", "visible");
 				$(".qest_title").css("margin-top", "0px");
@@ -85,13 +87,13 @@
 				$("textarea").each(function() {//input textarea -> span 태그로 변경
 					$(this).replaceWith("<div class='span_font15 txt_area_min_60'>" + $(this).val() + '</div>');
 				});
-				$("html, body").css("font-size", "12px");
 				$(".subQuest").css("font-size", "15px");
 				$(".qest_btn_group").hide();
 				$(".surveyTop").css("top", "0px");
 				$("#btn_close").hide();
 				
-				$(".slide").css("margin-top", "-150px");
+				$(".slide").css("margin-top", "-200px");
+				$(".slide").eq(0).css("margin-top", "-150px");
 				if(this.isMobile()){
 					$("#slide1").css("margin-top", "40px");	
 				}else{
@@ -112,7 +114,6 @@
 				$("div[quest-type='알림']").hide();
 				$(".qest_wrap").css("margin-top", "230px");
 				$("body").css("width", "100%");
-				$("body").show();
 			},
 			"printSurvey" : function(printThis) {
 				/* if(!this.isMobile()){
@@ -302,7 +303,7 @@
 							fullpage_api.reBuild();
 						} else {
 							$(".st_con").hide();
-							$(".qest_wrap").css("margin-top", "50px");
+							$(".qest_wrap").css("margin-top", "90px");
 							$("#btn_close").text("정보열기");
 							$("#btn_close").removeClass("btn_close2");
 							$("#btn_close").addClass("btn_close3");
@@ -446,10 +447,8 @@
 						surveyCommonUtils.writeSurveyAns("", "all", "T", 
 						function(){
 							var url = "/user/survey/preview.do";
-							
+							window.open('','preView','width=800, height=1000, menubar=no, status=no, toolbar=no, scrollbars=yes');
 							var frmPreview= document.survey_preview_form;
-						    window.open('','preView','width=800, height=1000, menubar=no, status=no, toolbar=no, scrollbars=yes');  
-						     
 						    frmPreview.action = url;
 						    frmPreview.method = "post";
 						    frmPreview.target = 'preView'; //window,open()의 두번째 인수와 같아야 하며 필수다.  
@@ -534,13 +533,14 @@
 								  $form.attr('action', '/user/survey/surveyprocess2.do');
 								  $form.attr('method', 'post');
 								  $form.appendTo('body');
-								     
-								     
+								  
+								  var password = prompt("진행을 위해 관리 비밀번호를 입력해주세요.");
+								  var confirmPass = $('<input type="hidden" value="' + password + '" name="confirmPass">');
 								  var surveySn = $('<input type="hidden" value="' + $('#survey_turn_form > #p_nextSurveySn').val() + '" name="surveySn">');
 								  var surveyAnsMstSn = $('<input type="hidden" value="' + $('#survey_form > #SURVEY_ANS_MST_SN').val() + '" name="surveyAnsMstSn">');
 								  var orgCd = $('<input type="hidden" value="' + $('#survey_form > #ORG_CD').val() + '" name="orgCd">');
 								  var operCd = $('<input type="hidden" value="' + $('#survey_form > #OPER_CD').val() + '" name="operCd">');
-								  var confirmPass = $('<input type="hidden" value="1357" name="confirmPass">');
+								  
 								  var viewMode = $('<input type="hidden" value="survey" name="viewMode">');
 								  var p_nextSurveySn = $('<input type="hidden" value="' + $('#survey_turn_form > #p_nextSurveySn').val() + '" name="p_nextSurveySn">');
 								  var p_GroupSurveySn = $('<input type="hidden" value="' + $('#GROUP_SURVEY_SN').val() + '" name="p_GroupSurveySn">');   
@@ -568,7 +568,8 @@
 		  var surveyAnsMstSn = $('<input type="hidden" value="' + surveyAnsMstSn + '" name="surveyAnsMstSn">');
 		  var orgCd = $('<input type="hidden" value="' + orgCd + '" name="orgCd">');
 		  var operCd = $('<input type="hidden" value="' + operCd + '" name="operCd">');
-		  var confirmPass = $('<input type="hidden" value="1357" name="confirmPass">');
+		  var password = prompt("조회를 위해 관리 비밀번호를 입력해주세요.");
+		  var confirmPass = $('<input type="hidden" value="' + password + '" name="confirmPass">');
 		  var viewMode = $('<input type="hidden" value="' + viewMode + '" name="viewMode">');
 		  var groupSurveySn = $('<input type="hidden" value="' + groupSurveySn + '" name="p_GroupSurveySn">');
 		     
@@ -591,7 +592,8 @@
 			  var surveyAnsMstSn = $('<input type="hidden" value="' + surveyAnsMstSn + '" name="surveyAnsMstSn">');
 			  var orgCd = $('<input type="hidden" value="' + orgCd + '" name="orgCd">');
 			  var operCd = $('<input type="hidden" value="' + operCd + '" name="operCd">');
-			  var confirmPass = $('<input type="hidden" value="1357" name="confirmPass">');
+			  var password = prompt("조회를 위해 관리 비밀번호를 입력해주세요.");
+			  var confirmPass = $('<input type="hidden" value="' + password + '" name="confirmPass">');
 			  var viewMode = $('<input type="hidden" value="print" name="viewMode">');
 			     
 			 
@@ -663,6 +665,22 @@
 		<c:if test="${viewMode eq 'survey'}">
 			<div id="btn_close" class="btn_close2">정보닫기</div>
 		</c:if>
+		<!-- 설문지 네비게이션 -->
+		<c:if test="${viewMode eq 'survey'}">
+			<%-- <div class="navigation">
+				<ul>
+					<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
+						<li><a href="#questionGroup/<c:out value='${surveyQn.QN_CD}' />" class="navi-dot <c:if test='${status.first }'>active-dot</c:if>" id="slide<c:out value='${status.count}'/>_dot" ></a></li>
+					</c:forEach>
+				</ul>
+			</div> --%>
+			<div style="width:100%;height:3rem;text-align:center;">
+				<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
+					<span style="display:inline-block"><a href="#questionGroup/<c:out value='${surveyQn.QN_CD}' />" class="navi-dot <c:if test='${status.first }'>active-dot</c:if>" id="slide<c:out value='${status.count}'/>_dot" ></a></span>
+				</c:forEach>
+			</div>
+		</c:if>
+		<!-- 설문지 네비게이션 끝-->
 	</div>
 	<!-- 설문지 인쇄용 표지영역 끝 -->
 	<!-- 설문지 작성영역 -->
@@ -841,17 +859,6 @@
 			</c:forEach>
 		</div>
 		<!-- 설문지 작성 끝 -->
-		<!-- 설문지 네비게이션 -->
-		<c:if test="${viewMode eq 'survey'}">
-			<div class="navigation">
-				<ul>
-					<c:forEach var="surveyQn" items="${surveyQnEx}" varStatus="status">
-						<li><a href="#questionGroup/<c:out value='${surveyQn.QN_CD}' />" class="navi-dot <c:if test='${status.first }'>active-dot</c:if>" id="slide<c:out value='${status.count}'/>_dot" ></a></li>
-					</c:forEach>
-				</ul>
-			</div>
-		</c:if>
-		<!-- 설문지 네비게이션 끝-->
 		<c:if test="${viewMode eq 'tempView' || viewMode eq 'view' }">
 			<div style="width:100%;text-align:center;margin-bottom:50px;">
 				<button type="button" class="btn_view_close" >닫기</button>
