@@ -128,6 +128,7 @@
 				$(".qest_title").css('background-image', 'url("")');
 				$(".qest_anwer_wrap").css('background-image', 'url("")');
 				$(".qest_title").css("padding", "0");
+				$(".slide").css("margin-top", "-150px");
 				window.onbeforeprint = function(ev) {
 					document.body.innerHTML = $("#fullpage").html();
 				};
